@@ -1,7 +1,4 @@
-# PROJEK PBO MEMBUAT APPS MENGGUNAKAN PROCESSING-CORE
+# Projek PBO
 
-## Ide game saat ini belum ditentukan
-
-## Initial commit berisi testing dari PApplet
-
-## Untuk Library processingnya sendiri menggunakan processing-4
+* Dependency di resolve menggunakan maven, jadi tidak usah download librarynya lagi,
+* Saat ini library processing yang digunakan adalah processing-4 dan juga JUnit 5
