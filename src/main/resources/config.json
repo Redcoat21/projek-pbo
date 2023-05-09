@@ -1,0 +1,18 @@
+{
+  "levels": [
+    {
+      "outlay": "levels/level1.txt",
+      "enemies": [
+        {
+          "type": 0,
+          "spawn": "temporary"
+        },
+        {
+          "type": 1,
+          "spawn": "temporary"
+        }
+      ],
+      "goals": 0
+    }
+  ]
+}
