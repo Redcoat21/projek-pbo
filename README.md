@@ -34,9 +34,9 @@ Jika player mati maka semua status yang telah didapat oleh player akan hilang ke
 
 Endless mode
 
-Yaitu dimana game tersebut akan tidak akan berhenti sampai player mati (endless wave). Setiap wave akan menjadi lebih sulit dan setiap 3 wave akan ada upgrade antara health atau upgrade weapon, atau change weapon.
+Yaitu dimana game tersebut akan tidak akan berhenti sampai player mati (endless wave). Setiap wave akan menjadi lebih sulit dan setiap 3 wave akan ada upgrade antara heal atau upgrade weapon, atau change weapon.
 
-Setiap 10 wave akan naik level tier nya agar level senjatanya tidak terlalu rendah saat wave tinggi. Setiap 10 wave musuhnya juga akan semakin sulit dan kuat.
+Setiap 9 wave musuhnya juga akan semakin sulit dan kuat.
 
 # MAP
 
@@ -58,17 +58,19 @@ Player dikontrol dengan menggunakan WASD. Player memiliki 3 heart di awal floor.
 
 Jika player mati maka player akan mengulang dari floor 1.
 
-Player bisa memiliki helper yang akan menyerang sebagai ranger player. Dan akan menembak dengan selang waktu setengah detik.
-
-Player bisa memiliki senjata vampire sword bisa life steal 2% kemungkinan.
-Player bisa menggunakan senjata iron sword yaitu senjata awal.
-Player bisa menggunakan senjata bow yang memiliki jarak jauh.
+* Player bisa menggunakan senjata vampire sword bisa life steal 2% kemungkinan.
+* Player bisa menggunakan senjata iron sword yaitu senjata awal.
+* Player bisa menggunakan senjata bow yang memiliki jarak jauh.
 
 Player hanya bisa memiliki 1 senjata.
 
+setiap kali pergantian senjata, senjata yang lama akan hilang dan jika mengambil lagi senjata yang sama seperti yang sudah dibuang maka levelnya akan kembali seperti awal.
+Tapi pada mode endless, setiap 9 wave akan ada penyesuaian damage agar pada saat mengganti senjata damagenya tidak terlalu lemah dan akan diberikan bonus untuk senjata yang sedang dipegang sekarang tergantung berapa levelnya.
+
+
 # Enemies
 
-Ada 2 musuh utama disini: zombie dan skeleton. Dimana zombie dan skeleton merupakan tipe enemy normal, artinya akan muncul di setiap level, namun tiap beberapa level, contohnya 3 level akan  muncul enemy tipe elite yang memiliki serangan khusus dan buff.
+Ada 2 musuh utama disini: zombie dan skeleton. Dimana zombie dan skeleton merupakan tipe enemy normal, artinya akan muncul di setiap level, namun tiap beberapa level, contohnya lantai 3 akan  muncul enemy tipe elite yang memiliki serangan khusus dan buff.
 
 Elite enemies umumnya memiliki darah yang lebih tebal daripada enemy normal dan tidak akan selalu muncul.
 
