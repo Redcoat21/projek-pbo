@@ -6,4 +6,9 @@ public class Bow extends Weapon{
         damage = 5;
         lvl = 0;
     }
+
+    //buat ngereturn damagenya sesuai perhitungan
+    public int getDamage(){
+        return damage*(2*phase)+(2+bonus)+(3+lvl);
+    }
 }

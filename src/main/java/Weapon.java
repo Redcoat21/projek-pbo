@@ -15,4 +15,21 @@ public abstract class Weapon {
     //setiap phase bertambah levelnya pasti akan jadi 0 lagi untuk semua senjata
     protected int bonus;
     //bonus buat nyimpen berapa lvl sebelum naik phase kalau ganti senjata jadi 0 lagi
+
+    //buat ngereturn damagenya seusai perhitungan
+    //disini cuma abstract aslinya ada di masing masing subclass
+    public abstract int getDamage();
+
+    //buat kalau upgrade senjata
+    public void tambahLvl(){
+        lvl++;
+    }
+
+    //kalau sudah ganti phase yang terjadi setiap 9 wave
+    //arcade mode gak bisa ganti phase
+    public void gantiPhase(){
+        phase++;
+        bonus += lvl;
+        lvl = 0;
+    }
 }
