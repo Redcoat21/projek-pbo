@@ -41,11 +41,18 @@ public abstract class Entities extends PApplet{
     }
 
     public void move(){
+        System.out.println("masuk");
         if(movingLeft){
-            x-=speed;
+            System.out.println("sebelum x = " + x);
+            x -= speed;
+            System.out.println("masuk left");
+            System.out.println("sesudah x = " + x);
         }
         if(movingRight){
-            x+=speed;
+            System.out.println("sebelum x = " + x);
+            x += speed;
+            System.out.println("masuk right");
+            System.out.println("sesudah x = " + x);
         }
         if(movingUp){
             y-=speed;
@@ -85,5 +92,25 @@ public abstract class Entities extends PApplet{
 
     public void hentiKanan(){
         movingRight = false;
+    }
+
+    public boolean isMovingLeft() {
+        return movingLeft;
+    }
+
+    public boolean isMovingRight() {
+        return movingRight;
+    }
+
+    public boolean isMovingUp() {
+        return movingUp;
+    }
+
+    public boolean isMovingDown() {
+        return movingDown;
+    }
+
+    public void setX(int x) {
+        this.x += x;
     }
 }

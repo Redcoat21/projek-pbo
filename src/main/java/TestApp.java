@@ -18,10 +18,14 @@ public class TestApp extends PApplet {
     @Override
     public void draw() {
         // Draw a circle in the center of the window
-        ellipse(width/2, height/2, 50, 50);
-        rect(player.getX(), player.getY(), player.getW(), player.getH());
-//        player.render();
+//        ellipse(width/2, height/2, 50, 50);
+//        rect(player.getX(), player.getY(), player.getW(), player.getH());
+        player.render();
+
         System.out.println(player.getX());
+        System.out.println(player.isMovingLeft());
+        System.out.println(player.isMovingRight());
+        player.setX(10);
         player.move();
     }
 
