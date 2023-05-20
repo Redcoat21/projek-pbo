@@ -11,7 +11,7 @@ public class Player extends Entities {
         movingRight = false;
         movingUp = false;
         movingDown = false;
-        speed = 50;
+        speed = 20;
     }
 
     public Player(int x, int y){
