@@ -1,3 +1,4 @@
+import entities.Player;
 import processing.core.PApplet;
 public class Main extends PApplet{
     Player player;

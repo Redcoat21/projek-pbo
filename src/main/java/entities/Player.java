@@ -1,6 +1,7 @@
-import processing.core.PApplet;
+package entities;
+
 public class Player extends Entities {
-    private Weapon senjata;
+    private NormalWeapon senjata;
 
     public Player(){
         x = 40;

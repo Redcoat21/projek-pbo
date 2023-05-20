@@ -1,3 +1,5 @@
+package entities;
+
 import processing.core.PApplet;
 public abstract class Entities extends PApplet{
     protected int x;
