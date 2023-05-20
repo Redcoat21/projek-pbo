@@ -1,7 +1,9 @@
 package entities;
 
+import weapon.Weapon;
+
 public class Player extends Entities {
-    private NormalWeapon senjata;
+    private Weapon senjata;
 
     public Player(){
         x = 40;
