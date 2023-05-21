@@ -14,7 +14,7 @@ public class Player extends Entities {
         movingRight = false;
         movingUp = false;
         movingDown = false;
-        speed = 20;
+        speed = 10;
     }
 
     public Player(int x, int y){
@@ -22,6 +22,11 @@ public class Player extends Entities {
         this.y = y;
         w = 20;
         h = 20;
+        movingLeft = false;
+        movingRight = false;
+        movingUp = false;
+        movingDown = false;
+        speed = 10;
     }
 
 //    public void render(){

@@ -64,35 +64,35 @@ public abstract class Entities extends PApplet{
         }
     }
 
-    public void jalanAtas(){
+    public void moveUp(){
         movingUp = true;
     }
 
-    public void jalanBawah(){
+    public void moveDown(){
         movingDown = true;
     }
 
-    public void jalanKiri(){
+    public void moveLeft(){
         movingLeft = true;
     }
 
-    public void jalanKanan(){
+    public void moveRight(){
         movingRight = true;
     }
 
-    public void hentiAtas(){
+    public void stopUp(){
         movingUp = false;
     }
 
-    public void hentiBawah(){
+    public void stopDown(){
         movingDown = false;
     }
 
-    public void hentiKiri(){
+    public void stopLeft(){
         movingLeft = false;
     }
 
-    public void hentiKanan(){
+    public void stopRight(){
         movingRight = false;
     }
 

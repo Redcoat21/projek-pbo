@@ -17,33 +17,48 @@ public class Main extends PApplet{
     public void draw() {
         // Draw a circle in the center of the window
 //        ellipse(width/2, height/2, 50, 50);
-//        rect(player.getX(), player.getY(), player.getW(), player.getH());
-        player.render();
+        rect(player.getX(), player.getY(), player.getW(), player.getH());
+//        player.render();
 
         System.out.println(player.getX());
         System.out.println(player.isMovingLeft());
         System.out.println(player.isMovingRight());
-        player.setX(10);
         player.move();
     }
 
     public void keyPressed(){
         if(key == 'a'){
-            player.jalanKiri();
+            player.moveLeft();
         }
 
         if(key == 'd'){
-            player.jalanKanan();
+            player.moveRight();
+        }
+
+        if(key == 'w'){
+            player.moveUp();
+        }
+
+        if(key == 's'){
+            player.moveDown();
         }
     }
 
     public void keyReleased(){
         if(key == 'a'){
-            player.hentiKiri();
+            player.stopLeft();
         }
 
         if(key == 'd'){
-            player.hentiKanan();
+            player.stopRight();
+        }
+
+        if(key == 'w'){
+            player.stopUp();
+        }
+
+        if(key == 's'){
+            player.stopDown();
         }
     }
 
