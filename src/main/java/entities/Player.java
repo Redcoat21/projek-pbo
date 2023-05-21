@@ -1,35 +1,16 @@
 package entities;
 
 import weapon.Weapon;
+import main.Main;
 
 public class Player extends Entities {
     private Weapon senjata;
 
     public Player(){
-        x = 40;
-        y = 400;
-        w = 20;
-        h = 20;
-        movingLeft = false;
-        movingRight = false;
-        movingUp = false;
-        movingDown = false;
-        speed = 10;
+        super(40, 400, 20, 20, 20, false, false, false, false, 5);
     }
 
     public Player(int x, int y){
-        this.x = x;
-        this.y = y;
-        w = 20;
-        h = 20;
-        movingLeft = false;
-        movingRight = false;
-        movingUp = false;
-        movingDown = false;
-        speed = 10;
+        super(x, y, 20, 20, 20, false, false, false, false, 5);
     }
-
-//    public void render(){
-//        rect(x,y,w,h);
-//    }
 }

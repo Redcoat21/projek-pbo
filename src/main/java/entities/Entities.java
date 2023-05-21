@@ -1,22 +1,36 @@
 package entities;
 
 import processing.core.PApplet;
-public abstract class Entities extends PApplet{
-    protected int x;
+import main.Main;
+public abstract class Entities{
+    private int x;
     //posisi x
-    protected int y;
+    private int y;
     //posisi y
-    protected int w;
+    private int w;
     //ukuran besar width sprite
-    protected int h;
+    private int h;
     //ukuran besar height sprite
-    protected int hp;
+    private int hp;
     //health
-    protected boolean movingLeft;
-    protected boolean movingRight;
-    protected boolean movingUp;
-    protected boolean movingDown;
-    protected int speed;
+    private boolean movingLeft;
+    private boolean movingRight;
+    private boolean movingUp;
+    private boolean movingDown;
+    private int speed;
+
+    public Entities(int x, int y, int w, int h, int hp, boolean movingLeft, boolean movingRight, boolean movingUp, boolean movingDown, int speed) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.hp = hp;
+        this.movingLeft = movingLeft;
+        this.movingRight = movingRight;
+        this.movingUp = movingUp;
+        this.movingDown = movingDown;
+        this.speed = speed;
+    }
 
     public int getX() {
         return x;
@@ -39,22 +53,15 @@ public abstract class Entities extends PApplet{
     }
 
     public void render(){
-        rect(x,y,w,h);
+        Main.processing.rect(x,y,w,h);
     }
 
     public void move(){
-        System.out.println("masuk");
         if(movingLeft){
-            System.out.println("sebelum x = " + x);
             x -= speed;
-            System.out.println("masuk left");
-            System.out.println("sesudah x = " + x);
         }
         if(movingRight){
-            System.out.println("sebelum x = " + x);
             x += speed;
-            System.out.println("masuk right");
-            System.out.println("sesudah x = " + x);
         }
         if(movingUp){
             y-=speed;

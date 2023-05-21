@@ -1,3 +1,5 @@
+package main;
+
 import entities.Player;
 import processing.core.PApplet;
 public class Main extends PApplet{
@@ -11,18 +13,13 @@ public class Main extends PApplet{
     public void setup() {
         background(100);
         player = new Player(width/10, height/2);
+        processing = this;
     }
 
     @Override
     public void draw() {
-        // Draw a circle in the center of the window
-//        ellipse(width/2, height/2, 50, 50);
-        rect(player.getX(), player.getY(), player.getW(), player.getH());
-//        player.render();
-
-        System.out.println(player.getX());
-        System.out.println(player.isMovingLeft());
-        System.out.println(player.isMovingRight());
+        background(100);
+        player.render();
         player.move();
     }
 
@@ -63,6 +60,9 @@ public class Main extends PApplet{
     }
 
     public static void main(String[] args) {
-        PApplet.main("Main");
+        PApplet.main("main.Main");
     }
+
+    public static PApplet processing;
 }
+
