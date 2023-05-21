@@ -2,7 +2,7 @@ package weapon;
 
 public abstract class Weapon {
     private String weaponName;
-    private int attackSpeed;
+    private float attackSpeed;
     // Base damage of the weapon, not the damage dealt.
     private final int damage;
     // Phase is calculated using Waves / 3
