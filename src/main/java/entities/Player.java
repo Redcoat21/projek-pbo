@@ -13,4 +13,11 @@ public class Player extends Entities {
     public Player(int x, int y){
         super(x, y, 20, 20, 20, false, false, false, false, 5);
     }
+
+    @Override
+    public void render() {
+        Main.processing.noStroke();
+        Main.processing.fill(255);
+        Main.processing.rect(getX(), getY(), getW(), getH());
+    }
 }

@@ -53,6 +53,7 @@ public abstract class Entities{
     }
 
     public void render(){
+        Main.processing.noStroke();
         Main.processing.rect(x,y,w,h);
     }
 
@@ -68,6 +69,18 @@ public abstract class Entities{
         }
         if(movingDown){
             y+=speed;
+        }
+        if(x<0){
+            x = 0;
+        }
+        if(x>1280-w){
+            x = 1280-w;
+        }
+        if(y<80){
+            y = 80;
+        }
+        if(y>720-h){
+            y = 720-h;
         }
     }
 
