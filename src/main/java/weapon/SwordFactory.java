@@ -14,6 +14,6 @@ public class SwordFactory implements WeaponFactory<SwordType> {
                 return new Sword(Rarity.UNIQUE, "Great Sword", 30, phase);
             }
         }
-        return null;
+        throw new IllegalArgumentException("Invalid sword type!");
     }
 }
