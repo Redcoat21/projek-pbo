@@ -24,12 +24,18 @@ public abstract class Weapon {
      * Constructor for the Weapon's class child class.
      * @param weaponRarity The rarity of the weapon
      * @param damage The base damage of the weapon
-     * @param phase What phase is the weapon acquired on.
+     * @param phase What phase is the weapon acquired on. Note that phase can't be negative!
      */
     public Weapon(Rarity weaponRarity, String weaponName, int damage, int phase) {
         this.weaponName = weaponName;
         this.damage = damage;
-        this.phase = phase;
+
+        if(phase > 0) {
+            this.phase = phase;
+        } else {
+            throw new IllegalArgumentException("Phase can't be negative!");
+        }
+
         this.bonus = 0;
         this.level = 1;
         this.weaponRarity = weaponRarity;
@@ -71,7 +77,7 @@ public abstract class Weapon {
 
     /**
      * Mutator for the phase of the weapon.
-     * @param phase The phase that the weapon will be set on.
+     * @param phase The phase that the weapon will be set on. Note that phase can't be negative!
      */
     public void setPhase(int phase) {
         if(phase > 0) { this.phase = phase; }
