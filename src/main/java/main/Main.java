@@ -13,8 +13,8 @@ public class Main extends PApplet{
      */
     int mode;
 //    Player player;
-    LoadingScreen ls;
-    ArcadeMode am;
+    private LoadingScreen ls;
+    private ArcadeMode am;
     @Override
     public void settings() {
         size(1280, 720);
