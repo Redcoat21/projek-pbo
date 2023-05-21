@@ -1,5 +1,7 @@
 package weapon;
-
+/**
+ * Class with the factory pattern to create a new sword object.
+ */
 public class SwordFactory implements WeaponFactory<SwordType> {
     @Override
     public Weapon createWeapon(SwordType type, int phase) {
