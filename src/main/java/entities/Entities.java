@@ -17,7 +17,7 @@ public abstract class Entities{
     private boolean movingRight;
     private boolean movingUp;
     private boolean movingDown;
-    private int speed;
+    private float speed;
 
     public Entities(int x, int y, int w, int h, int hp, boolean movingLeft, boolean movingRight, boolean movingUp, boolean movingDown, int speed) {
         this.x = x;
