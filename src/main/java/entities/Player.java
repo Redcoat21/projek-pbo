@@ -4,7 +4,7 @@ import weapon.Weapon;
 import main.Main;
 
 public class Player extends Entities {
-    private Weapon senjata;
+    private Weapon weapon;
 
     public Player(){
         super(40, 400, 20, 20, 20, false, false, false, false, 5);
