@@ -28,8 +28,8 @@ public class Vector2 {
 
     /**
      * Teleport to the given (x,y) location.
-     * @param x X position to teleport to.
-     * @param y Y position to teleport to.
+     * @param x The x position to teleport to.
+     * @param y The y position to teleport to.
      */
     public void setTo(float x, float y) {
         this.x = x;
