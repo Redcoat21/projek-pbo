@@ -1,5 +1,4 @@
 package entities;
-//TODO May change the class into a builder pattern.
 import main.Main;
 import ultilities.Vector2;
 
@@ -18,7 +17,7 @@ public abstract class Entities {
     /**
      * The hp of the entities.
      */
-    private int hp;
+    private int health;
     /**
      * The direction that the entities is currently moving toward.
      */
@@ -36,10 +35,11 @@ public abstract class Entities {
      * @param health The health that the entity have.
      * @param speed The speed that the entity is moving on.
      */
+
     public Entities(float x, float y, int width, int height, int health, int speed) {
         this.position = new Vector2(x, y);
         this.size = new Vector2(width, height);
-        this.hp = health;
+        this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
     }
@@ -89,7 +89,7 @@ public abstract class Entities {
      * @return The health of the entity.
      */
     public int getHealth() {
-        return hp;
+        return health;
     }
 
     /**
