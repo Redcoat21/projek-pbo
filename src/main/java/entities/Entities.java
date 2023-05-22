@@ -20,7 +20,7 @@ public abstract class Entities{
 
     public Entities(int x, int y, int w, int h, int hp, int speed) {
         this.position = new Vector2(x, y);
-        this.size = new Vector2(w, h);
+        this.position = new Vector2(w, h);
         this.hp = hp;
         this.movingLeft = false;
         this.movingRight = false;
@@ -76,18 +76,18 @@ public abstract class Entities{
         }
 
         if(this.position.getX() < 0.0f){
-            this.position.moveTo(0.0f, this.position.getY());
+            this.position.moveTo(0.0f, 0.0f);
         }
 
         if(this.position.getX() > 1280.0 - this.size.getX()){
-            this.position.moveTo(1280.0f - this.size.getX(), this.position.getY());
+            this.position.moveTo(1280.0f - this.size.getX(), 0.0f);
         }
 
         if(this.position.getY() < 80.0f){
-            this.position.moveTo(this.position.getX(), 80.0f);
+            this.position.moveTo(0.0f, 80.0f);
         }
         if(this.position.getY() > 720.0f - this.size.getY()) {
-            this.position.moveTo(this.position.getX(), 720.0f - this.size.getY());
+            this.position.moveTo(0.0f, 720.0f - this.size.getY());
         }
     }
 
