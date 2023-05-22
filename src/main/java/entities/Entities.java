@@ -1,7 +1,11 @@
 package entities;
 //TODO change x and y into Vector2 object.
+
+//TODO May change the class into a builer pattern.
 import processing.core.PApplet;
 import main.Main;
+import ultilities.Vector2;
+
 public abstract class Entities{
     private int x;
     //posisi x
