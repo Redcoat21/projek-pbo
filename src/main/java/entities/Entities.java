@@ -1,19 +1,14 @@
 package entities;
 //TODO change x and y into Vector2 object.
 
-//TODO May change the class into a builer pattern.
+//TODO May change the class into a builder pattern.
 import processing.core.PApplet;
 import main.Main;
 import ultilities.Vector2;
 
 public abstract class Entities{
-    private int x;
-    //posisi x
-    private int y;
-    //posisi y
-    private int w;
-    //ukuran besar width sprite
-    private int h;
+    private Vector2 position;
+    private Vector2 size;
     //ukuran besar height sprite
     private int hp;
     //health
@@ -24,10 +19,8 @@ public abstract class Entities{
     private float speed;
 
     public Entities(int x, int y, int w, int h, int hp, boolean movingLeft, boolean movingRight, boolean movingUp, boolean movingDown, int speed) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+        this.position = new Vector2(x, y);
+        this.position = new Vector2(w, h);
         this.hp = hp;
         this.movingLeft = movingLeft;
         this.movingRight = movingRight;
@@ -36,20 +29,24 @@ public abstract class Entities{
         this.speed = speed;
     }
 
-    public int getX() {
-        return x;
+    public Vector2 getPosition() {
+        return this.position;
     }
 
-    public int getY() {
-        return y;
+    public float getX() {
+        return this.position.getX();
     }
 
-    public int getW() {
-        return w;
+    public float getY() {
+        return this.position.getY();
     }
 
-    public int getH() {
-        return h;
+    public float getW() {
+        return this.size.getX();
+    }
+
+    public float getH() {
+        return this.size.getY();
     }
 
     public int getHp() {
@@ -58,33 +55,39 @@ public abstract class Entities{
 
     public void render(){
         Main.processing.noStroke();
-        Main.processing.rect(x,y,w,h);
+        Main.processing.rect(this.position.getX(),this.position.getY(),this.size.getX(),this.size.getY());
     }
 
     public void move(){
         if(movingLeft){
-            x -= speed;
+            this.position.moveBy(-(this.speed), 0);
         }
+
         if(movingRight){
-            x += speed;
+            this.position.moveBy(this.speed, 0.0f);
         }
+
         if(movingUp){
-            y-=speed;
+            this.position.moveBy(0.0f, -(this.speed));
         }
+
         if(movingDown){
-            y+=speed;
+            this.position.moveBy(0.0f, this.speed);
         }
-        if(x<0){
-            x = 0;
+
+        if(this.position.getX() < 0.0f){
+            this.position.moveTo(0.0f, 0.0f);
         }
-        if(x>1280-w){
-            x = 1280-w;
+
+        if(this.position.getX() > 1280.0 - this.size.getX()){
+            this.position.moveTo(1280.0f - this.size.getX(), 0.0f);
         }
-        if(y<80){
-            y = 80;
+
+        if(this.position.getY() < 80.0f){
+            this.position.moveTo(0.0f, 80.0f);
         }
-        if(y>720-h){
-            y = 720-h;
+        if(this.position.getY() > 720.0f - this.size.getY()) {
+            this.position.moveTo(0.0f, 720.0f - this.size.getY());
         }
     }
 
@@ -136,7 +139,7 @@ public abstract class Entities{
         return movingDown;
     }
 
-    public void setX(int x) {
-        this.x += x;
+    public void setX(float x) {
+        this.position.moveBy(x, 0.0f);
     }
 }

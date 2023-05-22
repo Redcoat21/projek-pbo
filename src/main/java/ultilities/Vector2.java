@@ -1,10 +1,10 @@
 package ultilities;
 
 public class Vector2 {
-    private int x;
-    private int y;
+    private float x;
+    private float y;
 
-    public Vector2(int x, int y) {
+    public Vector2(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -13,7 +13,7 @@ public class Vector2 {
      * Get the x position.
      * @return The x position.
      */
-    public int getX() {
+    public float getX() {
         return x;
     }
 
@@ -22,7 +22,7 @@ public class Vector2 {
      * @return The y position.
      */
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -31,7 +31,7 @@ public class Vector2 {
      * @param x X position to teleport to.
      * @param y Y position to teleport to.
      */
-    public void moveTo(int x, int y) {
+    public void moveTo(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -42,7 +42,7 @@ public class Vector2 {
      * @param y Move by y unit.
      */
 
-    public void moveBy(int x, int y) {
+    public void moveBy(float x, float y) {
         this.x += x;
         this.y += y;
     }
