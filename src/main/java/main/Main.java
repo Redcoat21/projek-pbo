@@ -1,5 +1,6 @@
 package main;
 
+import entities.Direction;
 import entities.Player;
 import processing.core.PApplet;
 public class Main extends PApplet{
@@ -54,39 +55,27 @@ public class Main extends PApplet{
         }
         else if(mode == 3) {
             if (key == 'a') {
-                am.getPlayer().moveLeft();
+                am.getPlayer().moveTo(Direction.LEFT);
             }
 
             if (key == 'd') {
-                am.getPlayer().moveRight();
+                am.getPlayer().moveTo(Direction.RIGHT);
             }
 
             if (key == 'w') {
-                am.getPlayer().moveUp();
+                am.getPlayer().moveTo(Direction.UP);
             }
 
             if (key == 's') {
-                am.getPlayer().moveDown();
+                am.getPlayer().moveTo(Direction.DOWN);
             }
         }
     }
 
     public void keyReleased(){
         if(mode == 3) {
-            if (key == 'a') {
-                am.getPlayer().stopLeft();
-            }
-
-            if (key == 'd') {
-                am.getPlayer().stopRight();
-            }
-
-            if (key == 'w') {
-                am.getPlayer().stopUp();
-            }
-
-            if (key == 's') {
-                am.getPlayer().stopDown();
+            if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
+                am.getPlayer().stop();
             }
         }
     }
