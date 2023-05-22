@@ -31,7 +31,7 @@ public class Vector2 {
      * @param x X position to teleport to.
      * @param y Y position to teleport to.
      */
-    public void moveTo(float x, float y) {
+    public void setTo(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -42,7 +42,7 @@ public class Vector2 {
      * @param y Move by y unit.
      */
 
-    public void moveBy(float x, float y) {
+    public void addBy(float x, float y) {
         this.x += x;
         this.y += y;
     }

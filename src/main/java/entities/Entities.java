@@ -1,15 +1,13 @@
 package entities;
 //TODO May change the class into a builder pattern.
-import processing.core.PApplet;
 import main.Main;
 import ultilities.Vector2;
 
 public abstract class Entities{
     private Vector2 position;
     private Vector2 size;
-    //ukuran besar height sprite
     private int hp;
-    //health
+    private Direction direction;
     private boolean movingLeft;
     private boolean movingRight;
     private boolean movingUp;
@@ -20,10 +18,7 @@ public abstract class Entities{
         this.position = new Vector2(x, y);
         this.size = new Vector2(w, h);
         this.hp = hp;
-        this.movingLeft = false;
-        this.movingRight = false;
-        this.movingUp =  false;
-        this.movingDown = false;
+        direction = Direction.NONE;
         this.speed = speed;
     }
 
@@ -56,53 +51,89 @@ public abstract class Entities{
         Main.processing.rect(this.position.getX(),this.position.getY(),this.size.getX(),this.size.getY());
     }
 
-    public void move(){
-        if(movingLeft){
-            this.position.moveBy(-(this.speed), 0);
+    public void move() {
+        switch(direction) {
+            case UP -> {
+                this.position.addBy(0.0f, -(this.speed));
+            }
+            case RIGHT -> {
+                this.position.addBy(this.speed, 0.0f);
+            }
+            case DOWN -> {
+                this.position.addBy(0.0f, this.speed);
+            }
+            case LEFT -> {
+                this.position.addBy(-(this.speed), 0.0f);
+            }
+        }
+        boolean outOfBoundUp = this.position.getY() < 80.0f;
+        boolean outOfBoundRight = this.position.getX() > 1280.0f - this.size.getX();
+        boolean outOfBoundDown = this.position.getY() > 720.0f - this.size.getY();
+        boolean outOfBoundLeft = this.position.getX() < 0.0f;
+
+        if(outOfBoundUp) {
+            this.position.setTo(0.0f, 80.0f);
         }
 
-        if(movingRight){
-            this.position.moveBy(this.speed, 0.0f);
+        if(outOfBoundRight) {
+            this.position.setTo(1280.0f - this.size.getX(), 0.0f);
         }
 
-        if(movingUp){
-            this.position.moveBy(0.0f, -(this.speed));
+        if(outOfBoundDown) {
+            this.position.setTo(0.0f, 720.0f - this.size.getY());
         }
 
-        if(movingDown){
-            this.position.moveBy(0.0f, this.speed);
-        }
-
-        if(this.position.getX() < 0.0f){
-            this.position.moveTo(0.0f, 0.0f);
-        }
-
-        if(this.position.getX() > 1280.0 - this.size.getX()){
-            this.position.moveTo(1280.0f - this.size.getX(), 0.0f);
-        }
-
-        if(this.position.getY() < 80.0f){
-            this.position.moveTo(0.0f, 80.0f);
-        }
-        if(this.position.getY() > 720.0f - this.size.getY()) {
-            this.position.moveTo(0.0f, 720.0f - this.size.getY());
+        if(outOfBoundLeft) {
+            this.position.setTo(0.0f, 0.0f);
         }
     }
+//    public void move(){
+//        if(movingLeft){
+//            this.position.addBy(-(this.speed), 0);
+//        }
+//
+//        if(movingRight){
+//            this.position.addBy(this.speed, 0.0f);
+//        }
+//
+//        if(movingUp){
+//            this.position.addBy(0.0f, -(this.speed));
+//        }
+//
+//        if(movingDown){
+//            this.position.addBy(0.0f, this.speed);
+//        }
+//
+//        if(this.position.getX() < 0.0f){
+//            this.position.setTo(0.0f, 0.0f);
+//        }
+//
+//        if(this.position.getX() > 1280.0 - this.size.getX()){
+//            this.position.setTo(1280.0f - this.size.getX(), 0.0f);
+//        }
+//
+//        if(this.position.getY() < 80.0f){
+//            this.position.setTo(0.0f, 80.0f);
+//        }
+//        if(this.position.getY() > 720.0f - this.size.getY()) {
+//            this.position.setTo(0.0f, 720.0f - this.size.getY());
+//        }
+//    }
 
     public void moveUp(){
-        movingUp = true;
+        direction = Direction.UP;
     }
 
     public void moveDown(){
-        movingDown = true;
+        direction = Direction.DOWN;
     }
 
     public void moveLeft(){
-        movingLeft = true;
+        direction = Direction.LEFT;
     }
 
     public void moveRight(){
-        movingRight = true;
+        direction = Direction.RIGHT;
     }
 
     public void stopUp(){
@@ -138,6 +169,6 @@ public abstract class Entities{
     }
 
     public void setX(float x) {
-        this.position.moveBy(x, 0.0f);
+        this.position.addBy(x, 0.0f);
     }
 }
