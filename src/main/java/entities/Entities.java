@@ -110,52 +110,16 @@ public abstract class Entities{
 //        }
 //    }
 
-    public void moveUp(){
-        direction = Direction.UP;
+    public void moveTo(Direction direction) {
+        this.direction = direction;
     }
 
-    public void moveDown(){
-        direction = Direction.DOWN;
+    public void stop() {
+        direction = Direction.NONE;
     }
 
-    public void moveLeft(){
-        direction = Direction.LEFT;
-    }
-
-    public void moveRight(){
-        direction = Direction.RIGHT;
-    }
-
-    public void stopUp(){
-        movingUp = false;
-    }
-
-    public void stopDown(){
-        movingDown = false;
-    }
-
-    public void stopLeft(){
-        movingLeft = false;
-    }
-
-    public void stopRight(){
-        movingRight = false;
-    }
-
-    public boolean isMovingLeft() {
-        return movingLeft;
-    }
-
-    public boolean isMovingRight() {
-        return movingRight;
-    }
-
-    public boolean isMovingUp() {
-        return movingUp;
-    }
-
-    public boolean isMovingDown() {
-        return movingDown;
+    public boolean isMovingIn(Direction direction) {
+        return this.direction.equals(direction);
     }
 
     public void setX(float x) {

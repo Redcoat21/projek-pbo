@@ -46,4 +46,13 @@ public class Vector2 {
         this.x += x;
         this.y += y;
     }
+
+    /**
+     * Move by the given Vector2 (x,y) unit
+     * @param direction (x,y) unit but in Vector2.
+     */
+    public void addBy(Vector2 direction) {
+        this.x += direction.getX();
+        this.y += direction.getY();
+    }
 }
