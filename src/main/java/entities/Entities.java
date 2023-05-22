@@ -16,14 +16,14 @@ public abstract class Entities{
     private boolean movingDown;
     private float speed;
 
-    public Entities(int x, int y, int w, int h, int hp, boolean movingLeft, boolean movingRight, boolean movingUp, boolean movingDown, int speed) {
+    public Entities(int x, int y, int w, int h, int hp, int speed) {
         this.position = new Vector2(x, y);
         this.size = new Vector2(w, h);
         this.hp = hp;
-        this.movingLeft = movingLeft;
-        this.movingRight = movingRight;
-        this.movingUp = movingUp;
-        this.movingDown = movingDown;
+        this.movingLeft = false;
+        this.movingRight = false;
+        this.movingUp =  false;
+        this.movingDown = false;
         this.speed = speed;
     }
 
