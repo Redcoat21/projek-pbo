@@ -18,6 +18,6 @@ public class Player extends Entities {
     public void render() {
         Main.processing.noStroke();
         Main.processing.fill(255);
-        Main.processing.rect(getX(), getY(), getW(), getH());
+        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
     }
 }
