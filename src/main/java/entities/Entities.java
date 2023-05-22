@@ -10,20 +10,13 @@ public abstract class Entities{
     private Vector2 size;
     private int hp;
     private Direction direction;
-    private boolean movingLeft;
-    private boolean movingRight;
-    private boolean movingUp;
-    private boolean movingDown;
     private float speed;
 
     public Entities(int x, int y, int w, int h, int hp, int speed) {
         this.position = new Vector2(x, y);
-        this.position = new Vector2(w, h);
+        this.size = new Vector2(w, h);
         this.hp = hp;
-<<<<<<< HEAD
         direction = Direction.NONE;
-=======
->>>>>>> 6c7880adc6b6bd346433885d39e4db78b5bdd3b6
         this.speed = speed;
     }
 
@@ -58,18 +51,10 @@ public abstract class Entities{
 
     public void move() {
         switch(direction) {
-            case UP -> {
-                this.position.addBy(0.0f, -(this.speed));
-            }
-            case RIGHT -> {
-                this.position.addBy(this.speed, 0.0f);
-            }
-            case DOWN -> {
-                this.position.addBy(0.0f, this.speed);
-            }
-            case LEFT -> {
-                this.position.addBy(-(this.speed), 0.0f);
-            }
+            case UP -> this.position.addBy(0.0f, -(this.speed));
+            case RIGHT -> this.position.addBy(this.speed, 0.0f);
+            case DOWN -> this.position.addBy(0.0f, this.speed);
+            case LEFT -> this.position.addBy(-(this.speed), 0.0f);
         }
         boolean outOfBoundUp = this.position.getY() < 80.0f;
         boolean outOfBoundRight = this.position.getX() > 1280.0f - this.size.getX();
@@ -77,19 +62,19 @@ public abstract class Entities{
         boolean outOfBoundLeft = this.position.getX() < 0.0f;
 
         if(outOfBoundUp) {
-            this.position.setTo(0.0f, 80.0f);
+            this.position.setTo(this.size.getX(), 80.0f);
         }
 
         if(outOfBoundRight) {
-            this.position.setTo(1280.0f - this.size.getX(), 0.0f);
+            this.position.setTo(1280.0f - this.size.getX(), this.position.getY());
         }
 
         if(outOfBoundDown) {
-            this.position.setTo(0.0f, 720.0f - this.size.getY());
+            this.position.setTo(this.position.getX(), 720.0f - this.size.getY());
         }
 
         if(outOfBoundLeft) {
-            this.position.setTo(0.0f, 0.0f);
+            this.position.setTo(0.0f, this.position.getY());
         }
     }
 //    public void move(){
