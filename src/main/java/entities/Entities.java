@@ -1,6 +1,4 @@
 package entities;
-//TODO change x and y into Vector2 object.
-
 //TODO May change the class into a builder pattern.
 import processing.core.PApplet;
 import main.Main;
@@ -20,7 +18,7 @@ public abstract class Entities{
 
     public Entities(int x, int y, int w, int h, int hp, boolean movingLeft, boolean movingRight, boolean movingUp, boolean movingDown, int speed) {
         this.position = new Vector2(x, y);
-        this.position = new Vector2(w, h);
+        this.size = new Vector2(w, h);
         this.hp = hp;
         this.movingLeft = movingLeft;
         this.movingRight = movingRight;
