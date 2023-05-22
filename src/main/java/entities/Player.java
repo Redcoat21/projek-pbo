@@ -10,7 +10,7 @@ public class Player extends Entities {
         super(40, 400, 20, 20, 20, 5);
     }
 
-    public Player(int x, int y){
+    public Player(float x, float y){
         super(x, y, 20, 20, 20, 5);
     }
 

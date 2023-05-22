@@ -6,7 +6,7 @@ import ultilities.Vector2;
 /**
  * Representing Any object in the map that have the following criteria : able to move or have collision.
  */
-public abstract class Entities{
+public abstract class Entities {
     /**
      * Representing the Entity's position on the map.
      */
@@ -36,7 +36,7 @@ public abstract class Entities{
      * @param health The health that the entity have.
      * @param speed The speed that the entity is moving on.
      */
-    public Entities(int x, int y, int width, int height, int health, int speed) {
+    public Entities(float x, float y, int width, int height, int health, int speed) {
         this.position = new Vector2(x, y);
         this.size = new Vector2(width, height);
         this.hp = health;
