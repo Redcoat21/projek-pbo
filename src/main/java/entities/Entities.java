@@ -1,5 +1,5 @@
 package entities;
-
+//TODO change x and y into Vector2 object.
 import processing.core.PApplet;
 import main.Main;
 public abstract class Entities{
