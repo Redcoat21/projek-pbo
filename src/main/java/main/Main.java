@@ -13,6 +13,7 @@ public class Main extends PApplet{
         5 = exit
      */
     int mode;
+    public static PApplet processing;
 //    Player player;
     private LoadingScreen ls;
     private ArcadeMode am;
@@ -49,6 +50,7 @@ public class Main extends PApplet{
         }
     }
 
+    @Override
     public void keyPressed(){
         if(mode == 1){
             ls.pressed();
@@ -72,6 +74,8 @@ public class Main extends PApplet{
         }
     }
 
+    //TODO, If key is released then check the next direction.
+    @Override
     public void keyReleased(){
         if(mode == 3) {
             if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
@@ -83,7 +87,5 @@ public class Main extends PApplet{
     public static void main(String[] args) {
         PApplet.main("main.Main");
     }
-
-    public static PApplet processing;
 }
 
