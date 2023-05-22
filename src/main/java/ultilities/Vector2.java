@@ -1,0 +1,58 @@
+package ultilities;
+
+public class Vector2 {
+    private float x;
+    private float y;
+
+    public Vector2(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Get the x position.
+     * @return The x position.
+     */
+    public float getX() {
+        return x;
+    }
+
+    /**
+     * Get the y position/
+     * @return The y position.
+     */
+
+    public float getY() {
+        return y;
+    }
+
+    /**
+     * Teleport to the given (x,y) location.
+     * @param x The x position to teleport to.
+     * @param y The y position to teleport to.
+     */
+    public void setTo(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Move by the given (x,y) unit.
+     * @param x Move by x unit.
+     * @param y Move by y unit.
+     */
+
+    public void addBy(float x, float y) {
+        this.x += x;
+        this.y += y;
+    }
+
+    /**
+     * Move by the given Vector2 (x,y) unit
+     * @param direction (x,y) unit but in Vector2.
+     */
+    public void addBy(Vector2 direction) {
+        this.x += direction.getX();
+        this.y += direction.getY();
+    }
+}
