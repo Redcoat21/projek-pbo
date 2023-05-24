@@ -84,20 +84,20 @@ public class Main extends PApplet{
                 if(!keyPressed){
                     am.getPlayer().stop();
                 }
-//                else{
-//                    if(!(key == 'w') && !(key == 's') && !(key == 'd')){
-//                        am.getPlayer().moveTo(Direction.LEFT);
-//                    }
-//                    if(!(key == 'w') && !(key == 's') && !(key == 'a')){
-//                        am.getPlayer().moveTo(Direction.RIGHT);
-//                    }
-//                    if(!(key == 'a') && !(key == 's') && !(key == 'd')){
-//                        am.getPlayer().moveTo(Direction.UP);
-//                    }
-//                    if(!(key == 'w') && !(key == 'a') && !(key == 'd')){
-//                        am.getPlayer().moveTo(Direction.DOWN);
-//                    }
-//                }
+                else{
+                    if(key == 'a'){
+                        am.getPlayer().keyReleasedDirection(Direction.LEFT);
+                    }
+                    if(key == 'd'){
+                        am.getPlayer().keyReleasedDirection(Direction.RIGHT);
+                    }
+                    if(key == 'w'){
+                        am.getPlayer().keyReleasedDirection(Direction.UP);
+                    }
+                    if(key == 's'){
+                        am.getPlayer().keyReleasedDirection(Direction.DOWN);
+                    }
+                }
             }
         }
     }

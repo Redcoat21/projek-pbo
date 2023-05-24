@@ -1,6 +1,7 @@
 package entities;
 import main.Main;
 import ultilities.Vector2;
+import java.util.ArrayList;
 
 /**
  * Representing Any object in the map that have the following criteria : able to move or have collision.
@@ -27,6 +28,10 @@ public abstract class Entities {
      */
     private final float speed;
     /**
+     * The list of what key is pressed
+     */
+    private ArrayList<Direction> savingDirection;
+    /**
      * Constructor for the Entity class and its child.
      * @param x The x position of the entity in the map.
      * @param y The y position of the entity in the map.
@@ -42,6 +47,31 @@ public abstract class Entities {
         this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
+        savingDirection = new ArrayList<>();
+    }
+
+    public void addDirection(Direction direction){
+        boolean twin = false;
+        for(int i=0; i<savingDirection.size(); i++){
+            if(savingDirection.get(i).equals(direction)){
+                twin = true;
+            }
+        }
+        if(!twin) {
+            savingDirection.add(direction);
+        }
+    }
+
+    public void keyReleasedDirection(Direction direction){
+        for(int i=0; i<savingDirection.size(); i++){
+            System.out.println(i + ". " + savingDirection.get(i));
+            if(savingDirection.get(i).equals(direction)){
+                System.out.println("removed. " + savingDirection.get(i));
+                savingDirection.remove(i);
+            }
+        }
+        System.out.println("the last index is " + savingDirection.get(savingDirection.size()-1));
+        moveTo(savingDirection.get(savingDirection.size()-1));
     }
 
     /**
@@ -138,6 +168,7 @@ public abstract class Entities {
      */
     public void moveTo(Direction direction) {
         this.direction = direction;
+        addDirection(direction);
     }
 
     /**
