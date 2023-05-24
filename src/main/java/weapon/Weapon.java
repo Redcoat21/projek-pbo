@@ -1,7 +1,7 @@
 package weapon;
 
 public abstract class Weapon {
-    private String weaponName;
+    private final String weaponName;
     private float attackSpeed;
     // Base damage of the weapon, not the damage dealt.
     private final int damage;

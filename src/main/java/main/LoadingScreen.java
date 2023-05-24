@@ -3,8 +3,8 @@ package main;
 import processing.core.PConstants;
 
 public class LoadingScreen {
-    private int xText;
-    private int yText;
+    private final int xText;
+    private final int yText;
     private boolean pressed;
 
     public LoadingScreen(int xText, int yText) {

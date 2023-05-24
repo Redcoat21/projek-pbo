@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Weapon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TestPlayer Coverage Results</a> &gt; <a href="index.source.html" class="el_package">weapon</a> &gt; <span class="el_source">Weapon.java</span></div><h1>Weapon.java</h1><pre class="source lang-java linenums">package weapon;
+
+public abstract class Weapon {
+    private final String weaponName;
+    private float attackSpeed;
+    // Base damage of the weapon, not the damage dealt.
+    private final int damage;
+    // Phase is calculated using Waves / 3
+    private int phase;
+    private int level;
+    // Bonus act as a bonus damage based on the level of the previous phase when switching phase.
+    private int bonus;
+    private final Rarity weaponRarity;
+
+    /**
+     * Calculate the damage based on different factors such as level, and base damage.
+     * Each weapon types have its own implementation on how to calculate the damage.
+     *
+     * @return the calculated damage.
+     */
+    public abstract int calculateDamageDealt();
+
+    /**
+     * Constructor for the Weapon's class child class.
+     * @param weaponRarity The rarity of the weapon
+     * @param damage The base damage of the weapon
+     * @param phase What phase is the weapon acquired on. Note that phase can't be negative!
+     */
+<span class="nc" id="L29">    public Weapon(Rarity weaponRarity, String weaponName, int damage, int phase) {</span>
+<span class="nc" id="L30">        this.weaponName = weaponName;</span>
+<span class="nc" id="L31">        this.damage = damage;</span>
+
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if(phase &gt; 0) {</span>
+<span class="nc" id="L34">            this.phase = phase;</span>
+        } else {
+<span class="nc" id="L36">            throw new IllegalArgumentException(&quot;Phase can't be negative!&quot;);</span>
+        }
+
+<span class="nc" id="L39">        this.bonus = 0;</span>
+<span class="nc" id="L40">        this.level = 1;</span>
+<span class="nc" id="L41">        this.weaponRarity = weaponRarity;</span>
+<span class="nc" id="L42">    }</span>
+    /**
+     * Increase the level of the weapon.
+     * @param increaseBy The amount of level to be added.
+     */
+    public void increaseLevel(int increaseBy){
+<span class="nc" id="L48">        this.level += increaseBy;</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Switch phase for 9 waves each.
+     * Increase phase by 1 and increase the bonus level by the current level.
+     * Reset the level back to 0.
+     */
+    public void switchPhase(){
+<span class="nc" id="L57">        this.phase++;</span>
+<span class="nc" id="L58">        this.bonus += this.level;</span>
+<span class="nc" id="L59">        this.level = 0;</span>
+<span class="nc" id="L60">    }</span>
+
+    /**
+     * Accessor for the base damage of the weapon.
+     * @return The base damage of the weapon.
+     */
+    public int getDamage() {
+<span class="nc" id="L67">        return damage;</span>
+    }
+
+    /**
+     * Accessor for the phase of the weapon.
+     * @return The current phase the weapon on.
+     */
+    public int getPhase() {
+<span class="nc" id="L75">        return phase;</span>
+    }
+
+    /**
+     * Mutator for the phase of the weapon.
+     * @param phase The phase that the weapon will be set on. Note that phase can't be negative!
+     */
+    public void setPhase(int phase) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if(phase &gt; 0) { this.phase = phase; }</span>
+<span class="nc" id="L84">        else { throw new IllegalArgumentException(&quot;Phase cant be negative!&quot;); }</span>
+<span class="nc" id="L85">    }</span>
+
+    /**
+     * Accessor for the level of the weapon.
+     * @return The level of the weapon.
+     */
+    public int getLevel() {
+<span class="nc" id="L92">        return level;</span>
+    }
+
+    /**
+     * Mutator for the level of the weapon.
+     * @param level The level to be set to the weapon. Note that the parameter can be negative.
+     */
+    public void setLevel(int level) {
+<span class="nc" id="L100">        int temp = level + this.level;</span>
+        //Set level to 0 if its negative.
+<span class="nc" id="L102">        this.level = Math.max(temp, 0);</span>
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * Accessor for the bonus of the weapon.
+     * @return The bonus the weapon have.
+     */
+    public int getBonus() {
+<span class="nc" id="L110">        return bonus;</span>
+    }
+    /**
+     * Accessor for the weapon's rarity.
+     * @return The weapon's rarity. Weapon's rarity can only be one of the following : Common, Epic, Unique, Legendary
+     */
+    public Rarity getWeaponRarity() {
+<span class="nc" id="L117">        return weaponRarity;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

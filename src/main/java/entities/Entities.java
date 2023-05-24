@@ -13,11 +13,11 @@ public abstract class Entities {
     /**
      * Representing the size in Width and Height
      */
-    private Vector2 size;
+    private final Vector2 size;
     /**
      * The hp of the entities.
      */
-    private int health;
+    private final int health;
     /**
      * The direction that the entities is currently moving toward.
      */
@@ -25,7 +25,7 @@ public abstract class Entities {
     /**
      * The speed that the entity (if able to move) moves on.
      */
-    private float speed;
+    private final float speed;
     /**
      * Constructor for the Entity class and its child.
      * @param x The x position of the entity in the map.
