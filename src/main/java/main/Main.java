@@ -74,12 +74,30 @@ public class Main extends PApplet{
         }
     }
 
+
+
     //TODO, If key is released then check the next direction.
     @Override
     public void keyReleased(){
         if(mode == 3) {
             if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
-                am.getPlayer().stop();
+                if(!keyPressed){
+                    am.getPlayer().stop();
+                }
+//                else{
+//                    if(!(key == 'w') && !(key == 's') && !(key == 'd')){
+//                        am.getPlayer().moveTo(Direction.LEFT);
+//                    }
+//                    if(!(key == 'w') && !(key == 's') && !(key == 'a')){
+//                        am.getPlayer().moveTo(Direction.RIGHT);
+//                    }
+//                    if(!(key == 'a') && !(key == 's') && !(key == 'd')){
+//                        am.getPlayer().moveTo(Direction.UP);
+//                    }
+//                    if(!(key == 'w') && !(key == 'a') && !(key == 'd')){
+//                        am.getPlayer().moveTo(Direction.DOWN);
+//                    }
+//                }
             }
         }
     }
