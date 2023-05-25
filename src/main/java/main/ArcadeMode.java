@@ -1,6 +1,8 @@
 package main;
 
 import entities.Player;
+import processing.core.PConstants;
+
 public class ArcadeMode {
     Player player;
     int x;
@@ -15,6 +17,10 @@ public class ArcadeMode {
         Main.processing.noStroke();
         Main.processing.fill(102, 51, 0);
         Main.processing.rect(0,0,x,80);
+        Main.processing.fill(255);
+        Main.processing.textSize(14);
+        Main.processing.textAlign(PConstants.RIGHT);
+        Main.processing.text("fps " + (int) Main.processing.frameRate, x, 14);
         player.render();
         player.move();
     }

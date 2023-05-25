@@ -30,6 +30,7 @@ public class Main extends PApplet{
         ls = new LoadingScreen(width, height);
         am = new ArcadeMode(width, height);
         mode = 1;
+        frameRate(60);
     }
 
     @Override
@@ -47,6 +48,7 @@ public class Main extends PApplet{
         else if(mode == 3){
             background(204,102,0);
             am.render();
+
         }
     }
 
