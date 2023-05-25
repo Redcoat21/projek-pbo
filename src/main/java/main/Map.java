@@ -1,7 +1,7 @@
 package main;
 
-import tiles.Obstacles;
-import tiles.Wall;
+import entities.tiles.Obstacles;
+import entities.tiles.Wall;
 
 public class Map {
     Obstacles[][] map;
