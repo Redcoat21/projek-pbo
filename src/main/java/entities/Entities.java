@@ -50,6 +50,9 @@ public abstract class Entities {
         savingDirection = new ArrayList<>();
     }
 
+    public void clearDirection(){
+        savingDirection.clear();
+    }
     public void addDirection(Direction direction){
         boolean twin = false;
         for(int i=0; i<savingDirection.size(); i++){
@@ -64,13 +67,13 @@ public abstract class Entities {
 
     public void keyReleasedDirection(Direction direction){
         for(int i=0; i<savingDirection.size(); i++){
-            System.out.println(i + ". " + savingDirection.get(i));
+//            System.out.println(i + ". " + savingDirection.get(i));
             if(savingDirection.get(i).equals(direction)){
-                System.out.println("removed. " + savingDirection.get(i));
+//                System.out.println("removed. " + savingDirection.get(i));
                 savingDirection.remove(i);
             }
         }
-        System.out.println("the last index is " + savingDirection.get(savingDirection.size()-1));
+//        System.out.println("the last index is " + savingDirection.get(savingDirection.size()-1));
         moveTo(savingDirection.get(savingDirection.size()-1));
     }
 
@@ -146,7 +149,7 @@ public abstract class Entities {
         boolean outOfBoundLeft = this.position.getX() < 0.0f;
 
         if(outOfBoundUp) {
-            this.position.setTo(this.size.getX(), 80.0f);
+            this.position.setTo(this.position.getX(), 80.0f);
         }
 
         if(outOfBoundRight) {

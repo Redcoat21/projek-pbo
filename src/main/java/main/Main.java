@@ -83,6 +83,7 @@ public class Main extends PApplet{
             if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
                 if(!keyPressed){
                     am.getPlayer().stop();
+                    am.getPlayer().clearDirection();
                 }
                 else{
                     if(key == 'a'){
