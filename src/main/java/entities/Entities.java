@@ -1,6 +1,7 @@
 package entities;
 import main.Main;
-import ultilities.Vector2;
+import processing.core.PImage;
+import processing.core.PVector;
 import java.util.ArrayList;
 
 /**
@@ -8,13 +9,17 @@ import java.util.ArrayList;
  */
 public abstract class Entities {
     /**
+     * Representing the Entity's sprite.
+     */
+    private PImage sprite;
+    /**
      * Representing the Entity's position on the map.
      */
-    private Vector2 position;
+    private PVector position;
     /**
      * Representing the size in Width and Height
      */
-    private final Vector2 size;
+    private final PVector size;
     /**
      * The hp of the entities.
      */
@@ -42,8 +47,8 @@ public abstract class Entities {
      */
 
     public Entities(float x, float y, int width, int height, int health, int speed) {
-        this.position = new Vector2(x, y);
-        this.size = new Vector2(width, height);
+        this.position = new PVector(x, y);
+        this.size = new PVector(width, height);
         this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
@@ -81,7 +86,7 @@ public abstract class Entities {
      * Get the current position (x,y) of the entity in Vector2.
      * @return Vector2 position of the entity.
      */
-    public Vector2 getPosition() {
+    public PVector getPosition() {
         return this.position;
     }
 
@@ -90,7 +95,7 @@ public abstract class Entities {
      * @return The x position of the entity in the map.
      */
     public float getX() {
-        return this.position.getX();
+        return this.position.x;
     }
 
     /**
@@ -98,7 +103,7 @@ public abstract class Entities {
      * @return The y position of the entity in the map.
      */
     public float getY() {
-        return this.position.getY();
+        return this.position.y;
     }
 
     /**
@@ -106,7 +111,7 @@ public abstract class Entities {
      * @return The width of the entity.
      */
     public float getWidth() {
-        return this.size.getX();
+        return this.size.x;
     }
 
     /**
@@ -114,7 +119,7 @@ public abstract class Entities {
      * @return The height of the entity.
      */
     public float getHeight() {
-        return this.size.getY();
+        return this.size.y;
     }
 
     /**
@@ -130,7 +135,7 @@ public abstract class Entities {
      */
     public void render(){
         Main.processing.noStroke();
-        Main.processing.rect(this.position.getX(),this.position.getY(),this.size.getX(),this.size.getY());
+        Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
     /**
@@ -138,30 +143,30 @@ public abstract class Entities {
      */
     public void move() {
         switch(direction) {
-            case UP -> this.position.addBy(0.0f, -(this.speed));
-            case RIGHT -> this.position.addBy(this.speed, 0.0f);
-            case DOWN -> this.position.addBy(0.0f, this.speed);
-            case LEFT -> this.position.addBy(-(this.speed), 0.0f);
+            case UP -> this.position.add(0.0f, -(this.speed));
+            case RIGHT -> this.position.add(this.speed, 0.0f);
+            case DOWN -> this.position.add(0.0f, this.speed);
+            case LEFT -> this.position.add(-(this.speed), 0.0f);
         }
-        boolean outOfBoundUp = this.position.getY() < 80.0f;
-        boolean outOfBoundRight = this.position.getX() > 1280.0f - this.size.getX();
-        boolean outOfBoundDown = this.position.getY() > 720.0f - this.size.getY();
-        boolean outOfBoundLeft = this.position.getX() < 0.0f;
+        boolean outOfBoundUp = this.position.y < 80.0f;
+        boolean outOfBoundRight = this.position.x > 1280.0f - this.size.x;
+        boolean outOfBoundDown = this.position.y > 720.0f - this.size.y;
+        boolean outOfBoundLeft = this.position.x < 0.0f;
 
         if(outOfBoundUp) {
-            this.position.setTo(this.position.getX(), 80.0f);
+            this.position.set(this.position.x, 80.0f);
         }
 
         if(outOfBoundRight) {
-            this.position.setTo(1280.0f - this.size.getX(), this.position.getY());
+            this.position.set(1280.0f - this.size.x, this.position.y);
         }
 
         if(outOfBoundDown) {
-            this.position.setTo(this.position.getX(), 720.0f - this.size.getY());
+            this.position.set(this.position.x, 720.0f - this.size.y);
         }
 
         if(outOfBoundLeft) {
-            this.position.setTo(0.0f, this.position.getY());
+            this.position.set(0.0f, this.position.y);
         }
     }
 
@@ -180,14 +185,14 @@ public abstract class Entities {
      * @param y The new y position of the entity.
      */
     public void setTo(float x, float y) {
-        this.position.setTo(x, y);
+        this.position.set(x, y);
     }
 
     /**
      * Set the entity's position on the given (x,y) value but with a Vector2 parameter.
      * @param position The new (x,y) value of the entity.
      */
-    public void setTo(Vector2 position) {
+    public void setTo(PVector position) {
         this.position = position;
     }
 
