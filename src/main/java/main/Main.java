@@ -29,7 +29,7 @@ public class Main extends PApplet{
         processing = this;
         ls = new LoadingScreen(width, height);
         am = new ArcadeMode(width, height);
-        mode = 1;
+        mode = 3;
         frameRate(60);
     }
 

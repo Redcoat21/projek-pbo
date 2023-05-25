@@ -7,10 +7,15 @@ public class ArcadeMode {
     Player player;
     int x;
     int y;
+    int floor;
+    Map map;
+
     public ArcadeMode(int x, int y){
-        player = new Player(x/10,y/2);
+        player = new Player(0,15*20+80);
         this.x = x;
         this.y = y;
+        floor = 1;
+        map = new Map(floor);
     }
 
     public void render() {
@@ -23,6 +28,7 @@ public class ArcadeMode {
         Main.processing.text("fps " + (int) Main.processing.frameRate, x, 14);
         player.render();
         player.move();
+        map.printMap();
     }
 
     public Player getPlayer() {
