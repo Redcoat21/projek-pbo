@@ -1,4 +1,4 @@
-package Tiles;
+package tiles;
 
 import entities.Entities;
 import main.Main;
