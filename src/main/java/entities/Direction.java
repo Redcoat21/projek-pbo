@@ -1,5 +1,6 @@
 package entities;
 
+import processing.core.PVector;
 import ultilities.Vector2;
 
 public enum Direction {
@@ -8,13 +9,13 @@ public enum Direction {
     DOWN(0.0f, 1.0f),
     LEFT(-1.0f, 0.0f),
     NONE(0.0f, 0.0f);
-    private final Vector2 direction;
+    private final PVector direction;
 
     Direction(float x, float y) {
-        this.direction = new Vector2(x, y);
+        this.direction = new PVector(x, y);
     }
 
-    public Vector2 getDirection() {
+    public PVector getDirection() {
         return direction;
     }
 }
