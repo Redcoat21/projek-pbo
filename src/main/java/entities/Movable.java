@@ -4,6 +4,7 @@ import entities.tiles.Obstacles;
 
 import java.util.ArrayList;
 
+import entities.tiles.Wall;
 import main.Main;
 import main.Map;
 
@@ -53,7 +54,7 @@ public class Movable extends Entities{
         for(Obstacles[] obsTemp: map.getMap()){
             for(Obstacles obs: obsTemp){
                 if(obs != null) {
-                    if (entitiesIntersect(obs)) {
+                    if (entitiesIntersect(obs) && obs instanceof Wall) {
                         if(direction.equals(Direction.UP)){
                             getPosition().add(0.0f, this.speed);
                         }
@@ -80,10 +81,6 @@ public class Movable extends Entities{
 
 
         if(distanceOnX<combHalfWidth && distanceOnY<combHalfHeight){
-            System.out.println("combined half width " + combHalfWidth);
-            System.out.println("combined half height " + combHalfHeight);
-            System.out.println("distance x " + distanceOnX);
-            System.out.println("distance y " + distanceOnY);
             return true;
         }
         return false;
