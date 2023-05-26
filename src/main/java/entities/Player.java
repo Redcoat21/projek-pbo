@@ -3,7 +3,7 @@ package entities;
 import weapon.Weapon;
 import main.Main;
 
-public class Player extends Entities {
+public class Player extends Movable {
     private Weapon weapon;
 
     public Player(){
