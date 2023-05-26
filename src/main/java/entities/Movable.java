@@ -54,7 +54,18 @@ public class Movable extends Entities{
             for(Obstacles obs: obsTemp){
                 if(obs != null) {
                     if (entitiesIntersect(obs)) {
-                        System.out.println("masuk");
+                        if(direction.equals(Direction.UP)){
+                            getPosition().add(0.0f, this.speed);
+                        }
+                        else if(direction.equals(Direction.DOWN)){
+                            getPosition().add(0.0f, -(this.speed));
+                        }
+                        else if(direction.equals(Direction.RIGHT)){
+                            getPosition().add(-(this.speed), 0.0f);
+                        }
+                        else if(direction.equals(Direction.LEFT)){
+                            getPosition().add(this.speed, 0.0f);
+                        }
                     }
                 }
             }
@@ -67,7 +78,12 @@ public class Movable extends Entities{
         float distanceOnX = Math.abs(e1.getX()-getX());
         float distanceOnY = Math.abs(e1.getY()-getY());
 
+
         if(distanceOnX<combHalfWidth && distanceOnY<combHalfHeight){
+            System.out.println("combined half width " + combHalfWidth);
+            System.out.println("combined half height " + combHalfHeight);
+            System.out.println("distance x " + distanceOnX);
+            System.out.println("distance y " + distanceOnY);
             return true;
         }
         return false;
