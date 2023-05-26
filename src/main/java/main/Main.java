@@ -35,7 +35,6 @@ public class Main extends PApplet{
 
     @Override
     public void draw() {
-        am.getPlayer().drawImage(this);
 //        background(100);
 //        player.render();
 //        player.move();
@@ -105,7 +104,6 @@ public class Main extends PApplet{
             }
         }
     }
-
     public static void main(String[] args) {
         PApplet.main("main.Main");
     }

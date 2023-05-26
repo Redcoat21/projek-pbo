@@ -1,7 +1,6 @@
 package entities;
 
 import processing.core.PVector;
-import ultilities.Vector2;
 
 public enum Direction {
     UP(0.0f, -1.0f),

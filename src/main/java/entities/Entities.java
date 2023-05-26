@@ -3,15 +3,13 @@ import main.Main;
 import processing.core.PImage;
 import processing.core.PVector;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Representing Any object in the map that have the following criteria : able to move or have collision.
  */
 public abstract class Entities {
-    /**
-     * Representing the Entity's sprite.
-     */
-    private PImage sprite;
+    private HashMap<Direction, Animation> animationList;
     /**
      * Representing the Entity's position on the map.
      */
@@ -53,6 +51,11 @@ public abstract class Entities {
         direction = Direction.NONE;
         this.speed = speed;
         savingDirection = new ArrayList<>();
+        this.animationList = new HashMap<>();
+
+        for(Direction direction : Direction.values()) {
+            this.animationList.put(direction, new Animation(5));
+        }
     }
 
     public void clearDirection(){
@@ -71,15 +74,14 @@ public abstract class Entities {
     }
 
     public void keyReleasedDirection(Direction direction){
-        for(int i=0; i<savingDirection.size(); i++){
-//            System.out.println(i + ". " + savingDirection.get(i));
-            if(savingDirection.get(i).equals(direction)){
-//                System.out.println("removed. " + savingDirection.get(i));
-                savingDirection.remove(i);
-            }
-        }
-//        System.out.println("the last index is " + savingDirection.get(savingDirection.size()-1));
-        moveTo(savingDirection.get(savingDirection.size()-1));
+        // Iterates over the list and remove the element if it matches the condition.
+        this.savingDirection.removeIf(
+                toCheck -> toCheck.equals(direction)
+        );
+
+        this.moveTo(savingDirection.get(
+                savingDirection.size()-1)
+        );
     }
 
     /**
@@ -135,7 +137,7 @@ public abstract class Entities {
      */
     public void render(){
         Main.processing.noStroke();
-        Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
+        //Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
     /**
@@ -210,5 +212,18 @@ public abstract class Entities {
      */
     public boolean isMovingIn(Direction direction) {
         return this.direction.equals(direction);
+    }
+
+    public void addSprites(Direction addToWalkToAnimation, String spritePath) {
+        Animation temp = this.animationList.get(addToWalkToAnimation);
+        temp.addImage(this, spritePath);
+    }
+
+    public HashMap<Direction, Animation> getAnimationList() {
+        return this.animationList;
+    }
+
+    public Direction getDirection() {
+        return this.direction;
     }
 }

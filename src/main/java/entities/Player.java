@@ -1,5 +1,6 @@
 package entities;
 
+import processing.core.PImage;
 import weapon.Weapon;
 import main.Main;
 
@@ -17,7 +18,9 @@ public class Player extends Entities {
     @Override
     public void render() {
         Main.processing.noStroke();
-        Main.processing.fill(255);
+        this.addSprites(Direction.NONE, "./assets/Tileset/tile004.png");
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+        Animation temp = this.getAnimationList().get(this.getDirection());
+        temp.playAnimation(this);
     }
 }
