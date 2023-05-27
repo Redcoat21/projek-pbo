@@ -1,5 +1,6 @@
 package main;
 
+import entities.tiles.Hole;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 
@@ -46,7 +47,7 @@ public class Map {
                 }
             }
         }
-        if(floor == 2) {
+        else if(floor == 2) {
             for (int i = 0; i < 32; i++) {
                 for (int j = 0; j < 64; j++) {
                     if (j == 16 && (i > 4 && i < 26)) {
@@ -87,6 +88,45 @@ public class Map {
                     }
                     else if (j == 63 && (i > 16 && i < 32)) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
+                    }
+                }
+            }
+        }
+        else if(floor == 3){
+            for (int i = 0; i < 32; i++) {
+                for (int j = 0; j < 64; j++) {
+                    if (j == 56 && (i > -1 && i < 12)) {
+                        map[j][i] = new Wall(j * 20, i * 20 + 80);
+                    }
+                    else if (j == 56 && (i > 18 && i < 32)) {
+                        map[j][i] = new Wall(j * 20, i * 20 + 80);
+                    }
+                    else if(i==0 || i==31){
+                        map[j][i] = new Wall(j * 20, i * 20 + 80);
+                    }
+                    else if (j == 0 && (i > -1 && i < 14)) {
+                        map[j][i] = new Wall(j * 20, i * 20 + 80);
+                    }
+                    else if (j == 0 && (i > 16 && i < 32)) {
+                        map[j][i] = new Wall(j * 20, i * 20 + 80);
+                    }
+                    else if (j == 63 && (i > -1 && i < 14)) {
+                        map[j][i] = new Wall(j * 20, i * 20 + 80);
+                    }
+                    else if (j == 63 && (i > 16 && i < 32)) {
+                        map[j][i] = new Wall(j * 20, i * 20 + 80);
+                    }
+                    else if(j == 12 && (i > 7 && i < 25)){
+                        map[j][i] = new Hole(j * 20, i * 20 + 80);
+                    }
+                    else if(j == 22 && (i > 7 && i < 25)){
+                        map[j][i] = new Hole(j * 20, i * 20 + 80);
+                    }
+                    else if(j == 32 && (i > 7 && i < 25)){
+                        map[j][i] = new Hole(j * 20, i * 20 + 80);
+                    }
+                    else if(j == 42 && (i > 7 && i < 25)) {
+                        map[j][i] = new Hole(j * 20, i * 20 + 80);
                     }
                 }
             }

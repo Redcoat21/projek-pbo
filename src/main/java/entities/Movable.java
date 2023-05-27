@@ -1,5 +1,6 @@
 package entities;
 
+import entities.tiles.Hole;
 import entities.tiles.Obstacles;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class Movable extends Entities{
     /**
      * The hp of the entities.
      */
-    private final int health;
+    private int health;
     /**
      * The direction that the entities is currently moving toward.
      */
@@ -43,18 +44,18 @@ public class Movable extends Entities{
         direction = Direction.NONE;
         this.speed = speed;
         savingDirection = new ArrayList<>();
-        setMap(1);
+        setMap(3);
     }
 
     public void setMap(int floor) {
         map = new Map(floor);
     }
 
-    private void entitiesCollision(){
+    private void entitiesCollisionWall(){
         for(Obstacles[] obsTemp: map.getMap()){
             for(Obstacles obs: obsTemp){
                 if(obs != null) {
-                    if (entitiesIntersect(obs) && obs instanceof Wall) {
+                    if (entitiesIntersectWall(obs) && obs instanceof Wall) {
                         if(direction.equals(Direction.UP)){
                             getPosition().add(0.0f, this.speed);
                         }
@@ -73,7 +74,19 @@ public class Movable extends Entities{
         }
     }
 
-    private boolean entitiesIntersect(Obstacles e1){
+    private void entitiesCollisionHole(){
+        for(Obstacles[] obsTemp: map.getMap()){
+            for(Obstacles obs: obsTemp){
+                if(obs != null) {
+                    if (entitiesIntersectHole(obs) && obs instanceof Hole) {
+                        fallen();
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean entitiesIntersectWall(Obstacles e1){
         float combHalfWidth = (e1.getWidth()+getWidth())/2;
         float combHalfHeight = (e1.getHeight()+getHeight())/2;
         float distanceOnX = Math.abs(e1.getX()-getX());
@@ -81,6 +94,19 @@ public class Movable extends Entities{
 
 
         if(distanceOnX<combHalfWidth && distanceOnY<combHalfHeight){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean entitiesIntersectHole(Obstacles e1){
+        float combHalfWidth = (e1.getWidth()+getWidth())/2;
+        float combHalfHeight = (e1.getHeight()+getHeight())/2;
+        float distanceOnX = Math.abs(e1.getX()-getX());
+        float distanceOnY = Math.abs(e1.getY()-getY());
+
+
+        if(distanceOnX+5<combHalfWidth && distanceOnY+5<combHalfHeight){
             return true;
         }
         return false;
@@ -160,7 +186,8 @@ public class Movable extends Entities{
             getPosition().set(0.0f, getPosition().y);
         }
 
-        entitiesCollision();
+        entitiesCollisionWall();
+        entitiesCollisionHole();
     }
 
     /**
@@ -186,5 +213,13 @@ public class Movable extends Entities{
      */
     public boolean isMovingIn(Direction direction) {
         return this.direction.equals(direction);
+    }
+
+    public void addHealth(int health){
+        this.health += health;
+    }
+
+    public void fallen(){
+        this.health = 0;
     }
 }

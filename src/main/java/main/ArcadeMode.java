@@ -14,7 +14,7 @@ public class ArcadeMode {
         player = new Player(0,15*20+80);
         this.x = x;
         this.y = y;
-        floor = 1;
+        floor = 3;
         map = new Map(floor);
     }
 
@@ -26,9 +26,11 @@ public class ArcadeMode {
         Main.processing.textSize(14);
         Main.processing.textAlign(PConstants.RIGHT);
         Main.processing.text("fps " + (int) Main.processing.frameRate, x, 14);
+        Main.processing.textAlign(PConstants.LEFT);
+        Main.processing.text("Heart " + player.getHealth(), 10, 14);
+        map.printMap();
         player.render();
         player.move();
-        map.printMap();
     }
 
     public Player getPlayer() {
