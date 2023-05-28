@@ -21,7 +21,7 @@ public class Movable extends Entities{
     /**
      * The speed that the entity (if able to move) moves on.
      */
-    private final float speed;
+    private int speed;
     /**
      * The list of what key is pressed
      */
@@ -44,7 +44,7 @@ public class Movable extends Entities{
         direction = Direction.NONE;
         this.speed = speed;
         savingDirection = new ArrayList<>();
-        setMap(3);
+        setMap(5);
     }
 
     public void setMap(int floor) {
@@ -57,21 +57,35 @@ public class Movable extends Entities{
                 if(obs != null) {
                     if (entitiesIntersectWall(obs) && obs instanceof Wall) {
                         if(direction.equals(Direction.UP)){
-                            getPosition().add(0.0f, this.speed);
+                            getPosition().add(0.0f, this.speed - gapCollisionOnY(obs));
                         }
                         else if(direction.equals(Direction.DOWN)){
-                            getPosition().add(0.0f, -(this.speed));
+                            getPosition().add(0.0f, -(this.speed) + gapCollisionOnY(obs));
                         }
                         else if(direction.equals(Direction.RIGHT)){
-                            getPosition().add(-(this.speed), 0.0f);
+                            getPosition().add(-(this.speed) + gapCollisionOnX(obs), 0.0f);
                         }
                         else if(direction.equals(Direction.LEFT)){
-                            getPosition().add(this.speed, 0.0f);
+                            getPosition().add(this.speed - gapCollisionOnX(obs), 0.0f);
                         }
                     }
                 }
             }
         }
+    }
+
+    private float gapCollisionOnX (Obstacles e1){
+        float combHalfWidth = (e1.getWidth()+getWidth())/2;
+        float distanceOnX = Math.abs(e1.getX()-getX());
+
+        return distanceOnX+this.speed-combHalfWidth;
+    }
+
+    private float gapCollisionOnY (Obstacles e1){
+        float combHalfHeight = (e1.getHeight()+getHeight())/2;
+        float distanceOnY = Math.abs(e1.getY()-getY());
+
+        return distanceOnY+this.speed-combHalfHeight;
     }
 
     private void entitiesCollisionHole(){
@@ -221,5 +235,13 @@ public class Movable extends Entities{
 
     public void fallen(){
         this.health = 0;
+    }
+
+    public void setSpeed(int speed){
+        this.speed = speed;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }

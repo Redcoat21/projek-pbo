@@ -59,6 +59,8 @@ public class Main extends PApplet{
             ls.pressed();
         }
         else if(mode == 3) {
+//            am.getPlayer().setSpeed(am.getPlayer().getSpeed());
+//            am.getPlayer().setSpeed(1);
             if (key == 'a') {
                 am.getPlayer().moveTo(Direction.LEFT);
             }

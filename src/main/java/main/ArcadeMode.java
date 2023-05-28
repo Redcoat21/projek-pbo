@@ -11,10 +11,10 @@ public class ArcadeMode {
     Map map;
 
     public ArcadeMode(int x, int y){
-        player = new Player(0,15*20+80);
+        player = new Player(0,15.5f*20+80);
         this.x = x;
         this.y = y;
-        floor = 3;
+        floor = 5;
         map = new Map(floor);
     }
 
