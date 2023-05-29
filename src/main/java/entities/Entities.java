@@ -10,10 +10,6 @@ import main.Map;
  */
 public abstract class Entities {
     /**
-     * Representing the Entity's sprite.
-     */
-    private PImage sprite;
-    /**
      * Representing the Entity's position on the map.
      */
     private PVector position;
@@ -93,7 +89,6 @@ public abstract class Entities {
 ////        System.out.println("the last index is " + savingDirection.get(savingDirection.size()-1));
 //        moveTo(savingDirection.get(savingDirection.size()-1));
 //    }
-
     /**
      * Get the current position (x,y) of the entity in Vector2.
      * @return Vector2 position of the entity.
@@ -147,7 +142,7 @@ public abstract class Entities {
      */
     public void render(){
         Main.processing.noStroke();
-        Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
+        //Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
 //    /**
