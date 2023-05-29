@@ -3,12 +3,15 @@ import main.Main;
 import processing.core.PImage;
 import processing.core.PVector;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import main.Map;
 
 /**
  * Representing Any object in the map that have the following criteria : able to move or have collision.
  */
 public abstract class Entities {
+    private HashMap<Direction, Animation> animationList;
     /**
      * Representing the Entity's position on the map.
      */
@@ -21,10 +24,10 @@ public abstract class Entities {
 //     * The hp of the entities.
 //     */
 //    private final int health;
-//    /**
-//     * The direction that the entities is currently moving toward.
-//     */
-//    private Direction direction;
+   /**
+     * The direction that the entities is currently moving toward.
+     */
+    private Direction direction;
 //    /**
 //     * The speed that the entity (if able to move) moves on.
 //     */
@@ -49,6 +52,11 @@ public abstract class Entities {
 //        direction = Direction.NONE;
 //        this.speed = speed;
 //        savingDirection = new ArrayList<>();
+        this.animationList = new HashMap<>();
+
+        for(Direction direction : Direction.values()) {
+            this.animationList.put(direction, new Animation(5));
+        }
     }
 
 //    private boolean entitiesIntersect(Entities e1){
@@ -222,5 +230,18 @@ public abstract class Entities {
 
     protected PVector getSize() {
         return size;
+    }
+
+    public void addSprites(Direction addToWalkToAnimation, String spritePath) {
+        Animation temp = this.animationList.get(addToWalkToAnimation);
+        temp.addImage(this, spritePath);
+    }
+
+    public HashMap<Direction, Animation> getAnimationList() {
+        return this.animationList;
+    }
+
+    public Direction getDirection() {
+        return this.direction;
     }
 }
