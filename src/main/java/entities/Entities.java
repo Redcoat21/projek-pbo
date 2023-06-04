@@ -11,6 +11,7 @@ import main.Map;
  * Representing Any object in the map that have the following criteria : able to move or have collision.
  */
 public abstract class Entities {
+    private Animation sprites;
     /**
      * Representing the Entity's position on the map.
      */
@@ -35,6 +36,7 @@ public abstract class Entities {
     public Entities(float x, float y, int width, int height) {
         this.position = new PVector(x, y);
         this.size = new PVector(width, height);
+        this.sprites = new Animation();
     }
     /**
      * Get the current position (x,y) of the entity in Vector2.
@@ -89,6 +91,7 @@ public abstract class Entities {
      */
     public void render(){
         Main.processing.noStroke();
+        this.sprites.play(this.position);
         //Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
@@ -115,5 +118,9 @@ public abstract class Entities {
 
     public Direction getDirection() {
         return this.direction;
+    }
+
+    public void addSprite(PImage sprite) {
+        this.sprites.addSprite(sprite);
     }
 }
