@@ -14,6 +14,7 @@ public class LoadingScreen {
     }
 
     public void display(){
+        Main.processing.fill(255);
         Main.processing.textSize(40);
         Main.processing.textAlign(PConstants.CENTER);
         Main.processing.text("Press Any Key To Continue", xText/2, yText/2);
@@ -26,6 +27,6 @@ public class LoadingScreen {
     }
 
     public void pressed(){
-        pressed = true;
+        pressed = !pressed;
     }
 }

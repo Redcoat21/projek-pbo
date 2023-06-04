@@ -29,7 +29,7 @@ public class Main extends PApplet{
         processing = this;
         ls = new LoadingScreen(width, height);
         am = new ArcadeMode(width, height);
-        mode = 3;
+        mode = 1;
         frameRate(60);
     }
 
@@ -46,13 +46,15 @@ public class Main extends PApplet{
             background(0);
             ls.display();
             if(ls.isPressed()){
+                //for temporary only
+                am = new ArcadeMode(width, height);
+
+                ls.pressed();
                 mode = 3;
             }
         }
         else if(mode == 3){
-            background(204,102,0);
             am.render();
-
         }
     }
 
@@ -61,7 +63,7 @@ public class Main extends PApplet{
         if(mode == 1){
             ls.pressed();
         }
-        else if(mode == 3) {
+        else if(mode == 3 && am.isAlive()) {
 //            am.getPlayer().setSpeed(am.getPlayer().getSpeed());
 //            am.getPlayer().setSpeed(1);
             if (key == 'a') {
@@ -110,6 +112,14 @@ public class Main extends PApplet{
             }
         }
     }
+
+    @Override
+    public void mouseClicked() {
+        if(mode == 3 && !am.isAlive()){
+            mode = 1;
+        }
+    }
+
     public static void main(String[] args) {
         PApplet.main("main.Main");
     }
