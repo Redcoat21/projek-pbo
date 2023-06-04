@@ -19,7 +19,9 @@ public class Player extends Movable {
         this.addSprites(Direction.NONE, "./assets/Tileset/tile004.png");
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
         Animation temp = this.getAnimationList().get(this.getDirection());
-        temp.playAnimation(this);
+        if (temp != null) {
+            temp.playAnimation(this);
+        }
     }
 
     public void heal(){

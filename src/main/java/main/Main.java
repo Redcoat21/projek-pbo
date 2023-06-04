@@ -35,11 +35,11 @@ public class Main extends PApplet{
 
     @Override
     public void draw() {
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //        am.getPlayer().drawImage(this);
-=======
->>>>>>> sprite-implementation
-//        background(100);
+//=======
+//>>>>>>> sprite-implementation
+//        b ackground(100);
 //        player.render();
 //        player.move();
         if(mode == 1) {
