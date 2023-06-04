@@ -13,7 +13,7 @@ public class ArcadeMode {
     public ArcadeMode(int x, int y){
         player = new Player(0,15.5f*20+80);
         player.addSprite(
-                Main.processing.loadImage("data/tile007.png")
+                Main.processing.loadImage("src/main/resources/assets/Tileset/tile00200.png")
         );
         this.x = x;
         this.y = y;
