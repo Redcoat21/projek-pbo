@@ -16,12 +16,10 @@ public class Player extends Movable {
     @Override
     public void render() {
         Main.processing.noStroke();
-        this.addSprites(Direction.NONE, "./assets/Tileset/tile004.png");
+//        this.addSprites(Direction.NONE, "./assets/Tileset/tile004.png");
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
-        Animation temp = this.getAnimationList().get(this.getDirection());
-        if (temp != null) {
-            temp.playAnimation(this);
-        }
+//        Animation temp = this.getAnimationList().get(this.getDirection());
+//        temp.playAnimation(this);
     }
 
     public void heal(){

@@ -1,7 +1,11 @@
 package main;
 
+import entities.Movable;
 import entities.Player;
+import entities.Zombies;
 import processing.core.PConstants;
+
+import java.util.ArrayList;
 
 public class ArcadeMode {
     Player player;
@@ -14,6 +18,7 @@ public class ArcadeMode {
     int minutesDisplay;
     Map map;
     boolean alive;
+    ArrayList<Movable> entities = new ArrayList<>();
 
 
     public ArcadeMode(){
@@ -25,10 +30,18 @@ public class ArcadeMode {
         elapsedMinutes = elapsedSeconds / 60;
         minutesDisplay = elapsedMinutes % 60;
         alive = true;
-        floor = 5;
+        floor = 4;
+        entities.add(new Zombies(320,390));
         map = new Map(floor);
     }
-
+    public void removeDead(){
+        for (int i=0;i< entities.size();i++){
+            Movable a = entities.get(i);
+            if(a.getHealth()==0){
+                entities.remove(i);
+            }
+        }
+    }
     public void render() {
         if(alive) {
             Main.processing.background(204,102,0);
@@ -67,7 +80,20 @@ public class ArcadeMode {
 
             map.printMap();
             player.render();
+
+            for (Movable a:entities){
+                if(a instanceof Zombies)a.render();
+            }
+
             player.move();
+
+            for (Movable a:entities){
+                if(a instanceof Zombies){
+                    ((Zombies) a).checkAgro(player);
+                    a.move();
+                }
+            }
+            removeDead();
 
             if(player.getHealth() < 1){
                 alive = false;

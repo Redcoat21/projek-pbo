@@ -31,19 +31,12 @@ public class Main extends PApplet{
         ls = new LoadingScreen();
         cm = new ChoosingMenu();
         am = new ArcadeMode();
-        mode = 2;
+        mode = 3;
         frameRate(60);
     }
 
     @Override
     public void draw() {
-//<<<<<<< HEAD
-//        am.getPlayer().drawImage(this);
-//=======
-//>>>>>>> sprite-implementation
-//        b ackground(100);
-//        player.render();
-//        player.move();
         if(mode == 1) {
             background(0);
             ls.display();
@@ -101,17 +94,22 @@ public class Main extends PApplet{
                     am.getPlayer().clearDirection();
                 }
                 else{
-                    if(key == 'a'){
-                        am.getPlayer().keyReleasedDirection(Direction.LEFT);
+                    try {
+                        if (key == 'a') {
+                            am.getPlayer().keyReleasedDirection(Direction.LEFT);
+                        }
+                        if (key == 'd') {
+                            am.getPlayer().keyReleasedDirection(Direction.RIGHT);
+                        }
+                        if (key == 'w') {
+                            am.getPlayer().keyReleasedDirection(Direction.UP);
+                        }
+                        if (key == 's') {
+                            am.getPlayer().keyReleasedDirection(Direction.DOWN);
+                        }
                     }
-                    if(key == 'd'){
-                        am.getPlayer().keyReleasedDirection(Direction.RIGHT);
-                    }
-                    if(key == 'w'){
-                        am.getPlayer().keyReleasedDirection(Direction.UP);
-                    }
-                    if(key == 's'){
-                        am.getPlayer().keyReleasedDirection(Direction.DOWN);
+                    catch (IndexOutOfBoundsException e){
+                        System.out.println("lanjut");
                     }
                 }
             }

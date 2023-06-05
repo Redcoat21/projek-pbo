@@ -44,13 +44,25 @@ public class Movable extends Entities{
         direction = Direction.NONE;
         this.speed = speed;
         savingDirection = new ArrayList<>();
-        setMap(5);
+        setMap(4);
     }
 
     public void setMap(int floor) {
         map = new Map(floor);
     }
 
+    protected boolean entitiesCollisionChecker(){
+        for(Obstacles[] obsTemp: map.getMap()){
+            for(Obstacles obs: obsTemp){
+                if(obs != null) {
+                    if (entitiesIntersectWall(obs) && obs instanceof Wall) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     private void entitiesCollisionWall(){
         for(Obstacles[] obsTemp: map.getMap()){
             for(Obstacles obs: obsTemp){
