@@ -27,8 +27,8 @@ public class Main extends PApplet{
         background(100);
 //        player = new Player(width/10, height/2);
         processing = this;
-        ls = new LoadingScreen(width, height);
-        am = new ArcadeMode(width, height);
+        ls = new LoadingScreen();
+        am = new ArcadeMode();
         mode = 1;
         frameRate(60);
     }
@@ -47,7 +47,7 @@ public class Main extends PApplet{
             ls.display();
             if(ls.isPressed()){
                 //for temporary only
-                am = new ArcadeMode(width, height);
+                am = new ArcadeMode();
 
                 ls.pressed();
                 mode = 3;

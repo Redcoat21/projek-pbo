@@ -3,13 +3,9 @@ package main;
 import processing.core.PConstants;
 
 public class LoadingScreen {
-    private final int xText;
-    private final int yText;
     private boolean pressed;
 
-    public LoadingScreen(int xText, int yText) {
-        this.xText = xText;
-        this.yText = yText;
+    public LoadingScreen() {
         pressed = false;
     }
 
@@ -17,7 +13,7 @@ public class LoadingScreen {
         Main.processing.fill(255);
         Main.processing.textSize(40);
         Main.processing.textAlign(PConstants.CENTER);
-        Main.processing.text("Press Any Key To Continue", xText/2, yText/2);
+        Main.processing.text("Press Any Key To Continue", Main.processing.width/2, Main.processing.height/2);
 //        Main.processing.text(Main.processing.frameRate, xText/2, yText/2);
 
     }

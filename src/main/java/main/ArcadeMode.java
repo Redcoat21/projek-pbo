@@ -5,8 +5,6 @@ import processing.core.PConstants;
 
 public class ArcadeMode {
     Player player;
-    int x;
-    int y;
     int floor;
     long startTime;
     long elapsedTime;
@@ -18,10 +16,8 @@ public class ArcadeMode {
     boolean alive;
 
 
-    public ArcadeMode(int x, int y){
+    public ArcadeMode(){
         player = new Player(0,15.5f*20+80);
-        this.x = x;
-        this.y = y;
         startTime = System.currentTimeMillis();
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSeconds = (int) (elapsedTime / 1000);
@@ -40,13 +36,13 @@ public class ArcadeMode {
 
             //header section
             Main.processing.fill(102, 51, 0);
-            Main.processing.rect(0, 0, x, 80);
+            Main.processing.rect(0, 0, Main.processing.width, 80);
 
             //fps section
             Main.processing.fill(255);
             Main.processing.textSize(14);
             Main.processing.textAlign(PConstants.RIGHT);
-            Main.processing.text("fps " + (int) Main.processing.frameRate, x, 14);
+            Main.processing.text("fps " + (int) Main.processing.frameRate, Main.processing.width, 14);
 
             //health section
             Main.processing.textSize(14);
