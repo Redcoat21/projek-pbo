@@ -16,6 +16,7 @@ public class Main extends PApplet{
     public static PApplet processing;
 //    Player player;
     private LoadingScreen ls;
+    private ChoosingMenu cm;
     private ArcadeMode am;
     @Override
     public void settings() {
@@ -28,8 +29,9 @@ public class Main extends PApplet{
 //        player = new Player(width/10, height/2);
         processing = this;
         ls = new LoadingScreen();
+        cm = new ChoosingMenu();
         am = new ArcadeMode();
-        mode = 1;
+        mode = 2;
         frameRate(60);
     }
 
@@ -52,6 +54,9 @@ public class Main extends PApplet{
                 ls.pressed();
                 mode = 3;
             }
+        }
+        else if(mode == 2){
+            cm.render();
         }
         else if(mode == 3){
             am.render();
