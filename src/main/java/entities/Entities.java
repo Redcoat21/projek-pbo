@@ -91,7 +91,6 @@ public abstract class Entities {
      */
     public void render(){
         Main.processing.noStroke();
-        this.sprites.play(this.position);
         //Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
@@ -121,6 +120,11 @@ public abstract class Entities {
     }
 
     public void addSprite(PImage sprite) {
-        this.sprites.addSprite(sprite);
+        this.sprites.addSprite(sprite, this);
     }
+
+    public Animation getSprites() {
+        return sprites;
+    }
+
 }

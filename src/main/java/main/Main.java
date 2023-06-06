@@ -1,7 +1,6 @@
 package main;
 
 import entities.Direction;
-import entities.Player;
 import processing.core.PApplet;
 public class Main extends PApplet{
     /*

@@ -16,8 +16,10 @@ public class Animation {
         this.spriteList = new ArrayList<>();
     }
 
-    public void addSprite(PImage sprite) {
-        this.spriteList.add(sprite);
+    public void addSprite(PImage sprite, Entities entities) {
+        PImage temp = sprite;
+        temp.resize((int) entities.getWidth(), (int) entities.getHeight());
+        this.spriteList.add(temp);
     }
 
     /**
