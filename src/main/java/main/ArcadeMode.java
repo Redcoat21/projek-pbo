@@ -2,6 +2,7 @@ package main;
 
 import entities.Movable;
 import entities.Player;
+import entities.Skeletons;
 import entities.Zombies;
 import processing.core.PConstants;
 
@@ -32,6 +33,7 @@ public class ArcadeMode {
         alive = true;
         floor = 4;
         entities.add(new Zombies(320,390));
+        entities.add(new Skeletons(800,300));
         map = new Map(floor);
     }
     public void removeDead(){
@@ -83,6 +85,7 @@ public class ArcadeMode {
 
             for (Movable a:entities){
                 if(a instanceof Zombies)a.render();
+                else if(a instanceof Skeletons)a.render();
             }
 
             player.move();
@@ -90,6 +93,9 @@ public class ArcadeMode {
             for (Movable a:entities){
                 if(a instanceof Zombies){
                     ((Zombies) a).checkAgro(player);
+                    a.move();
+                }else if(a instanceof Skeletons){
+                    ((Skeletons) a).checkAgro(player);
                     a.move();
                 }
             }
