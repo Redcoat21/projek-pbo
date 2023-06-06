@@ -6,9 +6,12 @@ import processing.core.PImage;
 import java.util.ArrayList;
 
 public class Animation {
+    private int frameDuration;
+    private int currentSpriteIndex;
     private ArrayList<PImage> sprites;
 
-    public Animation() {
+    public Animation(int frameDuration) {
+        this.frameDuration = frameDuration;
         this.sprites = new ArrayList<>();
     }
 
@@ -40,9 +43,14 @@ public class Animation {
         return this.sprites.size();
     }
 
+    /**
+     * Load the image(s) onto the screen.
+     * @param entities The current entities that the sprite is displayed onto.
+     */
+
     public void play(Entities entities) {
-        for(PImage image : this.sprites) {
-            Main.processing.image(image, entities.getX(), entities.getY());
-        }
+        int frameIndex = Main.processing.frameCount / this.frameDuration;
+        currentSpriteIndex = frameIndex % sprites.size();
+        Main.processing.image(sprites.get(currentSpriteIndex), entities.getX(), entities.getY());
     }
 }

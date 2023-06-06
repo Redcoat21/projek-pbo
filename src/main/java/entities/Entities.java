@@ -36,7 +36,7 @@ public abstract class Entities {
     public Entities(float x, float y, int width, int height) {
         this.position = new PVector(x, y);
         this.size = new PVector(width, height);
-        this.sprites = new Animation();
+        this.sprites = new Animation(30);
     }
     /**
      * Get the current position (x,y) of the entity in Vector2.

@@ -10,6 +10,10 @@ public class Obstacles extends Entities{
                 Main.processing.loadImage("src/main/resources/assets/Tileset/tile003.png")
                 , this.getSize()
         );
+        this.addSprites(
+                Main.processing.loadImage("src/main/resources/assets/Tileset/tile004.png")
+                , this.getSize()
+        );
     }
 
     @Override
