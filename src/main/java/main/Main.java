@@ -31,7 +31,7 @@ public class Main extends PApplet{
         ls = new LoadingScreen();
         cm = new ChoosingMenu();
         am = new ArcadeMode();
-        mode = 3;
+        mode = 2;
         frameRate(60);
     }
 
@@ -45,7 +45,7 @@ public class Main extends PApplet{
                 am = new ArcadeMode();
 
                 ls.pressed();
-                mode = 3;
+                mode = 2;
             }
         }
         else if(mode == 2){
@@ -118,7 +118,20 @@ public class Main extends PApplet{
 
     @Override
     public void mouseClicked() {
-        if(mode == 3 && !am.isAlive()){
+        if(mode == 2){
+            int click = cm.buttonPressed();
+            if(click == 0){
+                mode = 3;
+            }
+            else if(click == 1){
+                //temporary only because we haven't make endless mode yet
+                mode = 1;
+            }
+            else if(click == 2){
+                exit();
+            }
+        }
+        else if(mode == 3 && !am.isAlive()) {
             mode = 1;
         }
     }
