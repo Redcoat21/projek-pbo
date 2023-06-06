@@ -112,7 +112,7 @@ public class Movable extends Entities{
         }
     }
 
-    private boolean entitiesIntersectWall(Obstacles e1){
+    protected boolean entitiesIntersectWall(Obstacles e1){
         float combHalfWidth = (e1.getWidth()+getWidth())/2;
         float combHalfHeight = (e1.getHeight()+getHeight())/2;
         float distanceOnX = Math.abs(e1.getX()-getX());

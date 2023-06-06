@@ -32,9 +32,9 @@ public class ArcadeMode {
         minutesDisplay = elapsedMinutes % 60;
         alive = true;
         floor = 4;
-        entities.add(new Zombies(320,390));
-        entities.add(new Skeletons(800,300));
         map = new Map(floor);
+        entities.add(new Zombies(320,390,map));
+        entities.add(new Skeletons(800,300));
     }
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
@@ -104,6 +104,7 @@ public class ArcadeMode {
             if(player.getHealth() < 1){
                 alive = false;
             }
+
         }
         else{
             Main.processing.background(0);

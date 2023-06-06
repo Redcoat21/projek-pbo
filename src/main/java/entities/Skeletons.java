@@ -29,14 +29,14 @@ public class Skeletons extends Movable{
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.text("Shoot Tick : "+shootTick+"   Shoot Counter : "+shootCounter+"   Primed : "+primed,getX(),getY()+100);
         Main.processing.noStroke();
-        Main.processing.fill(0,200);
+        Main.processing.fill(0,100);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 
 //        Agro Mode
         if(primed){
             if(indexDelay<4)this.stop();
             this.stop();
-            if(shootTick>50){
+            if(shootTick>100){
                 shootTick=0; shootCounter++;
                 indexDelay=0;
             }
