@@ -15,7 +15,6 @@ public class LoadingScreen {
         Main.processing.textAlign(PConstants.CENTER);
         Main.processing.text("Press Any Key To Continue", Main.processing.width/2, Main.processing.height/2);
 //        Main.processing.text(Main.processing.frameRate, xText/2, yText/2);
-
     }
 
     public boolean isPressed() {

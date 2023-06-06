@@ -78,14 +78,6 @@ public abstract class Entities {
         return this.size.y;
     }
 
-//    /**
-//     * Get the current health of the entity.
-//     * @return The health of the entity.
-//     */
-//    public int getHealth() {
-//        return health;
-//    }
-
     /**
      * Render the entity in the map.
      */
@@ -119,12 +111,15 @@ public abstract class Entities {
         return this.direction;
     }
 
-    public void addSprite(PImage sprite) {
-        this.sprites.addSprite(sprite, this);
-    }
-
     public Animation getSprites() {
         return sprites;
+    }
+
+    public void addSprites(PImage sprite) {
+        this.sprites.addSprite(sprite);
+    }
+    public void addSprites(PImage sprite, PVector size) {
+        this.sprites.addSprite(sprite, size.x, size.y);
     }
 
 }
