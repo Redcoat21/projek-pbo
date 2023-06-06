@@ -77,11 +77,8 @@ public class Main extends PApplet{
         }
     }
 
-
-
-    //TODO, If key is released then check the next direction.
     @Override
-    public void keyReleased(){
+    public void keyReleased() {
         if(mode == 3) {
             if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
                 if(!keyPressed){
@@ -105,6 +102,7 @@ public class Main extends PApplet{
             }
         }
     }
+
     public static void main(String[] args) {
         PApplet.main("main.Main");
     }

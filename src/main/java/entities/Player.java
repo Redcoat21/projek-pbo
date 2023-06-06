@@ -17,7 +17,6 @@ public class Player extends Movable {
     public void render() {
         Main.processing.noStroke();
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
-        this.getSprites().play(this.getPosition());
     }
 
     public void heal(){
