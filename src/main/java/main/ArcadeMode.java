@@ -35,7 +35,7 @@ public class ArcadeMode {
         map = new Map(floor);
         entities.add(new Zombies(100,100,map));
         entities.add(new Zombies(320,390,map));
-        entities.add(new Skeletons(800,300));
+        entities.add(new Skeletons(800,300,map));
     }
     public void removeDead(){
         for (int i=0;i< entities.size();i++){

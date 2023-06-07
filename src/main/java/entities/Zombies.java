@@ -166,38 +166,6 @@ public class Zombies extends Movable implements Pathfinding{
                     }
                 }
             }
-//            if(x+1<64){
-//                if(tiles[x+1][y] instanceof Wall);
-//                else if(moved[x+1][y]==null){
-//                    dlist.add(Direction.RIGHT);
-//                    moved[x+1][y] = new Obstacles(x+1,y);
-//                    getNextDirection(dlist,x+1,y,moved);
-//                }
-//            }
-//            if(x-1>=0){
-//                if(tiles[x-1][y] instanceof Wall);
-//                else if(moved[x-1][y]==null){
-//                    dlist.add(Direction.LEFT);
-//                    moved[x-1][y] = new Obstacles(x-1,y);
-//                    getNextDirection(dlist,x-1,y,moved);
-//                }
-//            }
-//            if(y+1<32){
-//                if(tiles[x][y+1]instanceof Wall);
-//                else if(moved[x][y+1]==null){
-//                    dlist.add(Direction.DOWN);
-//                    moved[x][y+1] = new Obstacles(x,y+1);
-//                    getNextDirection(dlist,x,y+1,moved);
-//                }
-//            }
-//            if(y-1>=0){
-//                if(tiles[x][y-1]instanceof Wall);
-//                else if(moved[x][y-1]==null){
-//                    dlist.add(Direction.UP);
-//                    moved[x][y-1] = new Obstacles(x,y-1);
-//                    getNextDirection(dlist,x,y-1,moved);
-//                }
-//            }
         }
         System.out.println("LALA");
         return dlist;
