@@ -17,6 +17,7 @@ public class Main extends PApplet{
     private LoadingScreen ls;
     private ChoosingMenu cm;
     private ArcadeMode am;
+    private EndlessMode em;
     @Override
     public void settings() {
         size(1280, 720);
@@ -30,7 +31,8 @@ public class Main extends PApplet{
         ls = new LoadingScreen();
         cm = new ChoosingMenu();
         am = new ArcadeMode();
-        mode = 3;
+        em = new EndlessMode();
+        mode = 4;
         frameRate(60);
     }
 
@@ -45,14 +47,15 @@ public class Main extends PApplet{
             }
         }
         else if(mode == 2){
-            am = new ArcadeMode();
+//            am = new ArcadeMode();
+//            em = new EndlessMode();
             cm.render();
         }
         else if(mode == 3){
             am.render();
         }
         else if(mode == 4){
-
+            em.render();
         }
     }
 
@@ -78,6 +81,23 @@ public class Main extends PApplet{
 
             if (key == 's') {
                 am.getPlayer().moveTo(Direction.DOWN);
+            }
+        }
+        else if(mode == 4 && em.isAlive()) {
+            if (key == 'a') {
+                em.getPlayer().moveTo(Direction.LEFT);
+            }
+
+            if (key == 'd') {
+                em.getPlayer().moveTo(Direction.RIGHT);
+            }
+
+            if (key == 'w') {
+                em.getPlayer().moveTo(Direction.UP);
+            }
+
+            if (key == 's') {
+                em.getPlayer().moveTo(Direction.DOWN);
             }
         }
     }
@@ -111,6 +131,33 @@ public class Main extends PApplet{
                 }
             }
         }
+        else if(mode == 4){
+            if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
+                if(!keyPressed){
+                    em.getPlayer().stop();
+                    em.getPlayer().clearDirection();
+                }
+                else{
+                    try {
+                        if (key == 'a') {
+                            em.getPlayer().keyReleasedDirection(Direction.LEFT);
+                        }
+                        if (key == 'd') {
+                            em.getPlayer().keyReleasedDirection(Direction.RIGHT);
+                        }
+                        if (key == 'w') {
+                            em.getPlayer().keyReleasedDirection(Direction.UP);
+                        }
+                        if (key == 's') {
+                            em.getPlayer().keyReleasedDirection(Direction.DOWN);
+                        }
+                    }
+                    catch (IndexOutOfBoundsException e){
+                        System.out.println("lanjut");
+                    }
+                }
+            }
+        }
     }
     @Override
     public void mouseClicked() {
@@ -120,8 +167,7 @@ public class Main extends PApplet{
                 mode = 3;
             }
             else if(click == 1){
-                //temporary only because we haven't make endless mode yet
-                mode = 1;
+                mode = 4;
             }
             else if(click == 2){
                 exit();
@@ -129,9 +175,14 @@ public class Main extends PApplet{
         }
         else if(mode == 3 && !am.isAlive()) {
             mode = 2;
+            am = new ArcadeMode();
         }
         else if(mode == 3 && am.win){
             mode = 2;
+        }
+        else if(mode == 4 && !em.isAlive()) {
+            mode = 2;
+            em = new EndlessMode();
         }
     }
     public static void main(String[] args) {

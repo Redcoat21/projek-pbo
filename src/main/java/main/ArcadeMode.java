@@ -9,8 +9,8 @@ import processing.core.PConstants;
 import java.util.ArrayList;
 
 public class ArcadeMode {
-    Player player;
     int floor;
+    Player player;
     long startTime;
     long elapsedTime;
     int elapsedSeconds;
@@ -27,7 +27,6 @@ public class ArcadeMode {
     boolean done;
     boolean win;
     ArrayList<Movable> entities = new ArrayList<>();
-
 
     public ArcadeMode(){
         floor = 5;
