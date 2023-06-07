@@ -58,25 +58,25 @@ public class Map {
 
             for(int i=0; i<32; i++){
                 for(int j=0; j<64; j++){
-                    if (j == 56 && (i > -1 && i < 14)) {
+                    if (j == 56 && i < 14) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
-                    else if (j == 56 && (i > 17 && i < 32)) {
+                    else if (j == 56 && i > 17) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
                     else if(i==0 || i==31){
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
-                    else if (j == 0 && (i > -1 && i < 14)) {
+                    else if (j == 0 && i < 14) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
-                    else if (j == 0 && (i > 17 && i < 32)) {
+                    else if (j == 0 && i > 17) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
-                    else if (j == 63 && (i > -1 && i < 14)) {
+                    else if (j == 63 && i < 14) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
-                    else if (j == 63 && (i > 17 && i < 32)) {
+                    else if (j == 63 && i > 17) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
                 }
