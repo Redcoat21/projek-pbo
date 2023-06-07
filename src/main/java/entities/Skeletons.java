@@ -12,8 +12,8 @@ public class Skeletons extends Movable{
     private int indexDelay;
     private Player target;
 
-    public Skeletons(float x, float y) {
-        super(x, y,20,20,2,1);
+    public Skeletons(float x, float y, int map) {
+        super(x, y,20,20,2,1, map);
         agro = false;
         agroIdx=0;
         tickMove=0;

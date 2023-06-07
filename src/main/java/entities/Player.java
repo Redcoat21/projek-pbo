@@ -7,10 +7,14 @@ import main.Main;
 public class Player extends Movable {
     int baseHp;
     private Weapon weapon;
+    float baseX;
+    float baseY;
 
-    public Player(float x, float y){
-        super(x, y, 20, 20, 3, 3);
+    public Player(float x, float y, int map){
+        super(x, y, 20, 20, 3, 3, map);
         baseHp = 3;
+        baseX = x;
+        baseY = y;
     }
 
     @Override
@@ -23,5 +27,16 @@ public class Player extends Movable {
         if(getHealth() < baseHp){
             addHealth(1);
         }
+    }
+
+    public boolean isDead(){
+        if(getHealth() < 1){
+            return true;
+        }
+        return false;
+    }
+
+    public void resetPos(){
+        setTo(baseX, baseY);
     }
 }

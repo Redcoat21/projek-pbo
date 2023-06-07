@@ -38,17 +38,21 @@ public class Movable extends Entities{
      * @param health The health that the entity have.
      * @param speed The speed that the entity is moving on.
      */
-    public Movable(float x, float y, int width, int height, int health, int speed) {
+    public Movable(float x, float y, int width, int height, int health, int speed, int map) {
         super(x, y, width, height);
         this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
         savingDirection = new ArrayList<>();
-        setMap(4);
+        setMap(map);
     }
 
     public void setMap(int floor) {
         map = new Map(floor);
+    }
+
+    public void updateMap(Map map){
+        this.map = map;
     }
 
     protected boolean entitiesCollisionChecker(){
@@ -130,7 +134,6 @@ public class Movable extends Entities{
         float combHalfHeight = (e1.getHeight()+getHeight())/2;
         float distanceOnX = Math.abs(e1.getX()-getX());
         float distanceOnY = Math.abs(e1.getY()-getY());
-
 
         if(distanceOnX+5<combHalfWidth && distanceOnY+5<combHalfHeight){
             return true;
@@ -256,4 +259,5 @@ public class Movable extends Entities{
     public int getSpeed() {
         return speed;
     }
+
 }

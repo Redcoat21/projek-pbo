@@ -11,22 +11,57 @@ public class Map {
     public Map(int floor){
         this.floor = floor;
         map = new Obstacles[64][32];
+        clearMap();
+        setWall();
+    }
+
+    private void clearMap(){
         for(int i=0 ; i<32; i++){
             for(int j=0; j<64; j++){
                 map[j][i] = null;
             }
         }
-        setWall();
     }
 
+    public void battleStart(){
+        for(int i=0; i<32; i++) {
+            for (int j = 0; j < 64; j++) {
+                if (j == 0 && (i > 13 && i < 18)) {
+                    map[j][i] = new Wall(j * 20, i * 20 + 80);
+                }
+                else if (j == 56 && (i > 13 && i < 18)) {
+                    map[j][i] = new Wall(j * 20, i * 20 + 80);
+                }
+                else if (j == 63 && (i > 13 && i < 18)) {
+                    map[j][i] = new Wall(j * 20, i * 20 + 80);
+                }
+            }
+        }
+    }
+
+    public void battleDone(){
+        for(int i=0; i<32; i++) {
+            for (int j = 0; j < 64; j++) {
+                if (j == 56 && (i > 13 && i < 18)) {
+                    map[j][i] = null;
+                }
+                else if (j == 63 && (i > 13 && i < 18)) {
+                    map[j][i] = null;
+                }
+            }
+        }
+    }
+
+
+
     private void setWall(){
-        if(floor == 1){
+
             for(int i=0; i<32; i++){
                 for(int j=0; j<64; j++){
-                    if (j == 56 && (i > -1 && i < 12)) {
+                    if (j == 56 && (i > -1 && i < 14)) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
-                    else if (j == 56 && (i > 19 && i < 32)) {
+                    else if (j == 56 && (i > 17 && i < 32)) {
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
                     else if(i==0 || i==31){
@@ -46,8 +81,8 @@ public class Map {
                     }
                 }
             }
-        }
-        else if(floor == 2) {
+
+        if(floor == 2) {
             for (int i = 0; i < 32; i++) {
                 for (int j = 0; j < 64; j++) {
                     if (j > 13 && j < 16 && (i > 4 && i < 26)) {
@@ -68,55 +103,13 @@ public class Map {
                     else if(i > 23 && i < 26 && (j>31 && j<44)){
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
-                    else if (j == 56 && (i > -1 && i < 12)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 56 && (i > 19 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if(i==0 || i==31){
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 0 && (i > -1 && i < 14)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 0 && (i > 17 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 63 && (i > -1 && i < 14)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 63 && (i > 17 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
                 }
             }
         }
         else if(floor == 3){
             for (int i = 0; i < 32; i++) {
                 for (int j = 0; j < 64; j++) {
-                    if (j == 56 && (i > -1 && i < 12)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 56 && (i > 19 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if(i==0 || i==31){
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 0 && (i > -1 && i < 14)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 0 && (i > 17 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 63 && (i > -1 && i < 14)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 63 && (i > 17 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if(j > 9 && j < 12 && (i > 4 && i < 11)){
+                    if(j > 9 && j < 12 && (i > 4 && i < 11)){
                         map[j][i] = new Hole(j * 20, i * 20 + 80);
                     }
                     else if(j > 9 && j < 12 && (i > 20 && i < 27)){
@@ -146,28 +139,7 @@ public class Map {
         else if(floor == 4){
             for(int i=0; i<32; i++){
                 for(int j=0; j<64; j++){
-                    if (j == 56 && (i > -1 && i < 12)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 56 && (i > 19 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if(i==0 || i==31){
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 0 && (i > -1 && i < 14)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 0 && (i > 17 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 63 && (i > -1 && i < 14)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 63 && (i > 17 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if((j > 8 && j < 11) && (i > 15 && i < 21)){
+                    if((j > 8 && j < 11) && (i > 15 && i < 21)){
                         map[j][i] = new Hole(j * 20, i * 20 + 80);
                     }
                     else if((j > 8 && j < 11) && i > 8){
@@ -206,28 +178,7 @@ public class Map {
         else if(floor == 5){
             for(int i=0; i<32; i++) {
                 for (int j = 0; j < 64; j++) {
-                    if (j == 56 && (i > -1 && i < 12)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 56 && (i > 19 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (i == 0 || i == 31) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 0 && (i > -1 && i < 14)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 0 && (i > 17 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 63 && (i > -1 && i < 14)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if (j == 63 && (i > 17 && i < 32)) {
-                        map[j][i] = new Wall(j * 20, i * 20 + 80);
-                    }
-                    else if(j == 9 && i > 3 && i < 10){
+                    if(j == 9 && i > 3 && i < 10){
                         map[j][i] = new Wall(j * 20, i * 20 + 80);
                     }
                     else if(i == 9 && j > 3 && j < 9){

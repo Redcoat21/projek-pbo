@@ -30,7 +30,7 @@ public class Main extends PApplet{
         ls = new LoadingScreen();
         cm = new ChoosingMenu();
         am = new ArcadeMode();
-        mode = 2;
+        mode = 3;
         frameRate(60);
     }
 
@@ -40,18 +40,19 @@ public class Main extends PApplet{
             background(0);
             ls.display();
             if(ls.isPressed()){
-                //for temporary only
-                am = new ArcadeMode();
-
                 ls.pressed();
                 mode = 2;
             }
         }
         else if(mode == 2){
+            am = new ArcadeMode();
             cm.render();
         }
         else if(mode == 3){
             am.render();
+        }
+        else if(mode == 4){
+
         }
     }
 
@@ -127,7 +128,10 @@ public class Main extends PApplet{
             }
         }
         else if(mode == 3 && !am.isAlive()) {
-            mode = 1;
+            mode = 2;
+        }
+        else if(mode == 3 && am.win){
+            mode = 2;
         }
     }
     public static void main(String[] args) {
