@@ -130,7 +130,7 @@ public class EndlessMode {
             //floor section
             Main.processing.textAlign(PConstants.CENTER, PConstants.TOP);
             Main.processing.textSize(24);
-            Main.processing.text("FLOOR " + floor, Main.processing.width / 2, 0);
+            Main.processing.text("WAVE " + wave, Main.processing.width / 2, 0);
 
             //wave text section
             elapsedTimeText = System.currentTimeMillis() - startTimeText;
@@ -172,8 +172,9 @@ public class EndlessMode {
             Main.processing.fill(255,0,0);
             Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
             Main.processing.textSize(50);
-            Main.processing.text("YOU DIED!", Main.processing.width/2, Main.processing.height/2-40);
+            Main.processing.text("YOU DIED!", Main.processing.width/2, Main.processing.height/2-80);
             Main.processing.textSize(40);
+            Main.processing.text("You survived for " + wave + " waves and " + minutesDisplay + " minutes " + secondsDisplay + " seconds", Main.processing.width/2, Main.processing.height/2-32);
             Main.processing.text("Click the Screen to Continue", Main.processing.width/2, Main.processing.height/2+10);
         }
     }
