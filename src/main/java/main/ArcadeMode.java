@@ -33,6 +33,7 @@ public class ArcadeMode {
         alive = true;
         floor = 4;
         map = new Map(floor);
+        entities.add(new Zombies(100,100,map));
         entities.add(new Zombies(320,390,map));
         entities.add(new Skeletons(800,300));
     }
