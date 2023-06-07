@@ -231,6 +231,13 @@ public class Map {
                 if(map[j][i] != null){
                     map[j][i].render();
                 }
+                else{
+                    if(j == 63 && i > 13 && i < 18){
+                        Main.processing.noStroke();
+                        Main.processing.fill(0,255,0);
+                        Main.processing.rect(j*20, i*20+80, 20, 20);
+                    }
+                }
             }
         }
     }
