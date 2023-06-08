@@ -26,7 +26,7 @@ public class Movable extends Entities{
      * The list of what key is pressed
      */
     private ArrayList<Direction> savingDirection;
-
+    private Direction atkDirection;
     private Map map;
 
     /**
@@ -45,6 +45,7 @@ public class Movable extends Entities{
         this.speed = speed;
         savingDirection = new ArrayList<>();
         setMap(map);
+        atkDirection = Direction.RIGHT;
     }
 
     public void setMap(int floor) {
@@ -174,6 +175,7 @@ public class Movable extends Entities{
         }
 //        System.out.println("the last index is " + savingDirection.get(savingDirection.size()-1));
         moveTo(savingDirection.get(savingDirection.size()-1));
+
     }
 
     /**
@@ -217,6 +219,8 @@ public class Movable extends Entities{
 
         entitiesCollisionWall();
         entitiesCollisionHole();
+        facing();
+        System.out.println("atk direction: " + atkDirection);
     }
 
     /**
@@ -226,6 +230,12 @@ public class Movable extends Entities{
     public void moveTo(Direction direction) {
         this.direction = direction;
         addDirection(direction);
+    }
+
+    public void facing(){
+        if(!direction.equals(Direction.NONE)){
+             atkDirection = direction;
+        }
     }
 
     /**

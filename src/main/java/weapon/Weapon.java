@@ -5,7 +5,7 @@ public abstract class Weapon {
     private float attackSpeed;
     // Base damage of the weapon, not the damage dealt.
     private final int damage;
-    // Phase is calculated using Waves / 3
+    // Phase is calculated using Waves / 9
     private int phase;
     private int level;
     // Bonus act as a bonus damage based on the level of the previous phase when switching phase.

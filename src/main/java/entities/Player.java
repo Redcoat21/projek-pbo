@@ -1,12 +1,14 @@
 package entities;
 
 import processing.core.PImage;
-import weapon.Weapon;
+import weapon.*;
 import main.Main;
 
 public class Player extends Movable {
     int baseHp;
     private Weapon weapon;
+    private SwordFactory swordFactory;
+    private SpearFactory spearFactory;
     float baseX;
     float baseY;
 
@@ -15,6 +17,9 @@ public class Player extends Movable {
         baseHp = 3;
         baseX = x;
         baseY = y;
+        swordFactory = new SwordFactory();
+        spearFactory = new SpearFactory();
+        weapon = swordFactory.createWeapon(SwordType.valueOf("IRON_SWORD"), 0);
     }
 
     @Override
@@ -38,5 +43,15 @@ public class Player extends Movable {
 
     public void resetPos(){
         setTo(baseX, baseY);
+    }
+
+    public void atk(){
+        if(weapon instanceof Sword){
+
+        }
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
     }
 }

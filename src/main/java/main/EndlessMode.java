@@ -21,6 +21,7 @@ public class EndlessMode {
     long elapsedTimeText;
     int elapsedSecondsText;
     int wave;
+    int phase;
     Map map;
     boolean alive;
     boolean battle;
@@ -40,6 +41,7 @@ public class EndlessMode {
         elapsedSecondsText = (int) (elapsedTimeText / 1000);
         alive = true;
         wave = 0;
+        phase = 0;
         map = new Map(floor);
         battle = false;
     }
@@ -142,6 +144,7 @@ public class EndlessMode {
             map.printMap();
             player.render();
             player.move();
+            player.atk();
 
             for (Movable a:entities){
                 if(a instanceof Zombies)a.render();
@@ -188,6 +191,11 @@ public class EndlessMode {
 
     private void gantiWave(){
         wave++;
+
+        if(wave%9 == 0 && wave != 0){
+            phase++;
+            //tambahin function buat reset dan update senjata player
+        }
 
         //summoning all enemy
             entities.add(new Zombies(320,390, floor));
