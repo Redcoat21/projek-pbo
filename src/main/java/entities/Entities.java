@@ -244,4 +244,5 @@ public abstract class Entities {
     public Direction getDirection() {
         return this.direction;
     }
+
 }

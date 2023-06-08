@@ -107,6 +107,9 @@ public class Zombies extends Movable implements Pathfinding{
             indexDelay=0;
         }
         if(!agro&&tickMove>35){
+            pathList=null;
+            gotPath=false;
+            pathIdx=0;
             indexDelay++;
             tickMove=0;
             idle();
@@ -135,7 +138,7 @@ public class Zombies extends Movable implements Pathfinding{
 
     @Override
     public ArrayList<Direction> getNextDirection(ArrayList<Direction> dlist, int x, int y, Obstacles[][] moved) {
-        if(Math.abs((x)*20- getTargetCoords()[0]*20)==0&&Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))==0){
+        if(Math.abs(x-getTargetCoords()[0])<=1&&Math.abs(y-getTargetCoords()[1])<=1){
             dlist.add(Direction.NONE);
             gotPath=true;
             System.out.println("LELE");

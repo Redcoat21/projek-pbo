@@ -256,4 +256,8 @@ public class Movable extends Entities{
     public int getSpeed() {
         return speed;
     }
+
+    protected void setHealth(int i) {
+        this.health=i;
+    }
 }

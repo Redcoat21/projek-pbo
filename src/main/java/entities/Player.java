@@ -35,4 +35,5 @@ public class Player extends Movable {
             addHealth(1);
         }
     }
+
 }
