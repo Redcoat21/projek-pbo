@@ -30,7 +30,7 @@ public abstract class Weapon {
         this.weaponName = weaponName;
         this.damage = damage;
 
-        if(phase > 0) {
+        if(phase >= 0) {
             this.phase = phase;
         } else {
             throw new IllegalArgumentException("Phase can't be negative!");
@@ -115,5 +115,9 @@ public abstract class Weapon {
      */
     public Rarity getWeaponRarity() {
         return weaponRarity;
+    }
+
+    public String getWeaponName() {
+        return weaponName;
     }
 }

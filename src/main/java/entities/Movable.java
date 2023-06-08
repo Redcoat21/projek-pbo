@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import entities.tiles.Wall;
 import main.Main;
 import main.Map;
+import processing.core.PConstants;
 
 public class Movable extends Entities{
     /**
@@ -220,7 +221,6 @@ public class Movable extends Entities{
         entitiesCollisionWall();
         entitiesCollisionHole();
         facing();
-        System.out.println("atk direction: " + atkDirection);
     }
 
     /**
@@ -232,10 +232,14 @@ public class Movable extends Entities{
         addDirection(direction);
     }
 
-    public void facing(){
+    protected void facing(){
         if(!direction.equals(Direction.NONE)){
              atkDirection = direction;
         }
+    }
+
+    protected Direction getAtkDirection(){
+        return atkDirection;
     }
 
     /**
@@ -270,4 +274,7 @@ public class Movable extends Entities{
         return speed;
     }
 
+    public void subHP(int hp){
+        health -= hp;
+    }
 }
