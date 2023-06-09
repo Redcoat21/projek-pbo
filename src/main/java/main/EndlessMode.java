@@ -144,7 +144,7 @@ public class EndlessMode {
             map.printMap();
             player.render();
             player.move();
-            player.atk();
+//            player.atk();
 
             for (Movable a:entities){
                 if(a instanceof Zombies)a.render();
