@@ -13,7 +13,7 @@ import main.Map;
 public abstract class Entities {
     private Animation sprites;
     /**
-     * Representing the Entity's position on the map.
+     * Representing the Entity's position on the map. from left-top
      */
     private PVector position;
     /**
@@ -66,6 +66,15 @@ public abstract class Entities {
      * Get the width of the entity.
      * @return The width of the entity.
      */
+
+    public float getXFromCenter(){
+        return this.position.x + this.size.x/2;
+    }
+
+    public float getYFromCenter(){
+        return this.position.y + this.size.y/2;
+    }
+
     public float getWidth() {
         return this.size.x;
     }
