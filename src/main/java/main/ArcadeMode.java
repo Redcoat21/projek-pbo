@@ -9,8 +9,8 @@ import processing.core.PConstants;
 import java.util.ArrayList;
 
 public class ArcadeMode {
-    int floor;
     Player player;
+    int floor;
     long startTime;
     long elapsedTime;
     int elapsedSeconds;
@@ -41,11 +41,20 @@ public class ArcadeMode {
         elapsedTimeText = 0;
         elapsedSecondsText = (int) (elapsedTimeText / 1000);
         alive = true;
+        floor = 4;
         wave = 0;
         map = new Map(floor);
         battle = false;
         done = false;
         win = false;
+//        entities.add(new Zombies(100,100,map));
+//        entities.add(new Zombies(320,390,map));
+//        entities.add(new Skeletons(800,300,map));
+//        entities.add(new EliteZombies(100,150,map));
+//        entities.add(new ChargedCreeper(150, 150,map));
+//        entities.add(new ChargedCreeper(170, 150,map));
+//        entities.add(new ChargedCreeper(190, 150,map));
+//        entities.add(new BigBoss(1000,300,map));
     }
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
@@ -150,6 +159,9 @@ public class ArcadeMode {
             for (Movable a:entities){
                 if(a instanceof Zombies)a.render();
                 else if(a instanceof Skeletons)a.render();
+//                else if(a instanceof EliteZombies)a.render();
+//                else if(a instanceof ChargedCreeper)a.render();
+//                else if(a instanceof BigBoss)a.render();
             }
 
             for (Movable a:entities){
@@ -160,6 +172,16 @@ public class ArcadeMode {
                     ((Skeletons) a).checkAgro(player);
                     a.move();
                 }
+//                else if(a instanceof  EliteZombies){
+//                    ((EliteZombies) a).checkAgro(player);
+//                    a.move();
+//                }else if(a instanceof ChargedCreeper){
+//                    ((ChargedCreeper)a).checkAgro(player);
+//                    a.move();
+//                }else if(a instanceof BigBoss){
+//                    ((BigBoss)a).checkAgro(player);
+//                    a.move();
+//                }
             }
             removeDead();
 

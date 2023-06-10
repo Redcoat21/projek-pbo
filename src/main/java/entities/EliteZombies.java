@@ -9,11 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class Skeletons extends Movable implements Pathfinding{
+public class EliteZombies extends Movable implements Pathfinding{
     private boolean agro;
-    private boolean primed;
-    private int shootTick;
-    private int shootCounter;
     private int agroIdx;
     private int tickMove;
     private int indexDelay;
@@ -24,19 +21,16 @@ public class Skeletons extends Movable implements Pathfinding{
     private int pathIdx;
     private boolean gotPath;
 
-    public Skeletons(float x, float y, int map) {
-        super(x, y,20,20,2,1, map);
+    public EliteZombies(float x, float y) {
+        super(x, y,30,30,4,3);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-        primed=false;
-//        Throwaway variable just for checking if delay is working
-        shootCounter=0;
-        shootTick=0;
+        gotPath=false;
     }
-    public Skeletons(float x, float y, Map map) {
-        super(x, y,20,20,2,1);
+    public EliteZombies(float x, float y, Map map) {
+        super(x, y,30,30,4,3);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -49,7 +43,6 @@ public class Skeletons extends Movable implements Pathfinding{
     public void render() {
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
-        Main.processing.text("Shoot Idx "+shootTick+"   Shoot Counter  "+shootCounter,getX(),getY()-60);
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
@@ -63,13 +56,6 @@ public class Skeletons extends Movable implements Pathfinding{
         }
 //        Agro Mode
         if(agro){
-            if(primed){
-                shootTick++;
-                if(shootTick>=90){
-                    shootTick=0;
-                    shootCounter++;
-                }
-            }
             if(map==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
@@ -93,9 +79,9 @@ public class Skeletons extends Movable implements Pathfinding{
                 if(pathList==null){
                     pathList=getNextDirection(new ArrayList<Direction>(),getObjectCoords()[0],getObjectCoords()[1],new Obstacles[64][32]);
                 }else{
-                    pathIdx++;
-                    if(pathIdx<pathList.size()*20-1){
-                        if(pathIdx!=pathList.size()*20-2){
+                    pathIdx+=getSpeed();
+                    if(pathIdx<(pathList.size()*20)-1){
+                        if(pathIdx!=(pathList.size()*20)-1){
                             this.moveTo(pathList.get(pathIdx/20));
                         }
                         Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
@@ -111,6 +97,9 @@ public class Skeletons extends Movable implements Pathfinding{
             }
 
         }
+
+
+//        Idle Mode
         if(!agro && indexDelay>1 && indexDelay<4 && tickMove>35){
             tickMove=0;
             indexDelay++;
@@ -119,47 +108,48 @@ public class Skeletons extends Movable implements Pathfinding{
             indexDelay=0;
         }
         if(!agro&&tickMove>35){
+            pathList=null;
+            gotPath=false;
+            pathIdx=0;
             indexDelay++;
             tickMove=0;
             idle();
             agroIdx++;
         }
-}
+    }
     public void checkAgro(Player you){
-        if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
+        if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200){
             target = you;
             this.agro=true;
-            if(Math.abs(getX()-you.getX())<=100&&Math.abs(getY()-you.getY())<=100)this.primed = true;
-            else primed=false;
         }else{
             target=null;
             this.agro=false;
         }
     }
     public void idle(){
-        if(agroIdx>3){
+        if(agroIdx>7){
             agroIdx=0;
         }
         this.stop();
-        if(agroIdx>=0&&agroIdx<1)this.moveTo(Direction.DOWN);
-        else if(agroIdx>=1&&agroIdx<2)this.moveTo(Direction.RIGHT);
-        else if(agroIdx>=2&&agroIdx<3)this.moveTo(Direction.UP);
-        else if(agroIdx>=3&&agroIdx<4)this.moveTo(Direction.LEFT);
+        if(agroIdx>=0&&agroIdx<2)this.moveTo(Direction.DOWN);
+        else if(agroIdx>=2&&agroIdx<4)this.moveTo(Direction.RIGHT);
+        else if(agroIdx>=4&&agroIdx<6)this.moveTo(Direction.UP);
+        else if(agroIdx>=6&&agroIdx<8)this.moveTo(Direction.LEFT);
     }
 
     @Override
     public ArrayList<Direction> getNextDirection(ArrayList<Direction> dlist, int x, int y, Obstacles[][] moved) {
-        if(Math.abs(x-getTargetCoords()[0])<=6&&Math.abs(y-getTargetCoords()[1])<=6){
+        if(Math.abs(x-getTargetCoords()[0])<=1&&Math.abs(y-getTargetCoords()[1])<=1){
             dlist.add(Direction.NONE);
             gotPath=true;
             System.out.println("LELE");
             return dlist;
         } else{
             ArrayList<ValueTile> moves = new ArrayList<>();
-            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=20&& !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
-            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=20&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
-            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=20&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
-            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=20 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
+            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=10&& !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
+            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=10&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
+            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=10&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
+            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=10 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
             if(moves!=null){
                 Collections.sort(moves, new Comparator<ValueTile>() {
                     @Override
@@ -210,4 +200,5 @@ public class Skeletons extends Movable implements Pathfinding{
             }
         }
         return coords;
-    }}
+    }
+}
