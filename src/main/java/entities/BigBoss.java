@@ -22,7 +22,7 @@ public class BigBoss extends Movable implements Pathfinding{
     private boolean gotPath;
 
     public BigBoss(float x, float y) {
-        super(x, y,30,30,4,3, 4);
+        super(x, y,30,30,4,3, new Map(4));
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -30,12 +30,11 @@ public class BigBoss extends Movable implements Pathfinding{
         gotPath=false;
     }
     public BigBoss(float x, float y, Map map) {
-        super(x, y,50,50,10,2, map.getFloor());
+        super(x, y,50,50,10,2, map);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
     }

@@ -28,7 +28,7 @@ public class Movable extends Entities{
      */
     private ArrayList<Direction> savingDirection;
     private Direction atkDirection;
-    private Map map;
+    protected Map map;
 
     /**
      *
@@ -39,13 +39,23 @@ public class Movable extends Entities{
      * @param health The health that the entity have.
      * @param speed The speed that the entity is moving on.
      */
-    public Movable(float x, float y, int width, int height, int health, int speed, int map) {
+//    public Movable(float x, float y, int width, int height, int health, int speed, int map) {
+//        super(x, y, width, height);
+//        this.health = health;
+//        direction = Direction.NONE;
+//        this.speed = speed;
+//        savingDirection = new ArrayList<>();
+//        setMap(map);
+//        atkDirection = Direction.RIGHT;
+//    }
+
+    public Movable(float x, float y, int width, int height, int health, int speed, Map map) {
         super(x, y, width, height);
         this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
         savingDirection = new ArrayList<>();
-        setMap(map);
+        this.map = map;
         atkDirection = Direction.RIGHT;
     }
 

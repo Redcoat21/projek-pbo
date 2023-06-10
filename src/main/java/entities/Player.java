@@ -1,5 +1,6 @@
 package entities;
 
+import main.Map;
 import processing.core.PConstants;
 import processing.core.PImage;
 import weapon.*;
@@ -14,6 +15,17 @@ public class Player extends Movable {
     float baseY;
 
     public Player(float x, float y, int map){
+        super(x, y, 20, 20, 3, 3, new Map(map));
+        baseHp = 3;
+        baseX = x;
+        baseY = y;
+        swordFactory = new SwordFactory();
+        spearFactory = new SpearFactory();
+        weapon = swordFactory.createWeapon(SwordType.GREATSWORD, 0);
+//        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
+    }
+
+    public Player(float x, float y, Map map){
         super(x, y, 20, 20, 3, 3, map);
         baseHp = 3;
         baseX = x;

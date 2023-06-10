@@ -16,7 +16,6 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     private int tickMove;
     private int indexDelay;
     private Player target;
-    private Map map;
     Obstacles[][] tiles;
     private ArrayList<Direction> pathList;
     private int pathIdx;
@@ -24,7 +23,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     private boolean suicide;
 
     public ChargedCreeper(float x, float y) {
-        super(x, y,30,30,4,2, 4);
+        super(x, y,30,30,4,2, new Map(4));
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -32,12 +31,11 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         gotPath=false;
     }
     public ChargedCreeper(float x, float y, Map map) {
-        super(x, y,15,15,4,4, map.getFloor());
+        super(x, y,15,15,4,4, map);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
         suicide=false;

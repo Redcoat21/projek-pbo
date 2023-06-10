@@ -29,7 +29,6 @@ public class EndlessMode {
 
     public EndlessMode(){
         floor = 4;
-        player = new Player(0,15.5f*20+80, floor);
         startTime = System.currentTimeMillis();
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSeconds = (int) (elapsedTime / 1000);
@@ -43,6 +42,7 @@ public class EndlessMode {
         wave = 0;
         phase = 0;
         map = new Map(floor);
+        player = new Player(0,15.5f*20+80, map);
         battle = false;
     }
     public void removeDead(){
