@@ -10,7 +10,7 @@ class PlayerTest {
     private Entities player;
     @BeforeEach
     public void createPlayer() {
-        player = new Player(20.0f, 20.0f);
+        player = new Player(20.0f, 20.0f, 1);
     }
 
     @AfterEach

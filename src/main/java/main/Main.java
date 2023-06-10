@@ -1,7 +1,6 @@
 package main;
 
 import entities.Direction;
-import entities.Player;
 import processing.core.PApplet;
 public class Main extends PApplet{
     /*
@@ -13,9 +12,12 @@ public class Main extends PApplet{
         5 = exit
      */
     int mode;
+    public static PApplet processing;
 //    Player player;
     private LoadingScreen ls;
+    private ChoosingMenu cm;
     private ArcadeMode am;
+    private EndlessMode em;
     @Override
     public void settings() {
         size(1280, 720);
@@ -26,34 +28,45 @@ public class Main extends PApplet{
         background(100);
 //        player = new Player(width/10, height/2);
         processing = this;
-        ls = new LoadingScreen(width, height);
-        am = new ArcadeMode(width, height);
-        mode = 1;
+        ls = new LoadingScreen();
+        cm = new ChoosingMenu();
+        am = new ArcadeMode();
+        em = new EndlessMode();
+        mode = 4;
+        frameRate(60);
     }
 
     @Override
     public void draw() {
-//        background(100);
-//        player.render();
-//        player.move();
         if(mode == 1) {
             background(0);
             ls.display();
             if(ls.isPressed()){
-                mode = 3;
+                ls.pressed();
+                mode = 2;
             }
         }
+        else if(mode == 2){
+//            am = new ArcadeMode();
+//            em = new EndlessMode();
+            cm.render();
+        }
         else if(mode == 3){
-            background(204,102,0);
             am.render();
+        }
+        else if(mode == 4){
+            em.render();
         }
     }
 
+    @Override
     public void keyPressed(){
         if(mode == 1){
             ls.pressed();
         }
-        else if(mode == 3) {
+        else if(mode == 3 && am.isAlive()) {
+//            am.getPlayer().setSpeed(am.getPlayer().getSpeed());
+//            am.getPlayer().setSpeed(1);
             if (key == 'a') {
                 am.getPlayer().moveTo(Direction.LEFT);
             }
@@ -70,20 +83,110 @@ public class Main extends PApplet{
                 am.getPlayer().moveTo(Direction.DOWN);
             }
         }
-    }
+        else if(mode == 4 && em.isAlive()) {
+            if (key == 'a') {
+                em.getPlayer().moveTo(Direction.LEFT);
+            }
 
-    public void keyReleased(){
-        if(mode == 3) {
-            if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
-                am.getPlayer().stop();
+            if (key == 'd') {
+                em.getPlayer().moveTo(Direction.RIGHT);
+            }
+
+            if (key == 'w') {
+                em.getPlayer().moveTo(Direction.UP);
+            }
+
+            if (key == 's') {
+                em.getPlayer().moveTo(Direction.DOWN);
             }
         }
     }
 
+    @Override
+    public void keyReleased() {
+        if(mode == 3) {
+            if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
+                if(!keyPressed){
+                    am.getPlayer().stop();
+                    am.getPlayer().clearDirection();
+                }
+                else{
+                    try {
+                        if (key == 'a') {
+                            am.getPlayer().keyReleasedDirection(Direction.LEFT);
+                        }
+                        if (key == 'd') {
+                            am.getPlayer().keyReleasedDirection(Direction.RIGHT);
+                        }
+                        if (key == 'w') {
+                            am.getPlayer().keyReleasedDirection(Direction.UP);
+                        }
+                        if (key == 's') {
+                            am.getPlayer().keyReleasedDirection(Direction.DOWN);
+                        }
+                    }
+                    catch (IndexOutOfBoundsException e){
+                        System.out.println("lanjut");
+                    }
+                }
+            }
+        }
+        else if(mode == 4){
+            if (key == 'a' || key == 'd' || key == 's' || key == 'w') {
+                if(!keyPressed){
+                    em.getPlayer().stop();
+                    em.getPlayer().clearDirection();
+                }
+                else{
+                    try {
+                        if (key == 'a') {
+                            em.getPlayer().keyReleasedDirection(Direction.LEFT);
+                        }
+                        if (key == 'd') {
+                            em.getPlayer().keyReleasedDirection(Direction.RIGHT);
+                        }
+                        if (key == 'w') {
+                            em.getPlayer().keyReleasedDirection(Direction.UP);
+                        }
+                        if (key == 's') {
+                            em.getPlayer().keyReleasedDirection(Direction.DOWN);
+                        }
+                    }
+                    catch (IndexOutOfBoundsException e){
+                        System.out.println("lanjut");
+                    }
+                }
+            }
+        }
+    }
+    @Override
+    public void mouseClicked() {
+        if(mode == 2){
+            int click = cm.buttonPressed();
+            if(click == 0){
+                mode = 3;
+            }
+            else if(click == 1){
+                mode = 4;
+            }
+            else if(click == 2){
+                exit();
+            }
+        }
+        else if(mode == 3 && !am.isAlive()) {
+            mode = 2;
+            am = new ArcadeMode();
+        }
+        else if(mode == 3 && am.win){
+            mode = 2;
+        }
+        else if(mode == 4 && !em.isAlive()) {
+            mode = 2;
+            em = new EndlessMode();
+        }
+    }
     public static void main(String[] args) {
         PApplet.main("main.Main");
     }
-
-    public static PApplet processing;
 }
 

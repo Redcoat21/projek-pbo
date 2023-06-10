@@ -1,54 +1,48 @@
 package entities;
 import main.Main;
-import ultilities.Vector2;
+import processing.core.PImage;
+import processing.core.PVector;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import main.Map;
 
 /**
  * Representing Any object in the map that have the following criteria : able to move or have collision.
  */
 public abstract class Entities {
+    private Animation sprites;
     /**
-     * Representing the Entity's position on the map.
+     * Representing the Entity's position on the map. from left-top
      */
-    private Vector2 position;
+    private PVector position;
     /**
      * Representing the size in Width and Height
      */
-    private Vector2 size;
-    /**
-     * The hp of the entities.
-     */
-    private int health;
-    /**
+    private final PVector size;
+   /**
      * The direction that the entities is currently moving toward.
      */
     private Direction direction;
-    /**
-     * The speed that the entity (if able to move) moves on.
-     */
-    private float speed;
+
     /**
      * Constructor for the Entity class and its child.
      * @param x The x position of the entity in the map.
      * @param y The y position of the entity in the map.
      * @param width The width of the entity.
      * @param height The height of the entity.
-     * @param health The health that the entity have.
-     * @param speed The speed that the entity is moving on.
      */
 
-    public Entities(float x, float y, int width, int height, int health, int speed) {
-        this.position = new Vector2(x, y);
-        this.size = new Vector2(width, height);
-        this.health = health;
-        direction = Direction.NONE;
-        this.speed = speed;
+    public Entities(float x, float y, int width, int height) {
+        this.position = new PVector(x, y);
+        this.size = new PVector(width, height);
+        this.sprites = new Animation(30);
     }
-
     /**
      * Get the current position (x,y) of the entity in Vector2.
      * @return Vector2 position of the entity.
      */
-    public Vector2 getPosition() {
+    public PVector getPosition() {
         return this.position;
     }
 
@@ -57,7 +51,7 @@ public abstract class Entities {
      * @return The x position of the entity in the map.
      */
     public float getX() {
-        return this.position.getX();
+        return this.position.x;
     }
 
     /**
@@ -65,15 +59,24 @@ public abstract class Entities {
      * @return The y position of the entity in the map.
      */
     public float getY() {
-        return this.position.getY();
+        return this.position.y;
     }
 
     /**
      * Get the width of the entity.
      * @return The width of the entity.
      */
+
+    public float getXFromCenter(){
+        return this.position.x + this.size.x/2;
+    }
+
+    public float getYFromCenter(){
+        return this.position.y + this.size.y/2;
+    }
+
     public float getWidth() {
-        return this.size.getX();
+        return this.size.x;
     }
 
     /**
@@ -81,15 +84,7 @@ public abstract class Entities {
      * @return The height of the entity.
      */
     public float getHeight() {
-        return this.size.getY();
-    }
-
-    /**
-     * Get the current health of the entity.
-     * @return The health of the entity.
-     */
-    public int getHealth() {
-        return health;
+        return this.size.y;
     }
 
     /**
@@ -97,47 +92,7 @@ public abstract class Entities {
      */
     public void render(){
         Main.processing.noStroke();
-        Main.processing.rect(this.position.getX(),this.position.getY(),this.size.getX(),this.size.getY());
-    }
-
-    /**
-     * Move the entity based on its direction, if It's NONE or not moving then stand still.
-     */
-    public void move() {
-        switch(direction) {
-            case UP -> this.position.addBy(0.0f, -(this.speed));
-            case RIGHT -> this.position.addBy(this.speed, 0.0f);
-            case DOWN -> this.position.addBy(0.0f, this.speed);
-            case LEFT -> this.position.addBy(-(this.speed), 0.0f);
-        }
-        boolean outOfBoundUp = this.position.getY() < 80.0f;
-        boolean outOfBoundRight = this.position.getX() > 1280.0f - this.size.getX();
-        boolean outOfBoundDown = this.position.getY() > 720.0f - this.size.getY();
-        boolean outOfBoundLeft = this.position.getX() < 0.0f;
-
-        if(outOfBoundUp) {
-            this.position.setTo(this.size.getX(), 80.0f);
-        }
-
-        if(outOfBoundRight) {
-            this.position.setTo(1280.0f - this.size.getX(), this.position.getY());
-        }
-
-        if(outOfBoundDown) {
-            this.position.setTo(this.position.getX(), 720.0f - this.size.getY());
-        }
-
-        if(outOfBoundLeft) {
-            this.position.setTo(0.0f, this.position.getY());
-        }
-    }
-
-    /**
-     * Set the direction of the entity.
-     * @param direction The direction that the entity will move toward to.
-     */
-    public void moveTo(Direction direction) {
-        this.direction = direction;
+        //Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
     /**
@@ -146,30 +101,34 @@ public abstract class Entities {
      * @param y The new y position of the entity.
      */
     public void setTo(float x, float y) {
-        this.position.setTo(x, y);
+        this.position.set(x, y);
     }
 
     /**
      * Set the entity's position on the given (x,y) value but with a Vector2 parameter.
      * @param position The new (x,y) value of the entity.
      */
-    public void setTo(Vector2 position) {
+    public void setTo(PVector position) {
         this.position = position;
     }
 
-    /**
-     * Stop the entity's movement
-     */
-    public void stop() {
-        direction = Direction.NONE;
+    protected PVector getSize() {
+        return size;
     }
 
-    /**
-     * Check if it's moving in the given direction.
-     * @param direction The direction to check.
-     * @return If the entity's current direction is equal to the given direction.
-     */
-    public boolean isMovingIn(Direction direction) {
-        return this.direction.equals(direction);
+    public Direction getDirection() {
+        return this.direction;
     }
+
+    public Animation getSprites() {
+        return sprites;
+    }
+
+    public void addSprites(PImage sprite) {
+        this.sprites.addSprite(sprite);
+    }
+    public void addSprites(PImage sprite, PVector size) {
+        this.sprites.addSprite(sprite, size.x, size.y);
+    }
+
 }

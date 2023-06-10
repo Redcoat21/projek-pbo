@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Entities.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TestPlayer Coverage Results</a> &gt; <a href="index.source.html" class="el_package">entities</a> &gt; <span class="el_source">Entities.java</span></div><h1>Entities.java</h1><pre class="source lang-java linenums">package entities;
+import main.Main;
+import ultilities.Vector2;
+
+/**
+ * Representing Any object in the map that have the following criteria : able to move or have collision.
+ */
+public abstract class Entities {
+    /**
+     * Representing the Entity's position on the map.
+     */
+    private Vector2 position;
+    /**
+     * Representing the size in Width and Height
+     */
+    private final Vector2 size;
+    /**
+     * The hp of the entities.
+     */
+    private final int health;
+    /**
+     * The direction that the entities is currently moving toward.
+     */
+    private Direction direction;
+    /**
+     * The speed that the entity (if able to move) moves on.
+     */
+    private final float speed;
+    /**
+     * Constructor for the Entity class and its child.
+     * @param x The x position of the entity in the map.
+     * @param y The y position of the entity in the map.
+     * @param width The width of the entity.
+     * @param height The height of the entity.
+     * @param health The health that the entity have.
+     * @param speed The speed that the entity is moving on.
+     */
+
+<span class="fc" id="L39">    public Entities(float x, float y, int width, int height, int health, int speed) {</span>
+<span class="fc" id="L40">        this.position = new Vector2(x, y);</span>
+<span class="fc" id="L41">        this.size = new Vector2(width, height);</span>
+<span class="fc" id="L42">        this.health = health;</span>
+<span class="fc" id="L43">        direction = Direction.NONE;</span>
+<span class="fc" id="L44">        this.speed = speed;</span>
+<span class="fc" id="L45">    }</span>
+
+    /**
+     * Get the current position (x,y) of the entity in Vector2.
+     * @return Vector2 position of the entity.
+     */
+    public Vector2 getPosition() {
+<span class="nc" id="L52">        return this.position;</span>
+    }
+
+    /**
+     * Get the x position of the entity.
+     * @return The x position of the entity in the map.
+     */
+    public float getX() {
+<span class="fc" id="L60">        return this.position.getX();</span>
+    }
+
+    /**
+     * Get the y position of the entity
+     * @return The y position of the entity in the map.
+     */
+    public float getY() {
+<span class="fc" id="L68">        return this.position.getY();</span>
+    }
+
+    /**
+     * Get the width of the entity.
+     * @return The width of the entity.
+     */
+    public float getWidth() {
+<span class="nc" id="L76">        return this.size.getX();</span>
+    }
+
+    /**
+     * Get the height of the entity.
+     * @return The height of the entity.
+     */
+    public float getHeight() {
+<span class="nc" id="L84">        return this.size.getY();</span>
+    }
+
+    /**
+     * Get the current health of the entity.
+     * @return The health of the entity.
+     */
+    public int getHealth() {
+<span class="nc" id="L92">        return health;</span>
+    }
+
+    /**
+     * Render the entity in the map.
+     */
+    public void render(){
+<span class="nc" id="L99">        Main.processing.noStroke();</span>
+<span class="nc" id="L100">        Main.processing.rect(this.position.getX(),this.position.getY(),this.size.getX(),this.size.getY());</span>
+<span class="nc" id="L101">    }</span>
+
+    /**
+     * Move the entity based on its direction, if It's NONE or not moving then stand still.
+     */
+    public void move() {
+<span class="nc bnc" id="L107" title="All 5 branches missed.">        switch(direction) {</span>
+<span class="nc" id="L108">            case UP -&gt; this.position.addBy(0.0f, -(this.speed));</span>
+<span class="nc" id="L109">            case RIGHT -&gt; this.position.addBy(this.speed, 0.0f);</span>
+<span class="nc" id="L110">            case DOWN -&gt; this.position.addBy(0.0f, this.speed);</span>
+<span class="nc" id="L111">            case LEFT -&gt; this.position.addBy(-(this.speed), 0.0f);</span>
+        }
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        boolean outOfBoundUp = this.position.getY() &lt; 80.0f;</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        boolean outOfBoundRight = this.position.getX() &gt; 1280.0f - this.size.getX();</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        boolean outOfBoundDown = this.position.getY() &gt; 720.0f - this.size.getY();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        boolean outOfBoundLeft = this.position.getX() &lt; 0.0f;</span>
+
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if(outOfBoundUp) {</span>
+<span class="nc" id="L119">            this.position.setTo(this.size.getX(), 80.0f);</span>
+        }
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if(outOfBoundRight) {</span>
+<span class="nc" id="L123">            this.position.setTo(1280.0f - this.size.getX(), this.position.getY());</span>
+        }
+
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if(outOfBoundDown) {</span>
+<span class="nc" id="L127">            this.position.setTo(this.position.getX(), 720.0f - this.size.getY());</span>
+        }
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if(outOfBoundLeft) {</span>
+<span class="nc" id="L131">            this.position.setTo(0.0f, this.position.getY());</span>
+        }
+<span class="nc" id="L133">    }</span>
+
+    /**
+     * Set the direction of the entity.
+     * @param direction The direction that the entity will move toward to.
+     */
+    public void moveTo(Direction direction) {
+<span class="nc" id="L140">        this.direction = direction;</span>
+<span class="nc" id="L141">    }</span>
+
+    /**
+     * Set the entity's position on the given (x,y) value.
+     * @param x The new x position of the entity.
+     * @param y The new y position of the entity.
+     */
+    public void setTo(float x, float y) {
+<span class="nc" id="L149">        this.position.setTo(x, y);</span>
+<span class="nc" id="L150">    }</span>
+
+    /**
+     * Set the entity's position on the given (x,y) value but with a Vector2 parameter.
+     * @param position The new (x,y) value of the entity.
+     */
+    public void setTo(Vector2 position) {
+<span class="nc" id="L157">        this.position = position;</span>
+<span class="nc" id="L158">    }</span>
+
+    /**
+     * Stop the entity's movement
+     */
+    public void stop() {
+<span class="nc" id="L164">        direction = Direction.NONE;</span>
+<span class="nc" id="L165">    }</span>
+
+    /**
+     * Check if it's moving in the given direction.
+     * @param direction The direction to check.
+     * @return If the entity's current direction is equal to the given direction.
+     */
+    public boolean isMovingIn(Direction direction) {
+<span class="nc" id="L173">        return this.direction.equals(direction);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,11 +1,11 @@
 package weapon;
 
 public abstract class Weapon {
-    private String weaponName;
+    private final String weaponName;
     private float attackSpeed;
     // Base damage of the weapon, not the damage dealt.
     private final int damage;
-    // Phase is calculated using Waves / 3
+    // Phase is calculated using Waves / 9
     private int phase;
     private int level;
     // Bonus act as a bonus damage based on the level of the previous phase when switching phase.
@@ -30,7 +30,7 @@ public abstract class Weapon {
         this.weaponName = weaponName;
         this.damage = damage;
 
-        if(phase > 0) {
+        if(phase >= 0) {
             this.phase = phase;
         } else {
             throw new IllegalArgumentException("Phase can't be negative!");
@@ -115,5 +115,9 @@ public abstract class Weapon {
      */
     public Rarity getWeaponRarity() {
         return weaponRarity;
+    }
+
+    public String getWeaponName() {
+        return weaponName;
     }
 }
