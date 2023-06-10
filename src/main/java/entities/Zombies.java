@@ -27,9 +27,10 @@ public class Zombies extends Movable implements Pathfinding{
         tickMove=0;
         indexDelay=0;
         gotPath=false;
+        setMap(map);
     }
     public Zombies(float x, float y, Map map) {
-        super(x, y,20,20,2,1);
+        super(x, y,20,20,2,1, map.getFloor());
         agro = false;
         agroIdx=0;
         tickMove=0;

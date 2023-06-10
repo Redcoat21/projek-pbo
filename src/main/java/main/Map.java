@@ -245,4 +245,8 @@ public class Map {
     public Obstacles[][] getMap() {
         return map;
     }
+
+    public int getFloor() {
+        return floor;
+    }
 }

@@ -34,9 +34,10 @@ public class Skeletons extends Movable implements Pathfinding{
 //        Throwaway variable just for checking if delay is working
         shootCounter=0;
         shootTick=0;
+        setMap(map);
     }
     public Skeletons(float x, float y, Map map) {
-        super(x, y,20,20,2,1);
+        super(x, y,20,20,2,1, map.getFloor());
         agro = false;
         agroIdx=0;
         tickMove=0;

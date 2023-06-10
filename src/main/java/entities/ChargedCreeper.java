@@ -24,7 +24,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     private boolean suicide;
 
     public ChargedCreeper(float x, float y) {
-        super(x, y,30,30,4,2);
+        super(x, y,30,30,4,2, 4);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -32,7 +32,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         gotPath=false;
     }
     public ChargedCreeper(float x, float y, Map map) {
-        super(x, y,15,15,4,4);
+        super(x, y,15,15,4,4, map.getFloor());
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -99,14 +99,14 @@ public class ChargedCreeper extends Movable implements Pathfinding{
                 if(Math.floor(Math.abs((getX()/20)- getTargetCoords()[0]))==0&&Math.floor(Math.abs((getY()-80)/20-(getTargetCoords()[1])))==0){
                     System.out.println("AAAAAA");
                     suicide=true;
-                    target.setHealth(target.getHealth()-1);
+                    target.subHP(target.getHealth()-1);
                 }
 
             }
 
         }
 
-        if(suicide)this.setHealth(0);
+        if(suicide)this.subHP(0);
 //        Idle Mode
 
     }
