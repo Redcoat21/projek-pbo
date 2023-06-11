@@ -28,7 +28,8 @@ public class Movable extends Entities{
      */
     private ArrayList<Direction> savingDirection;
     private Direction atkDirection;
-    protected Map map;
+    protected static Map map;
+    private float atkSpeed;
 
     /**
      *
@@ -57,6 +58,18 @@ public class Movable extends Entities{
         savingDirection = new ArrayList<>();
         this.map = map;
         atkDirection = Direction.RIGHT;
+        this.atkSpeed = 5;
+    }
+
+    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, Map map) {
+        super(x, y, width, height);
+        this.health = health;
+        direction = Direction.NONE;
+        this.speed = speed;
+        savingDirection = new ArrayList<>();
+        this.map = map;
+        atkDirection = Direction.RIGHT;
+        this.atkSpeed = atkSpeed;
     }
 
     public void setMap(int floor) {
@@ -290,5 +303,9 @@ public class Movable extends Entities{
 
     public void subHP(int hp){
         health -= hp;
+    }
+
+    public float getAtkSpeed(){
+        return atkSpeed/5;
     }
 }

@@ -6,6 +6,8 @@ import processing.core.PImage;
 import weapon.*;
 import main.Main;
 
+import java.util.ArrayList;
+
 public class Player extends Movable {
     int baseHp;
     private Weapon weapon;
@@ -15,13 +17,13 @@ public class Player extends Movable {
     float baseY;
 
     public Player(float x, float y, int map){
-        super(x, y, 20, 20, 3, 3, new Map(map));
+        super(x, y, 20, 20, 3, 3, 4, new Map(map));
         baseHp = 3;
         baseX = x;
         baseY = y;
         swordFactory = new SwordFactory();
         spearFactory = new SpearFactory();
-        weapon = swordFactory.createWeapon(SwordType.GREATSWORD, 0);
+        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
     }
 
@@ -32,7 +34,7 @@ public class Player extends Movable {
         baseY = y;
         swordFactory = new SwordFactory();
         spearFactory = new SpearFactory();
-        weapon = swordFactory.createWeapon(SwordType.GREATSWORD, 0);
+        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
     }
 
@@ -69,14 +71,16 @@ public class Player extends Movable {
         setTo(baseX, baseY);
     }
 
-    public void atk(){
-        int atkX = (int) (getX()+(getWidth()/2));
-        int atkY = (int) (getY()+(getHeight()/2));
+    public void atk(ArrayList<Movable> enemy){
+        int atkX = (int) getXFromCenter();
+        int atkY = (int) getYFromCenter();
         int WHArc = 0;
         Main.processing.noStroke();
         Main.processing.fill(255,0,0);
         if(weapon instanceof Sword && !weapon.getWeaponName().equals("Great Sword")){
             WHArc = 60;
+//            System.out.println(swingAtkCollision(atkX, atkY, WHArc, enemy, getAtkDirection()));
+            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
             if(getAtkDirection().equals(Direction.RIGHT)){
                 Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
             }
@@ -92,6 +96,7 @@ public class Player extends Movable {
         }
         else if(weapon instanceof Sword && weapon.getWeaponName().equals("Great Sword")){
             WHArc = 80;
+            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
             if(getAtkDirection().equals(Direction.RIGHT)){
                 Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
             }
@@ -107,6 +112,7 @@ public class Player extends Movable {
         }
         else if(weapon instanceof Spear && weapon.getWeaponName().equals("Glaive")){
             WHArc = 100;
+            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
             if(getAtkDirection().equals(Direction.RIGHT)){
                 Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
             }
@@ -120,8 +126,62 @@ public class Player extends Movable {
                 Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
             }
         }
+    }
 
+    private void swingAtkCollision(int atkX, int atkY, int radius, ArrayList<Movable> enemy, Direction direction){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+        for(Movable musuh: enemy){
+            pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), atkX);
+            pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), atkY);
+//            System.out.println(pointOnRectX + ", " + pointOnRectY);
+            XDistToRect = atkX - pointOnRectX;
+            YDistToRect = atkY - pointOnRectY;
+            System.out.println(XDistToRect + ", " + YDistToRect);
+            dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+//            System.out.println("dist gak kena: " + dist);
+//            System.out.println("arcnya: " + radius);
+            if(dist < radius){
+                if(direction.equals(Direction.RIGHT) && XDistToRect<=0){
+                    System.out.println("kena kanan");
+                    musuh.subHP(weapon.calculateDamageDealt());
+//                    return true;
+                }
+                else if(direction.equals(Direction.LEFT) && XDistToRect>=0){
+                    System.out.println("kena kiri");
+                    musuh.subHP(weapon.calculateDamageDealt());
+//                    return true;
+                }
+                else if(direction.equals(Direction.UP) && YDistToRect>=0){
+                    System.out.println("kena atas");
+                    musuh.subHP(weapon.calculateDamageDealt());
+//                    return true;
+                }
+                else if(direction.equals(Direction.DOWN) && YDistToRect<=0){
+                    System.out.println("kena bawah");
+//                    System.out.println("dist: " + dist);
+//                    System.out.println("arc: " + radius);
+                    musuh.subHP(weapon.calculateDamageDealt());
+//                    return true;
+                }
+            }
+        }
+//        return false;
+    }
 
+    private int clamp(int min, int max, int value){
+        if(min > value){
+            return min;
+        }
+        else if(max < value){
+            return max;
+        }
+        else{
+            return value;
+        }
     }
 
     public Weapon getWeapon() {

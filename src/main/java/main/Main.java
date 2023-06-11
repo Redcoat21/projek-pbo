@@ -32,7 +32,7 @@ public class Main extends PApplet{
         cm = new ChoosingMenu();
         am = new ArcadeMode();
         em = new EndlessMode();
-        mode = 3;
+        mode = 4;
         frameRate(60);
     }
 
