@@ -29,7 +29,7 @@ public class ArcadeMode {
     ArrayList<Movable> entities = new ArrayList<>();
 
     public ArcadeMode(){
-        floor = 5;
+        floor = 4;
         player = new Player(0,15.5f*20+80, floor);
         startTime = System.currentTimeMillis();
         elapsedTime = System.currentTimeMillis() - startTime;

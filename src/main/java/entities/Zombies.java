@@ -44,16 +44,17 @@ public class Zombies extends Movable implements Pathfinding{
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 //        j * 20, i * 20 + 80
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(this.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    Main.processing.text("X: "+j+"   Y: "+i,getX(),getY()+100);
-                }
-            }
-        }
+//        this is the source of the problem
+//        for (int i=0;i<32;i++){
+//            for (int j=0;j<64;j++){
+//                if(this.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
+//                    Main.processing.text("X: "+j+"   Y: "+i,getX(),getY()+100);
+//                }
+//            }
+//        }
 //        Agro Mode
         if(agro){
-            if(map==null){
+            if(map!=null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
