@@ -23,23 +23,14 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     private boolean suicide;
 
     public ChargedCreeper(float x, float y) {
-        super(x, y,30,30,4,2, new Map(4));
+        super(x, y,30,30,4,2, 5);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
         gotPath=false;
     }
-    public ChargedCreeper(float x, float y, Map map) {
-        super(x, y,15,15,4,4, map);
-        agro = false;
-        agroIdx=0;
-        tickMove=0;
-        indexDelay=0;
-        this.tiles = map.getMap();
-        pathIdx=0;
-        suicide=false;
-    }
+
     @Override
     public void render() {
         tickMove++;

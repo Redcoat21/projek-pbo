@@ -1,9 +1,6 @@
 package main;
 
-import entities.Movable;
-import entities.Player;
-import entities.Skeletons;
-import entities.Zombies;
+import entities.*;
 import processing.core.PConstants;
 
 import java.util.ArrayList;
@@ -30,7 +27,7 @@ public class ArcadeMode {
 
     public ArcadeMode(){
         floor = 4;
-        player = new Player(0,15.5f*20+80, floor);
+        player = new Player(0,15.5f*20+80, new Map(floor));
         startTime = System.currentTimeMillis();
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSeconds = (int) (elapsedTime / 1000);
@@ -155,13 +152,14 @@ public class ArcadeMode {
             map.printMap();
             player.render();
             player.move();
+            player.atk(entities);
 
             for (Movable a:entities){
                 if(a instanceof Zombies)a.render();
                 else if(a instanceof Skeletons)a.render();
-//                else if(a instanceof EliteZombies)a.render();
-//                else if(a instanceof ChargedCreeper)a.render();
-//                else if(a instanceof BigBoss)a.render();
+                else if(a instanceof EliteZombies)a.render();
+                else if(a instanceof ChargedCreeper)a.render();
+                else if(a instanceof BigBoss)a.render();
             }
 
             for (Movable a:entities){
@@ -172,16 +170,16 @@ public class ArcadeMode {
                     ((Skeletons) a).checkAgro(player);
                     a.move();
                 }
-//                else if(a instanceof  EliteZombies){
-//                    ((EliteZombies) a).checkAgro(player);
-//                    a.move();
-//                }else if(a instanceof ChargedCreeper){
-//                    ((ChargedCreeper)a).checkAgro(player);
-//                    a.move();
-//                }else if(a instanceof BigBoss){
-//                    ((BigBoss)a).checkAgro(player);
-//                    a.move();
-//                }
+                else if(a instanceof  EliteZombies){
+                    ((EliteZombies) a).checkAgro(player);
+                    a.move();
+                }else if(a instanceof ChargedCreeper){
+                    ((ChargedCreeper)a).checkAgro(player);
+                    a.move();
+                }else if(a instanceof BigBoss){
+                    ((BigBoss)a).checkAgro(player);
+                    a.move();
+                }
             }
             removeDead();
 
@@ -297,8 +295,13 @@ public class ArcadeMode {
     private void gantiWave(){
         wave++;
         if(wave < 4){
-            entities.add(new Zombies(320,390, floor));
+//            entities.add(new Zombies(320,390));
 //            entities.add(new Skeletons(800,300));
+//            entities.add(new EliteZombies(100,150));
+//            entities.add(new ChargedCreeper(150, 150));
+//            entities.add(new ChargedCreeper(170, 150));
+//            entities.add(new ChargedCreeper(190, 150));
+            entities.add(new BigBoss(1000,300));
         }
         startTimeText = System.currentTimeMillis();
         elapsedTimeText = System.currentTimeMillis() - startTimeText;

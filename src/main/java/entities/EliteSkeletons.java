@@ -21,22 +21,14 @@ public class EliteSkeletons extends Movable implements Pathfinding{
     private boolean gotPath;
 
     public EliteSkeletons(float x, float y) {
-        super(x, y,30,30,4,3, new Map(4));
+        super(x, y,30,30,4,3, 3);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
         gotPath=false;
     }
-    public EliteSkeletons(float x, float y, Map map) {
-        super(x, y,30,30,4,3, map);
-        agro = false;
-        agroIdx=0;
-        tickMove=0;
-        indexDelay=0;
-        this.tiles = map.getMap();
-        pathIdx=0;
-    }
+
     @Override
     public void render() {
         tickMove++;

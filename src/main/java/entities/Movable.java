@@ -40,27 +40,8 @@ public class Movable extends Entities{
      * @param health The health that the entity have.
      * @param speed The speed that the entity is moving on.
      */
-//    public Movable(float x, float y, int width, int height, int health, int speed, int map) {
-//        super(x, y, width, height);
-//        this.health = health;
-//        direction = Direction.NONE;
-//        this.speed = speed;
-//        savingDirection = new ArrayList<>();
-//        setMap(map);
-//        atkDirection = Direction.RIGHT;
-//    }
 
-    public Movable(float x, float y, int width, int height, int health, int speed, Map map) {
-        super(x, y, width, height);
-        this.health = health;
-        direction = Direction.NONE;
-        this.speed = speed;
-        savingDirection = new ArrayList<>();
-        this.map = map;
-        atkDirection = Direction.RIGHT;
-        this.atkSpeed = 5;
-    }
-
+    //constuctor only for player
     public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, Map map) {
         super(x, y, width, height);
         this.health = health;
@@ -68,6 +49,17 @@ public class Movable extends Entities{
         this.speed = speed;
         savingDirection = new ArrayList<>();
         this.map = map;
+        atkDirection = Direction.RIGHT;
+        this.atkSpeed = atkSpeed;
+    }
+
+    //constructor for enemy
+    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed) {
+        super(x, y, width, height);
+        this.health = health;
+        direction = Direction.NONE;
+        this.speed = speed;
+        savingDirection = new ArrayList<>();
         atkDirection = Direction.RIGHT;
         this.atkSpeed = atkSpeed;
     }

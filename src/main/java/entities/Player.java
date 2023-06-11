@@ -16,19 +16,19 @@ public class Player extends Movable {
     float baseX;
     float baseY;
 
-    public Player(float x, float y, int map){
-        super(x, y, 20, 20, 3, 3, 4, new Map(map));
-        baseHp = 3;
-        baseX = x;
-        baseY = y;
-        swordFactory = new SwordFactory();
-        spearFactory = new SpearFactory();
-        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
-//        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
-    }
+//    public Player(float x, float y, int map){
+//        super(x, y, 20, 20, 3, 3, 4, new Map(map));
+//        baseHp = 3;
+//        baseX = x;
+//        baseY = y;
+//        swordFactory = new SwordFactory();
+//        spearFactory = new SpearFactory();
+//        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
+////        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
+//    }
 
     public Player(float x, float y, Map map){
-        super(x, y, 20, 20, 3, 3, map);
+        super(x, y, 20, 20, 3, 3, 4, map);
         baseHp = 3;
         baseX = x;
         baseY = y;
@@ -140,7 +140,7 @@ public class Player extends Movable {
 //            System.out.println(pointOnRectX + ", " + pointOnRectY);
             XDistToRect = atkX - pointOnRectX;
             YDistToRect = atkY - pointOnRectY;
-            System.out.println(XDistToRect + ", " + YDistToRect);
+//            System.out.println(XDistToRect + ", " + YDistToRect);
             dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
 //            System.out.println("dist gak kena: " + dist);
 //            System.out.println("arcnya: " + radius);

@@ -19,16 +19,26 @@ public class Zombies extends Movable implements Pathfinding{
     private int pathIdx;
     private boolean gotPath;
 
-    public Zombies(float x, float y, int map) {
-        super(x, y,20,20,2,1, new Map(map));
-        agro = false;
-        agroIdx=0;
-        tickMove=0;
-        indexDelay=0;
-        gotPath=false;
-    }
-    public Zombies(float x, float y, Map map) {
-        super(x, y,20,20,2,1, map);
+//    public Zombies(float x, float y, int map) {
+//        super(x, y,20,20,2,1);
+//        agro = false;
+//        agroIdx=0;
+//        tickMove=0;
+//        indexDelay=0;
+//        gotPath=false;
+//    }
+//    public Zombies(float x, float y, Map map) {
+//        super(x, y,20,20,2,1);
+//        agro = false;
+//        agroIdx=0;
+//        tickMove=0;
+//        indexDelay=0;
+//        this.tiles = map.getMap();
+//        pathIdx=0;
+//    }
+
+    public Zombies(float x, float y) {
+        super(x, y,20,20,2,1, 5);
         agro = false;
         agroIdx=0;
         tickMove=0;

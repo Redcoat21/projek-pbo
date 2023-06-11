@@ -198,7 +198,7 @@ public class EndlessMode {
         }
 
         //summoning all enemy
-            entities.add(new Zombies(320,390, floor));
+            entities.add(new Zombies(320,390));
 //            entities.add(new Skeletons(800,300));
 
         startTimeText = System.currentTimeMillis();
