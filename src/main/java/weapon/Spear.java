@@ -11,6 +11,6 @@ public class Spear extends Weapon {
 
     @Override
     public int calculateDamageDealt() {
-        return 1;
+        return getDamage() + (getLevel()*3) + (2*getPhase()) + (getBonus()*2+3);
     }
 }

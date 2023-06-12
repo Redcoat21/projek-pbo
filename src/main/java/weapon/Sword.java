@@ -9,6 +9,6 @@ public class Sword extends Weapon {
 
     @Override
     public int calculateDamageDealt() {
-        return getDamage() + (getLevel()*3) + (2*getPhase()) + (getBonus()*2) ;
+        return getDamage() + (getLevel()*3) + (2*getPhase()) + (getBonus()*2+1) ;
     }
 }
