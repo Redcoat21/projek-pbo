@@ -2,7 +2,7 @@ package weapon;
 
 public abstract class Weapon {
     private final String weaponName;
-    private float attackSpeed;
+//    private float attackSpeed;
     // Base damage of the weapon, not the damage dealt.
     private final int damage;
     // Phase is calculated using Waves / 9
@@ -123,11 +123,19 @@ public abstract class Weapon {
         return weaponName;
     }
 
-    public float getAttackSpeed() {
-        return attackSpeed;
+    public float getWeight() {
+        return weight;
     }
 
-    public void setAttackSpeed(float attackSpeed) {
-        this.attackSpeed = attackSpeed;
+    public void setWeight(float weight) {
+        this.weight = weight;
     }
+
+    //    public float getAttackSpeed() {
+//        return attackSpeed;
+//    }
+//
+//    public void setAttackSpeed(float attackSpeed) {
+//        this.attackSpeed = attackSpeed;
+//    }
 }

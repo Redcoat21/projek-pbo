@@ -17,6 +17,9 @@ public class ArcadeMode {
     long startTimeText;
     long elapsedTimeText;
     int elapsedSecondsText;
+    long startTimeAtk;
+    long elapsedTimeAtk;
+    float elapsedSecondsAtk;
     int wave;
     Map map;
     boolean alive;
@@ -37,6 +40,9 @@ public class ArcadeMode {
         startTimeText = 0;
         elapsedTimeText = 0;
         elapsedSecondsText = (int) (elapsedTimeText / 1000);
+        startTimeAtk = 0;
+        elapsedTimeAtk = 0;
+        elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);
         alive = true;
         floor = 4;
         wave = 0;
@@ -105,6 +111,7 @@ public class ArcadeMode {
             startBattle();
             if(battle) {
                 gantiWave();
+                startTimeAtk = System.currentTimeMillis();
             }
         }
         else if(alive && battle) {
@@ -152,7 +159,17 @@ public class ArcadeMode {
             map.printMap();
             player.render();
             player.move();
-            player.atk(entities);
+
+            //atk section
+            elapsedTimeAtk = System.currentTimeMillis() - startTimeAtk;
+            elapsedSecondsAtk = (float) elapsedTimeAtk/1000;
+            if(elapsedSecondsAtk>=player.getAtkSpeed()) {
+                player.atk(entities);
+                System.out.println("waktu: " + elapsedSecondsAtk);
+                System.out.println("speed: " + player.getAtkSpeed());
+                System.out.println("masuk");
+                startTimeAtk = System.currentTimeMillis();
+            }
 
             for (Movable a:entities){
                 if(a instanceof Zombies)a.render();
@@ -295,13 +312,13 @@ public class ArcadeMode {
     private void gantiWave(){
         wave++;
         if(wave < 4){
-//            entities.add(new Zombies(320,390));
+            entities.add(new Zombies(320,390));
 //            entities.add(new Skeletons(800,300));
 //            entities.add(new EliteZombies(100,150));
 //            entities.add(new ChargedCreeper(150, 150));
 //            entities.add(new ChargedCreeper(170, 150));
 //            entities.add(new ChargedCreeper(190, 150));
-            entities.add(new BigBoss(1000,300));
+//            entities.add(new BigBoss(1000,300));
         }
         startTimeText = System.currentTimeMillis();
         elapsedTimeText = System.currentTimeMillis() - startTimeText;

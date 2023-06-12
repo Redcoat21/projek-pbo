@@ -28,14 +28,14 @@ public class Player extends Movable {
 //    }
 
     public Player(float x, float y, Map map){
-        super(x, y, 20, 20, 3, 3, 4, map);
+        super(x, y, 20, 20, 3, 3, 3, map);
         baseHp = 3;
         baseX = x;
         baseY = y;
         swordFactory = new SwordFactory();
         spearFactory = new SpearFactory();
-        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
-//        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
+//        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
+        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
     }
 
     @Override
@@ -186,5 +186,10 @@ public class Player extends Movable {
 
     public Weapon getWeapon() {
         return weapon;
+    }
+
+    @Override
+    public float getAtkSpeed() {
+        return atkSpeed/5 * weapon.getWeight();
     }
 }
