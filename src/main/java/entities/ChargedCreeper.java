@@ -16,7 +16,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     private int tickMove;
     private int indexDelay;
     private Player target;
-    private static Map map;
+    private static Map mapS;
     Obstacles[][] tiles;
     private ArrayList<Direction> pathList;
     private int pathIdx;
@@ -38,7 +38,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-        this.map=map;
+        this.mapS=map;
         this.tiles = map.getMap();
         pathIdx=0;
         suicide=false;
@@ -61,7 +61,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         }
 //        Agro Mode
         if(agro){
-            if(map==null){
+            if(mapS==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
@@ -88,28 +88,28 @@ public class ChargedCreeper extends Movable implements Pathfinding{
                     if(pathIdx<(pathList.size()*20)-1){
                         if(pathIdx!=(pathList.size()*20)-1){
                             this.moveTo(pathList.get(pathIdx/20));
-                            System.out.println(tiles[(getObjectCoords()[0]-1)][getObjectCoords()[1]]);
+//                            System.out.println(tiles[(getObjectCoords()[0]-1)][getObjectCoords()[1]]);
                             if(!breakWall){
                                 if(tiles[getObjectCoords()[0]-1][getObjectCoords()[1]] instanceof Wall &&pathList.get(pathIdx/20)==Direction.LEFT){
-                                    map.removeTile(getObjectCoords()[0]-1,getObjectCoords()[1]);
+                                    mapS.removeTile(getObjectCoords()[0]-1,getObjectCoords()[1]);
                                     tiles[getObjectCoords()[0]-1][getObjectCoords()[1]] =null;
                                     setHealth(0);
-                                    breakWall=true;
+                                    breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]+1][getObjectCoords()[1]] instanceof Wall &&pathList.get(pathIdx/20)==Direction.RIGHT){
-                                    map.removeTile(getObjectCoords()[0]+1,getObjectCoords()[1]);
+                                    mapS.removeTile(getObjectCoords()[0]+1,getObjectCoords()[1]);
                                     tiles[getObjectCoords()[0]+1][getObjectCoords()[1]] =null;
                                     setHealth(0);
-                                    breakWall=true;
+                                    breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]][getObjectCoords()[1]-1] instanceof Wall &&pathList.get(pathIdx/20)==Direction.UP){
-                                    map.removeTile(getObjectCoords()[0],getObjectCoords()[1]-1);
+                                    mapS.removeTile(getObjectCoords()[0],getObjectCoords()[1]-1);
                                     tiles[getObjectCoords()[0]][getObjectCoords()[1]-1] =null;
                                     setHealth(0);
-                                    breakWall=true;
+                                    breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]][getObjectCoords()[1]+1] instanceof Wall &&pathList.get(pathIdx/20)==Direction.DOWN){
-                                    map.removeTile(getObjectCoords()[0],getObjectCoords()[1]+1);
+                                    mapS.removeTile(getObjectCoords()[0],getObjectCoords()[1]+1);
                                     tiles[getObjectCoords()[0]][getObjectCoords()[1]+1] =null;
                                     setHealth(0);
-                                    breakWall=true;
+                                    breakWall=true;suicide=true;
                                 }
                             }else{
                                 pathIdx=0;
@@ -168,7 +168,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         if(Math.abs((x)*20- getTargetCoords()[0]*20)==0&&Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))==0){
             dlist.add(Direction.NONE);
             gotPath=true;
-            System.out.println("LELE");
+//            System.out.println("LELE");
             return dlist;
         } else{
             ArrayList<ValueTile> moves = new ArrayList<>();
@@ -183,7 +183,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
                         return (int)(o1.getValue()-o2.getValue());
                     }
                 });
-                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
+//                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
                 System.out.println();
                 for (ValueTile a : moves){
                     if(!gotPath){
@@ -201,7 +201,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
                 }
             }
         }
-        System.out.println("LALA");
+//        System.out.println("LALA");
         return dlist;
 
     }
@@ -232,7 +232,12 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         return coords;
     }
 
-    public static Map getMap() {
-        return map;
+    public Map getMapCreeper() {
+        System.out.println("DUARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+        return this.mapS;
+    }
+
+    public boolean isSuicide() {
+        return suicide;
     }
 }

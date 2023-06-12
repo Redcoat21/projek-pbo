@@ -27,7 +27,15 @@ public class Movable extends Entities{
      */
     private ArrayList<Direction> savingDirection;
 
-    private Map map;
+    private static Map map;
+
+    public Map getMap() {
+        return map;
+    }
+
+    public static void setMap(Map map) {
+        Movable.map = map;
+    }
 
     /**
      *
