@@ -1,5 +1,6 @@
 package entities;
 
+import main.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ class PlayerTest {
     private Entities player;
     @BeforeEach
     public void createPlayer() {
-        player = new Player(20.0f, 20.0f, 1);
+        player = new Player(20.0f, 20.0f, new Map(1));
     }
 
     @AfterEach

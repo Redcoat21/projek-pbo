@@ -35,7 +35,7 @@ public class Player extends Movable {
         swordFactory = new SwordFactory();
         spearFactory = new SpearFactory();
 //        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
-        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
+        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
     }
 
     @Override
@@ -75,6 +75,8 @@ public class Player extends Movable {
         int atkX = (int) getXFromCenter();
         int atkY = (int) getYFromCenter();
         int WHArc = 0;
+        int Wstab = 0;
+        int Hstab = 0;
         Main.processing.noStroke();
         Main.processing.fill(255,0,0);
         if(weapon instanceof Sword && !weapon.getWeaponName().equals("Great Sword")){
@@ -124,6 +126,79 @@ public class Player extends Movable {
             }
             else if(getAtkDirection().equals(Direction.UP)){
                 Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+            }
+        }
+        else if(weapon instanceof Spear && weapon.getWeaponName().equals("Iron Spear")){
+            Hstab = 20;
+            Wstab = 50;
+            stabAtkCollision(atkX, atkY, Wstab, Hstab, enemy, getAtkDirection());
+            if(getAtkDirection().equals(Direction.RIGHT)){
+                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX + Wstab, atkY + Hstab/2, atkX + Wstab, atkY - Hstab/2);
+            }
+            else if(getAtkDirection().equals(Direction.DOWN)){
+                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY + Wstab, atkX - Hstab/2, atkY + Wstab);
+            }
+            else if(getAtkDirection().equals(Direction.LEFT)){
+                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX - Wstab, atkY + Hstab/2, atkX - Wstab, atkY - Hstab/2);
+            }
+            else if(getAtkDirection().equals(Direction.UP)){
+                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);
+            }
+        }
+        else if(weapon instanceof Spear && weapon.getWeaponName().equals("Spear of The Lord")){
+            Hstab = 30;
+            Wstab = 70;
+            stabAtkCollision(atkX, atkY, Wstab, Hstab, enemy, getAtkDirection());
+            if(getAtkDirection().equals(Direction.RIGHT)){
+                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX + Wstab, atkY + Hstab/2, atkX + Wstab, atkY - Hstab/2);
+            }
+            else if(getAtkDirection().equals(Direction.DOWN)){
+                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY + Wstab, atkX - Hstab/2, atkY + Wstab);
+            }
+            else if(getAtkDirection().equals(Direction.LEFT)){
+                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX - Wstab, atkY + Hstab/2, atkX - Wstab, atkY - Hstab/2);
+            }
+            else if(getAtkDirection().equals(Direction.UP)){
+                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);
+            }
+        }
+    }
+
+    private void stabAtkCollision(int atkX, int atkY, int width, int height, ArrayList<Movable> enemy, Direction direction){
+        int Xcenter = atkX;
+        int Ycenter = atkY;
+        int aWidth = width;
+        int aHeight = height;
+        float distX = 0;
+        float distY = 0;
+        float combWidth = 0;
+        float combHeight = 0;
+
+        if(direction.equals(Direction.RIGHT)){
+            Xcenter = atkX + width/2;
+        }
+        else if(direction.equals(Direction.DOWN)){
+            Ycenter = atkY + width/2;
+            aWidth = height;
+            aHeight = width;
+        }
+        else if(direction.equals(Direction.LEFT)){
+            Xcenter = atkX - width/2;
+        }
+        else if(direction.equals(Direction.UP)){
+            Ycenter = atkY - width/2;
+            aWidth = height;
+            aHeight = width;
+        }
+
+        for(Movable musuh: enemy){
+            combWidth = (aWidth+musuh.getWidth())/2;
+            combHeight = (aHeight+musuh.getHeight())/2;
+            distX = Math.abs(Xcenter - musuh.getXFromCenter());
+            distY = Math.abs(Ycenter - musuh.getYFromCenter());
+
+            if(distX <= combWidth && distY <=combHeight){
+                musuh.subHP(weapon.calculateDamageDealt());
             }
         }
     }

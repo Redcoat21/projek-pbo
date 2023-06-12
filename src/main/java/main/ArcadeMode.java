@@ -62,7 +62,7 @@ public class ArcadeMode {
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
             Movable a = entities.get(i);
-            if(a.getHealth()==0){
+            if(a.getHealth()<=0){
                 entities.remove(i);
             }
         }
@@ -165,9 +165,9 @@ public class ArcadeMode {
             elapsedSecondsAtk = (float) elapsedTimeAtk/1000;
             if(elapsedSecondsAtk>=player.getAtkSpeed()) {
                 player.atk(entities);
-                System.out.println("waktu: " + elapsedSecondsAtk);
-                System.out.println("speed: " + player.getAtkSpeed());
-                System.out.println("masuk");
+//                System.out.println("waktu: " + elapsedSecondsAtk);
+//                System.out.println("speed: " + player.getAtkSpeed());
+//                System.out.println("masuk");
                 startTimeAtk = System.currentTimeMillis();
             }
 

@@ -20,6 +20,9 @@ public class EndlessMode {
     long startTimeText;
     long elapsedTimeText;
     int elapsedSecondsText;
+    long startTimeAtk;
+    long elapsedTimeAtk;
+    float elapsedSecondsAtk;
     int wave;
     int phase;
     Map map;
@@ -38,6 +41,9 @@ public class EndlessMode {
         startTimeText = 0;
         elapsedTimeText = 0;
         elapsedSecondsText = (int) (elapsedTimeText / 1000);
+        startTimeAtk = 0;
+        elapsedTimeAtk = 0;
+        elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);
         alive = true;
         wave = 0;
         phase = 0;
@@ -48,7 +54,7 @@ public class EndlessMode {
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
             Movable a = entities.get(i);
-            if(a.getHealth()==0){
+            if(a.getHealth()<=0){
                 entities.remove(i);
             }
         }
@@ -97,6 +103,7 @@ public class EndlessMode {
             startBattle();
             if(battle) {
                 gantiWave();
+                startTimeAtk = System.currentTimeMillis();
             }
         }
         else if(alive && battle) {
@@ -144,7 +151,17 @@ public class EndlessMode {
             map.printMap();
             player.render();
             player.move();
-            player.atk(entities);
+
+            //atk section
+            elapsedTimeAtk = System.currentTimeMillis() - startTimeAtk;
+            elapsedSecondsAtk = (float) elapsedTimeAtk/1000;
+            if(elapsedSecondsAtk>=player.getAtkSpeed()) {
+                player.atk(entities);
+                System.out.println("waktu: " + elapsedSecondsAtk);
+                System.out.println("speed: " + player.getAtkSpeed());
+                System.out.println("masuk");
+                startTimeAtk = System.currentTimeMillis();
+            }
 
             for (Movable a:entities){
                 if(a instanceof Zombies)a.render();

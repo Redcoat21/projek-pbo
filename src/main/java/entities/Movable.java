@@ -53,7 +53,7 @@ public class Movable extends Entities{
         this.atkSpeed = atkSpeed;
     }
 
-    //constructor for enemy
+    //constructor for other movable except player
     public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed) {
         super(x, y, width, height);
         this.health = health;
