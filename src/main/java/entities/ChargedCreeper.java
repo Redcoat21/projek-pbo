@@ -21,16 +21,28 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     private int pathIdx;
     private boolean gotPath;
     private boolean suicide;
+    private static boolean breakWall;
+
+//    public ChargedCreeper(float x, float y) {
+//        super(x, y,30,30,4,2, 5);
+//        agro = false;
+//        agroIdx=0;
+//        tickMove=0;
+//        indexDelay=0;
+//        gotPath=false;
+//    }
 
     public ChargedCreeper(float x, float y) {
-        super(x, y,30,30,4,2, 5);
+        super(x, y,10,10,4,4,5);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-        gotPath=false;
+        this.tiles = map.getMap();
+        pathIdx=0;
+        suicide=false;
+        breakWall=false;
     }
-
     @Override
     public void render() {
         tickMove++;
@@ -75,7 +87,37 @@ public class ChargedCreeper extends Movable implements Pathfinding{
                     if(pathIdx<(pathList.size()*20)-1){
                         if(pathIdx!=(pathList.size()*20)-1){
                             this.moveTo(pathList.get(pathIdx/20));
+                            System.out.println(tiles[(getObjectCoords()[0]-1)][getObjectCoords()[1]]);
+                            if(!breakWall){
+                                if(tiles[getObjectCoords()[0]-1][getObjectCoords()[1]] instanceof Wall &&pathList.get(pathIdx/20)==Direction.LEFT){
+                                    map.removeTile(getObjectCoords()[0]-1,getObjectCoords()[1]);
+                                    tiles[getObjectCoords()[0]-1][getObjectCoords()[1]] =null;
+                                    setHealth(0);
+                                    breakWall=true;
+                                }else if(tiles[getObjectCoords()[0]+1][getObjectCoords()[1]] instanceof Wall &&pathList.get(pathIdx/20)==Direction.RIGHT){
+                                    map.removeTile(getObjectCoords()[0]+1,getObjectCoords()[1]);
+                                    tiles[getObjectCoords()[0]+1][getObjectCoords()[1]] =null;
+                                    setHealth(0);
+                                    breakWall=true;
+                                }else if(tiles[getObjectCoords()[0]][getObjectCoords()[1]-1] instanceof Wall &&pathList.get(pathIdx/20)==Direction.UP){
+                                    map.removeTile(getObjectCoords()[0],getObjectCoords()[1]-1);
+                                    tiles[getObjectCoords()[0]][getObjectCoords()[1]-1] =null;
+                                    setHealth(0);
+                                    breakWall=true;
+                                }else if(tiles[getObjectCoords()[0]][getObjectCoords()[1]+1] instanceof Wall &&pathList.get(pathIdx/20)==Direction.DOWN){
+                                    map.removeTile(getObjectCoords()[0],getObjectCoords()[1]+1);
+                                    tiles[getObjectCoords()[0]][getObjectCoords()[1]+1] =null;
+                                    setHealth(0);
+                                    breakWall=true;
+                                }
+                            }else{
+                                pathIdx=0;
+                                gotPath=false;
+                                pathList=getNextDirection(new ArrayList<Direction>(),getObjectCoords()[0],getObjectCoords()[1],new Obstacles[64][32]);
+                                breakWall=false;
+                            }
                         }
+                        if(pathList!=null)
                         Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
                     }else{
                         this.moveTo(Direction.NONE);
@@ -83,10 +125,11 @@ public class ChargedCreeper extends Movable implements Pathfinding{
                         pathIdx=0;
                         pathList=null;
                         gotPath=false;
+                        breakWall=false;
                     }
                 }
                 if(Math.floor(Math.abs((getX()/20)- getTargetCoords()[0]))==0&&Math.floor(Math.abs((getY()-80)/20-(getTargetCoords()[1])))==0){
-                    System.out.println("AAAAAA");
+//                    System.out.println("AAAAAA");
                     suicide=true;
                     target.subHP(target.getHealth()-1);
                 }
@@ -128,10 +171,10 @@ public class ChargedCreeper extends Movable implements Pathfinding{
             return dlist;
         } else{
             ArrayList<ValueTile> moves = new ArrayList<>();
-            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=10&& !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
-            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=10&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
-            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=10&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
-            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=10 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
+            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=12&& !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
+            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=12&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
+            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=12&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
+            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=12 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
             if(moves!=null){
                 Collections.sort(moves, new Comparator<ValueTile>() {
                     @Override
@@ -143,7 +186,11 @@ public class ChargedCreeper extends Movable implements Pathfinding{
                 System.out.println();
                 for (ValueTile a : moves){
                     if(!gotPath){
-                        if(tiles[a.getX()][a.getY()] instanceof Wall);
+                        if(tiles[a.getX()][a.getY()] instanceof Wall){
+                            dlist.add(a.getMoved());
+                            gotPath=true;
+                            return dlist;
+                        }
                         else if(moved[a.getX()][a.getY()]==null){
                             dlist.add(a.getMoved());
                             moved[a.getX()][a.getY()] = new Obstacles(a.getX(),a.getY());

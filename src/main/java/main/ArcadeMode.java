@@ -28,6 +28,7 @@ public class ArcadeMode {
     boolean win;
     ArrayList<Movable> entities = new ArrayList<>();
 
+
     public ArcadeMode(){
         floor = 4;
         player = new Player(0,15.5f*20+80, new Map(floor));
@@ -186,13 +187,13 @@ public class ArcadeMode {
                 }else if(a instanceof Skeletons){
                     ((Skeletons) a).checkAgro(player);
                     a.move();
-                }
-                else if(a instanceof  EliteZombies){
+                }else if(a instanceof  EliteZombies){
                     ((EliteZombies) a).checkAgro(player);
                     a.move();
                 }else if(a instanceof ChargedCreeper){
                     ((ChargedCreeper)a).checkAgro(player);
                     a.move();
+                    map = ((ChargedCreeper) a).getMap();
                 }else if(a instanceof BigBoss){
                     ((BigBoss)a).checkAgro(player);
                     a.move();

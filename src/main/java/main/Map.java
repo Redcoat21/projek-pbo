@@ -245,6 +245,11 @@ public class Map {
     public Obstacles[][] getMap() {
         return map;
     }
+    public void removeTile(int x,int y){
+        if(map[x][y] !=null ){
+            map[x][y] = null;
+        }
+    }
 
     public int getFloor() {
         return floor;
