@@ -34,8 +34,8 @@ public class Player extends Movable {
         baseY = y;
         swordFactory = new SwordFactory();
         spearFactory = new SpearFactory();
-//        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
-        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
+        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
+//        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
     }
 
     @Override

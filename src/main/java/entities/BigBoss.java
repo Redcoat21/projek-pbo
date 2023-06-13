@@ -15,7 +15,6 @@ public class BigBoss extends Movable implements Pathfinding{
     private int tickMove;
     private int indexDelay;
     private Player target;
-    private Map map;
     Obstacles[][] tiles;
     private ArrayList<Direction> pathList;
     private int pathIdx;
@@ -59,13 +58,6 @@ public class BigBoss extends Movable implements Pathfinding{
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 //        j * 20, i * 20 + 80
-//        for (int i=0;i<32;i++){
-//            for (int j=0;j<64;j++){
-//                if(this.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-//                    Main.processing.text("X: "+j+"   Y: "+i,getX(),getY()+100);
-//                }
-//            }
-//        }
 //        Agro Mode
         if(agro){
             if(map==null){
@@ -130,7 +122,7 @@ public class BigBoss extends Movable implements Pathfinding{
         }
     }
     public void checkAgro(Player you){
-        if(Math.abs(getX()-you.getX())<=600&&Math.abs(getY()-you.getY())<=600){
+        if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
             this.agro=true;
         }else{
@@ -158,10 +150,10 @@ public class BigBoss extends Movable implements Pathfinding{
             return dlist;
         } else{
             ArrayList<ValueTile> moves = new ArrayList<>();
-            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=30&& !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
-            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=30&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
-            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=30&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
-            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=30 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
+            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=15 && !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
+            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=15 && !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
+            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=15 && !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
+            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=15 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
             if(moves!=null){
                 Collections.sort(moves, new Comparator<ValueTile>() {
                     @Override
@@ -191,26 +183,16 @@ public class BigBoss extends Movable implements Pathfinding{
     @Override
     public int[] getTargetCoords() {
         int[] coords = new int[2];
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(target.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    coords[0] = j;coords[1]=i;
-                }
-            }
-        }
+        coords[0] = (int) target.getX()/20;
+        coords[1] = (int) ((target.getY()-80)/20);
         return coords;
     }
 
     @Override
     public int[] getObjectCoords() {
         int[] coords = new int[2];
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    coords[0] = j;coords[1]=i;
-                }
-            }
-        }
+        coords[0] = (int) getX()/20;
+        coords[1] = (int) ((getY()-80)/20);
         return coords;
     }
 }

@@ -49,18 +49,18 @@ public class Zombies extends Movable implements Pathfinding{
     }
     @Override
     public void render() {
-        if(map == null){
-            System.out.println("map yes");
-        }
-        else{
-            System.out.println("map no");
-        }
-
-        if(pathList == null){
-            System.out.println("null");
-        }else{
-            System.out.println("path no null");
-        }
+//        if(map == null){
+//            System.out.println("map yes");
+//        }
+//        else{
+//            System.out.println("map no");
+//        }
+//
+//        if(pathList == null){
+//            System.out.println("null");
+//        }else{
+//            System.out.println("path no null");
+//        }
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
@@ -77,7 +77,7 @@ public class Zombies extends Movable implements Pathfinding{
 //        }
 //        Agro Mode
         if(agro){
-            if(map==null){
+            if(map!=null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
@@ -97,7 +97,9 @@ public class Zombies extends Movable implements Pathfinding{
                     }
                 }
             }else{
+                System.out.println("masuk");
                 if(pathList==null){
+                    System.out.println("pathlistnya null");
                     pathList=getNextDirection(new ArrayList<Direction>(),getObjectCoords()[0],getObjectCoords()[1],new Obstacles[64][32]);
                 }else{
                     pathIdx++;
@@ -160,6 +162,7 @@ public class Zombies extends Movable implements Pathfinding{
 
     @Override
     public ArrayList<Direction> getNextDirection(ArrayList<Direction> dlist, int x, int y, Obstacles[][] moved) {
+        System.out.println("masuk back");
         if(Math.abs(x-getTargetCoords()[0])<=1&&Math.abs(y-getTargetCoords()[1])<=1){
             dlist.add(Direction.NONE);
             gotPath=true;
@@ -200,26 +203,16 @@ public class Zombies extends Movable implements Pathfinding{
     @Override
     public int[] getTargetCoords() {
         int[] coords = new int[2];
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(target.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    coords[0] = j;coords[1]=i;
-                }
-            }
-        }
+        coords[0] = (int) target.getX()/20;
+        coords[1] = (int) ((target.getY()-80)/20);
         return coords;
     }
 
     @Override
     public int[] getObjectCoords() {
         int[] coords = new int[2];
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    coords[0] = j;coords[1]=i;
-                }
-            }
-        }
+        coords[0] = (int) getX()/20;
+        coords[1] = (int) ((getY()-80)/20);
         return coords;
     }
 }

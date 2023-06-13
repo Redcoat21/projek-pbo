@@ -68,6 +68,18 @@ public class Movable extends Entities{
         setMap(4);
     }
 
+    //constructor for bullet
+    public Movable(float x, float y, int width, int height, int health, int speed, Direction direction) {
+        super(x, y, width, height);
+        this.health = health;
+        this.direction = direction;
+        this.atkDirection = direction;
+        this.speed = speed;
+        this.atkSpeed = 0;
+        savingDirection = new ArrayList<>();
+        setMap(4);
+    }
+
     public void setMap(int floor) {
         map = new Map(floor);
     }

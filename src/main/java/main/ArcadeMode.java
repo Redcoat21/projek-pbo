@@ -111,11 +111,14 @@ public class ArcadeMode {
 
             startBattle();
             if(battle) {
+                System.out.println("masuk battle");
                 gantiWave();
                 startTimeAtk = System.currentTimeMillis();
+                System.out.println("selesai battle");
             }
         }
         else if(alive && battle) {
+            System.out.println("masuk suasana battle");
             Main.processing.background(204,102,0);
             Main.processing.noStroke();
 
@@ -172,14 +175,18 @@ public class ArcadeMode {
                 startTimeAtk = System.currentTimeMillis();
             }
 
+            System.out.println("waktu render enemy");
             for (Movable a:entities){
+                System.out.println("lagi render");
                 if(a instanceof Zombies)a.render();
                 else if(a instanceof Skeletons)a.render();
                 else if(a instanceof EliteZombies)a.render();
                 else if(a instanceof ChargedCreeper)a.render();
                 else if(a instanceof BigBoss)a.render();
+                System.out.println("selesai render");
             }
 
+            System.out.println("waktu serang enemy");
             for (Movable a:entities){
                 if(a instanceof Zombies){
                     ((Zombies) a).checkAgro(player);
@@ -194,10 +201,8 @@ public class ArcadeMode {
                     ((ChargedCreeper)a).checkAgro(player);
                     a.move();
                     if(((ChargedCreeper) a).isSuicide()){
-                        map = ((ChargedCreeper) a).getMapCreeper();
-                        for (Movable b:entities){
-                            b.updateMap(map);
-                        }
+                        map = a.getMap();
+                        a.updateMap(map);
                     }
                 }else if(a instanceof BigBoss){
                     ((BigBoss)a).checkAgro(player);
@@ -216,6 +221,7 @@ public class ArcadeMode {
             if(player.isDead()){
                 alive = false;
             }
+            System.out.println("selesai suasana battle");
         }
         else if(alive && done){
             Main.processing.background(204,102,0);
@@ -316,16 +322,19 @@ public class ArcadeMode {
 //        System.out.println("SUDAH SELESAI");
     }
     private void gantiWave(){
+        System.out.println("masuk");
         wave++;
         if(wave < 4){
             entities.add(new Zombies(320,390));
-//            entities.add(new Skeletons(800,300));
-//            entities.add(new EliteZombies(100,150));
-//            entities.add(new ChargedCreeper(150, 150));
-//            entities.add(new ChargedCreeper(170, 150));
-//            entities.add(new ChargedCreeper(190, 150));
-//            entities.add(new BigBoss(1000,300));
+            entities.add(new Skeletons(800,300));
+            entities.add(new EliteZombies(100,150));
+            entities.add(new ChargedCreeper(150, 150));
+            entities.add(new ChargedCreeper(170, 150));
+            entities.add(new ChargedCreeper(190, 150));
+            entities.add(new BigBoss(1000,300));
         }
+        player.updateMap(map);
+        System.out.println("selesai");
         startTimeText = System.currentTimeMillis();
         elapsedTimeText = System.currentTimeMillis() - startTimeText;
         elapsedSecondsText = (int) (elapsedTimeText / 1000);

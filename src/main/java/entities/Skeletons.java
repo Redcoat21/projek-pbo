@@ -53,14 +53,6 @@ public class Skeletons extends Movable implements Pathfinding{
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 //        j * 20, i * 20 + 80
-//        source of the problem
-//        for (int i=0;i<32;i++){
-//            for (int j=0;j<64;j++){
-//                if(this.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-//                    Main.processing.text("X: "+j+"   Y: "+i,getX(),getY()+100);
-//                }
-//            }
-//        }
 //        Agro Mode
         if(agro){
             if(primed){
@@ -189,25 +181,16 @@ public class Skeletons extends Movable implements Pathfinding{
     @Override
     public int[] getTargetCoords() {
         int[] coords = new int[2];
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(target.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    coords[0] = j;coords[1]=i;
-                }
-            }
-        }
+        coords[0] = (int) target.getX()/20;
+        coords[1] = (int) ((target.getY()-80)/20);
         return coords;
     }
 
     @Override
     public int[] getObjectCoords() {
         int[] coords = new int[2];
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    coords[0] = j;coords[1]=i;
-                }
-            }
-        }
+        coords[0] = (int) getX()/20;
+        coords[1] = (int) ((getY()-80)/20);
         return coords;
-    }}
+    }
+}
