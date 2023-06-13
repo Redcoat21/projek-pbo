@@ -43,11 +43,24 @@ public class Zombies extends Movable implements Pathfinding{
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
+//        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
     }
     @Override
     public void render() {
+        if(map == null){
+            System.out.println("map yes");
+        }
+        else{
+            System.out.println("map no");
+        }
+
+        if(pathList == null){
+            System.out.println("null");
+        }else{
+            System.out.println("path no null");
+        }
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
@@ -64,7 +77,7 @@ public class Zombies extends Movable implements Pathfinding{
 //        }
 //        Agro Mode
         if(agro){
-            if(map!=null){
+            if(map==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){

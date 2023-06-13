@@ -23,26 +23,27 @@ public class Skeletons extends Movable implements Pathfinding{
     private int pathIdx;
     private boolean gotPath;
 
-    public Skeletons(float x, float y) {
-        super(x, y,20,20,2,1, 5);
-        agro = false;
-        agroIdx=0;
-        tickMove=0;
-        indexDelay=0;
-        primed=false;
-//        Throwaway variable just for checking if delay is working
-        shootCounter=0;
-        shootTick=0;
-    }
-//    public Skeletons(float x, float y, Map map) {
-//        super(x, y,20,20,2,1);
+//    public Skeletons(float x, float y) {
+//        super(x, y,20,20,2,1, 5);
 //        agro = false;
 //        agroIdx=0;
 //        tickMove=0;
 //        indexDelay=0;
-//        this.tiles = map.getMap();
-//        pathIdx=0;
+//        primed=false;
+////        Throwaway variable just for checking if delay is working
+//        shootCounter=0;
+//        shootTick=0;
 //    }
+    public Skeletons(float x, float y) {
+        super(x, y,20,20,2,1,5);
+        agro = false;
+        agroIdx=0;
+        tickMove=0;
+        indexDelay=0;
+//        this.map=map;
+        this.tiles = map.getMap();
+        pathIdx=0;
+    }
     @Override
     public void render() {
         tickMove++;

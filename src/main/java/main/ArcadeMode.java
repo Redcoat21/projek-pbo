@@ -193,7 +193,12 @@ public class ArcadeMode {
                 }else if(a instanceof ChargedCreeper){
                     ((ChargedCreeper)a).checkAgro(player);
                     a.move();
-                    map = ((ChargedCreeper) a).getMap();
+                    if(((ChargedCreeper) a).isSuicide()){
+                        map = ((ChargedCreeper) a).getMapCreeper();
+                        for (Movable b:entities){
+                            b.updateMap(map);
+                        }
+                    }
                 }else if(a instanceof BigBoss){
                     ((BigBoss)a).checkAgro(player);
                     a.move();

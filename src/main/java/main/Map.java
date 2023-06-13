@@ -241,7 +241,6 @@ public class Map {
             }
         }
     }
-
     public Obstacles[][] getMap() {
         return map;
     }

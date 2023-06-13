@@ -31,6 +31,10 @@ public class Movable extends Entities{
     protected static Map map;
     protected float atkSpeed;
 
+    public Map getMap() {
+        return map;
+    }
+
     /**
      *
      * @param x
@@ -59,9 +63,9 @@ public class Movable extends Entities{
         this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
-        savingDirection = new ArrayList<>();
-        atkDirection = Direction.RIGHT;
         this.atkSpeed = atkSpeed;
+        savingDirection = new ArrayList<>();
+        setMap(4);
     }
 
     public void setMap(int floor) {
@@ -156,6 +160,7 @@ public class Movable extends Entities{
         float distanceOnX = Math.abs(e1.getX()-getX());
         float distanceOnY = Math.abs(e1.getY()-getY());
 
+
         if(distanceOnX+5<combHalfWidth && distanceOnY+5<combHalfHeight){
             return true;
         }
@@ -195,7 +200,6 @@ public class Movable extends Entities{
         }
 //        System.out.println("the last index is " + savingDirection.get(savingDirection.size()-1));
         moveTo(savingDirection.get(savingDirection.size()-1));
-
     }
 
     /**

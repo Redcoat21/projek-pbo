@@ -20,15 +20,25 @@ public class EliteSkeletons extends Movable implements Pathfinding{
     private int pathIdx;
     private boolean gotPath;
 
+//    public EliteSkeletons(float x, float y) {
+//        super(x, y,30,30,4,3, 3);
+//        agro = false;
+//        agroIdx=0;
+//        tickMove=0;
+//        indexDelay=0;
+//        gotPath=false;
+//    }
+
     public EliteSkeletons(float x, float y) {
-        super(x, y,30,30,4,3, 3);
+        super(x, y,30,30,4,3,3);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-        gotPath=false;
+//        this.map=map;
+        this.tiles = map.getMap();
+        pathIdx=0;
     }
-
     @Override
     public void render() {
         tickMove++;
@@ -46,7 +56,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //        }
 //        Agro Mode
         if(agro){
-            if(map!=null){
+            if(map==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
