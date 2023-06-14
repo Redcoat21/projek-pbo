@@ -28,6 +28,7 @@ public class Movable extends Entities{
      */
     private ArrayList<Direction> savingDirection;
     private Direction atkDirection;
+
     protected static Map map;
     protected float atkSpeed;
 

@@ -2,55 +2,60 @@ package entities;
 
 import main.Main;
 import processing.core.PImage;
+import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class Animation {
     private int frameDuration;
     private int currentSpriteIndex;
-    private ArrayList<PImage> sprites;
+    private Hashtable<Direction, ArrayList<PImage>> sprites;
 
     public Animation(int frameDuration) {
         this.frameDuration = frameDuration;
-        this.sprites = new ArrayList<>();
+        this.sprites = new Hashtable<>();
     }
 
     /**
-     * Add sprites into the sprites list.
-     * @param sprite The image / sprite to be added.
+     * Add the sprites based on the given direction
+     * @param animationFor based on {@link entities.Direction} NONE for idle, LEFT, UP, RIGHT, DOWN
+     * @param image 1 frame of image.
+     * @param size the new size for the image.
      */
-    public void addSprite(PImage sprite) {
-        this.sprites.add(sprite);
+    public void addSprite(Direction animationFor, PImage image, PVector size) {
+        PImage temp = image;
+
+        // Meaning if the new size given is not (0,0)
+        if(size.x != 0.0f && size.y != 0.0) {
+            int newWidth = (int) size.x;
+            int newHeight = (int) size.y;
+            temp.resize(newWidth, newHeight);
+        }
+
+        // Meaning that the current direction for the spriteslist is null, then assign a new list to it.
+        this.sprites.computeIfAbsent(animationFor, k -> new ArrayList<>());
+
+        this.sprites.get(animationFor).add(temp);
     }
 
     /**
-     * Add sprites into the sprites list with option to resize the image.
-     * @param sprite The image / sprite to be added.
-     * @param width The new width of the sprite.
-     * @param height The new height of the sprite.
+     * Get the sprites list based on the given direction.
+     * @param animationFor Which sprites list should be returned.
+     * @return The sprites list.
      */
-    public void addSprite(PImage sprite, float width, float height) {
-        PImage temp = sprite;
-        temp.resize((int) width, (int) height);
-        this.sprites.add(temp);
-    }
-
-    /**
-     * Return the amount of sprites in this animation.
-     * @return The sprites in this animation.
-     */
-    public int getSpriteCount() {
-        return this.sprites.size();
+    public ArrayList<PImage> getSpritesList(Direction animationFor) {
+        return this.sprites.get(animationFor);
     }
 
     /**
      * Load the image(s) onto the screen.
+     * @param animationFor Which animation should it played.
      * @param entities The current entities that the sprite is displayed onto.
      */
-
-    public void play(Entities entities) {
+    public void play(Direction animationFor, Entities entities) {
         int frameIndex = Main.processing.frameCount / this.frameDuration;
         currentSpriteIndex = frameIndex % sprites.size();
-        Main.processing.image(sprites.get(currentSpriteIndex), entities.getX(), entities.getY());
+        Main.processing.image(this.sprites.get(animationFor).get(currentSpriteIndex), entities.getX(), entities.getY());
     }
 }
