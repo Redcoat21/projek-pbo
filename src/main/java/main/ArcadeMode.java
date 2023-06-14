@@ -46,7 +46,7 @@ public class ArcadeMode {
         elapsedTimeAtk = 0;
         elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);
         alive = true;
-        floor = 4;
+        floor = 1;
         wave = 0;
         map = new Map(floor);
         battle = false;
@@ -54,14 +54,6 @@ public class ArcadeMode {
         win = false;
         entities = new ArrayList<>();
         bullet = new ArrayList<>();
-//        entities.add(new Zombies(100,100,map));
-//        entities.add(new Zombies(320,390,map));
-//        entities.add(new Skeletons(800,300,map));
-//        entities.add(new EliteZombies(100,150,map));
-//        entities.add(new ChargedCreeper(150, 150,map));
-//        entities.add(new ChargedCreeper(170, 150,map));
-//        entities.add(new ChargedCreeper(190, 150,map));
-//        entities.add(new BigBoss(1000,300,map));
     }
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
@@ -333,11 +325,13 @@ public class ArcadeMode {
 //        System.out.println("SUDAH SELESAI");
     }
     private void gantiWave(){
-        System.out.println("masuk");
+//        System.out.println("masuk");
         wave++;
         if(wave < 4){
             entities.add(new Zombies(320,390));
-//            entities.add(new Skeletons(800,300));
+            entities.add(new Skeletons(800,300));
+            entities.add(new Skeletons(700,250));
+            entities.add(new Skeletons(600,200));
 //            entities.add(new EliteZombies(100,150));
 //            entities.add(new ChargedCreeper(150, 150));
 //            entities.add(new ChargedCreeper(170, 150));
@@ -348,7 +342,7 @@ public class ArcadeMode {
         for(Movable a: entities){
             a.updateMap(map);
         }
-        System.out.println("selesai");
+//        System.out.println("selesai");
         startTimeText = System.currentTimeMillis();
         elapsedTimeText = System.currentTimeMillis() - startTimeText;
         elapsedSecondsText = (int) (elapsedTimeText / 1000);

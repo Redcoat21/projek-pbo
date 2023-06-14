@@ -66,7 +66,6 @@ public class Bullet extends Movable{
         this.damage = damage;
         setSpeed(speed);
         moveTo(facing);
-        System.out.println(getSpeed());
     }
 
     public boolean isFired(){
