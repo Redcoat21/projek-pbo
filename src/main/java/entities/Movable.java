@@ -100,29 +100,6 @@ public class Movable extends Entities{
         }
         return false;
     }
-    private void entitiesCollisionWall(){
-        for(Obstacles[] obsTemp: map.getMap()){
-            for(Obstacles obs: obsTemp){
-                if(obs != null) {
-                    if (entitiesIntersectWall(obs) && obs instanceof Wall) {
-                        if(direction.equals(Direction.UP)){
-                            getPosition().add(0.0f, this.speed - gapCollisionOnY(obs));
-                        }
-                        else if(direction.equals(Direction.DOWN)){
-                            getPosition().add(0.0f, -(this.speed) + gapCollisionOnY(obs));
-                        }
-                        else if(direction.equals(Direction.RIGHT)){
-                            getPosition().add(-(this.speed) + gapCollisionOnX(obs), 0.0f);
-                        }
-                        else if(direction.equals(Direction.LEFT)){
-                            getPosition().add(this.speed - gapCollisionOnX(obs), 0.0f);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private float gapCollisionOnX (Obstacles e1){
         float combHalfWidth = (e1.getWidth()+getWidth())/2;
 //        float distanceOnX = Math.abs((e1.getX() + e1.getWidth()/2)-(getX() + getWidth()/2));
@@ -150,6 +127,46 @@ public class Movable extends Entities{
                 }
             }
         }
+    }
+
+    private void entitiesCollisionWall(){
+        for(Obstacles[] obsTemp: map.getMap()){
+            for(Obstacles obs: obsTemp){
+                if(obs != null) {
+                    if (entitiesIntersectWall(obs) && obs instanceof Wall) {
+                        if(direction.equals(Direction.UP)){
+                            getPosition().add(0.0f, this.speed - gapCollisionOnY(obs));
+                        }
+                        else if(direction.equals(Direction.DOWN)){
+                            getPosition().add(0.0f, -(this.speed) + gapCollisionOnY(obs));
+                        }
+                        else if(direction.equals(Direction.RIGHT)){
+                            getPosition().add(-(this.speed) + gapCollisionOnX(obs), 0.0f);
+                        }
+                        else if(direction.equals(Direction.LEFT)){
+                            getPosition().add(this.speed - gapCollisionOnX(obs), 0.0f);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * this function is excluively for bullet to check if it hit wall or no
+     * @return
+     */
+    protected boolean isEntitiesCollisionWall(){
+        for(Obstacles[] obsTemp: map.getMap()){
+            for(Obstacles obs: obsTemp){
+                if(obs != null) {
+                    if (entitiesIntersectWall(obs) && obs instanceof Wall) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     protected boolean entitiesIntersectWall(Obstacles e1){
@@ -220,6 +237,38 @@ public class Movable extends Entities{
      */
     public int getHealth() {
         return health;
+    }
+
+    /**
+     * this function is used for bullet class only to move
+     */
+    protected void moving(){
+        switch(direction) {
+            case UP -> getPosition().add(0.0f, -(this.speed));
+            case RIGHT -> getPosition().add(this.speed, 0.0f);
+            case DOWN -> getPosition().add(0.0f, this.speed);
+            case LEFT -> getPosition().add(-(this.speed), 0.0f);
+        }
+        boolean outOfBoundUp = getPosition().y < 80.0f;
+        boolean outOfBoundRight = getPosition().x > 1280.0f - getSize().x;
+        boolean outOfBoundDown = getPosition().y > 720.0f - getSize().y;
+        boolean outOfBoundLeft = getPosition().x < 0.0f;
+
+        if(outOfBoundUp) {
+            getPosition().set(getPosition().x, 80.0f);
+        }
+
+        if(outOfBoundRight) {
+            getPosition().set(1280.0f - getSize().x, getPosition().y);
+        }
+
+        if(outOfBoundDown) {
+            getPosition().set(getPosition().x, 720.0f - getSize().y);
+        }
+
+        if(outOfBoundLeft) {
+            getPosition().set(0.0f, getPosition().y);
+        }
     }
 
     /**

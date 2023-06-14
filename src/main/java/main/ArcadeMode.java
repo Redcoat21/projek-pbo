@@ -26,7 +26,8 @@ public class ArcadeMode {
     boolean battle;
     boolean done;
     boolean win;
-    ArrayList<Movable> entities = new ArrayList<>();
+    ArrayList<Movable> entities;
+    ArrayList<Bullet> bullet;
 
 
     public ArcadeMode(){
@@ -51,6 +52,8 @@ public class ArcadeMode {
         battle = false;
         done = false;
         win = false;
+        entities = new ArrayList<>();
+        bullet = new ArrayList<>();
 //        entities.add(new Zombies(100,100,map));
 //        entities.add(new Zombies(320,390,map));
 //        entities.add(new Skeletons(800,300,map));
@@ -111,14 +114,14 @@ public class ArcadeMode {
 
             startBattle();
             if(battle) {
-                System.out.println("masuk battle");
+//                System.out.println("masuk battle");
                 gantiWave();
                 startTimeAtk = System.currentTimeMillis();
-                System.out.println("selesai battle");
+//                System.out.println("selesai battle");
             }
         }
         else if(alive && battle) {
-            System.out.println("masuk suasana battle");
+//            System.out.println("masuk suasana battle");
             Main.processing.background(204,102,0);
             Main.processing.noStroke();
 
@@ -164,6 +167,8 @@ public class ArcadeMode {
             player.render();
             player.move();
 
+            player.bulletAtkCollision(entities);
+
             //atk section
             elapsedTimeAtk = System.currentTimeMillis() - startTimeAtk;
             elapsedSecondsAtk = (float) elapsedTimeAtk/1000;
@@ -175,18 +180,18 @@ public class ArcadeMode {
                 startTimeAtk = System.currentTimeMillis();
             }
 
-            System.out.println("waktu render enemy");
+//            System.out.println("waktu render enemy");
             for (Movable a:entities){
-                System.out.println("lagi render");
+//                System.out.println("lagi render");
                 if(a instanceof Zombies)a.render();
                 else if(a instanceof Skeletons)a.render();
                 else if(a instanceof EliteZombies)a.render();
                 else if(a instanceof ChargedCreeper)a.render();
                 else if(a instanceof BigBoss)a.render();
-                System.out.println("selesai render");
+//                System.out.println("selesai render");
             }
 
-            System.out.println("waktu serang enemy");
+//            System.out.println("waktu serang enemy");
             for (Movable a:entities){
                 if(a instanceof Zombies){
                     ((Zombies) a).checkAgro(player);
@@ -211,6 +216,12 @@ public class ArcadeMode {
             }
             removeDead();
 
+            //bagian bullet
+//            for(Bullet b: bullet){
+//                b.render();
+//                b.move();
+//            }
+
             if(wave<3 && isEnemyDie()){
                 gantiWave();
             }
@@ -221,7 +232,7 @@ public class ArcadeMode {
             if(player.isDead()){
                 alive = false;
             }
-            System.out.println("selesai suasana battle");
+//            System.out.println("selesai suasana battle");
         }
         else if(alive && done){
             Main.processing.background(204,102,0);
@@ -326,14 +337,17 @@ public class ArcadeMode {
         wave++;
         if(wave < 4){
             entities.add(new Zombies(320,390));
-            entities.add(new Skeletons(800,300));
-            entities.add(new EliteZombies(100,150));
-            entities.add(new ChargedCreeper(150, 150));
-            entities.add(new ChargedCreeper(170, 150));
-            entities.add(new ChargedCreeper(190, 150));
-            entities.add(new BigBoss(1000,300));
+//            entities.add(new Skeletons(800,300));
+//            entities.add(new EliteZombies(100,150));
+//            entities.add(new ChargedCreeper(150, 150));
+//            entities.add(new ChargedCreeper(170, 150));
+//            entities.add(new ChargedCreeper(190, 150));
+//            entities.add(new BigBoss(1000,300));
         }
         player.updateMap(map);
+        for(Movable a: entities){
+            a.updateMap(map);
+        }
         System.out.println("selesai");
         startTimeText = System.currentTimeMillis();
         elapsedTimeText = System.currentTimeMillis() - startTimeText;
