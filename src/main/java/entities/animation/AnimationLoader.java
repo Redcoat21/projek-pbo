@@ -1,6 +1,7 @@
 package entities.animation;
 
 import main.Main;
+import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
@@ -14,7 +15,8 @@ public class AnimationLoader {
      * @return The loaded image.
      */
     public static PImage loadImage(String relativePath) {
+        PApplet mainProgram = Main.getMainProgram();
         String fullPath = "./src/main/resources/" + relativePath;
-        return Main.processing.loadImage(fullPath);
+        return mainProgram.loadImage(fullPath);
     }
 }

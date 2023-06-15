@@ -1,10 +1,11 @@
 package entities.animation;
 
-import entities.Animatable;
 import entities.Direction;
-import entities.Entities;
+import entities.Entity;
 import entities.tiles.Tiles;
+
 import main.Main;
+import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
@@ -19,13 +20,14 @@ public class AnimationPlayer {
     /**
      * Play animation based on a given direction parameter.
      * @param animationFor Which animation should be played.
-     * @param entities The current entities that the animation will be played on.
+     * @param entity The current entities that the animation will be played on.
      */
-    public void play(Direction animationFor, Entities entities) {
-        this.playAnimation(animationFor, entities.getSprites(), entities.getPosition());
+    public void play(Direction animationFor, Entity entity) {
+        this.playAnimation(animationFor, entity.getSprites(), entity.getPosition());
     }
 
     private void playAnimation(Direction directionFor, Animation sprites, PVector position) {
+        PApplet mainProgram = Main.getMainProgram();
         ArrayList<PImage> spriteAnimation = sprites.getSpritesList(directionFor);
         int frameDuration = sprites.getFrameDuration();
 
@@ -33,10 +35,10 @@ public class AnimationPlayer {
             throw new RuntimeException("Sprites for this animation hasn't been set yet");
         }
 
-        int frameIndex = Main.processing.frameCount / frameDuration;
+        int frameIndex = mainProgram.frameCount / frameDuration;
         currentSpriteIndex = frameIndex % spriteAnimation.size();
 
-        Main.processing.image(spriteAnimation.get(currentSpriteIndex), position.x, position.y);
+        mainProgram.image(spriteAnimation.get(currentSpriteIndex), position.x, position.y);
     }
 
     /**

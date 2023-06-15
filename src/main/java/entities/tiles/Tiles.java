@@ -76,7 +76,6 @@ public abstract class Tiles implements Animatable {
     /**
      * Play the tile animation.
      */
-    @Override
     public void playAnimation(Direction animationFor) {
         this.animationPlayer.play(this);
     }

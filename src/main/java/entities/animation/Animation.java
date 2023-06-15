@@ -1,8 +1,6 @@
 package entities.animation;
 
 import entities.Direction;
-import entities.Entities;
-import main.Main;
 import processing.core.PImage;
 import processing.core.PVector;
 

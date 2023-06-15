@@ -1,17 +1,17 @@
 package entities;
 
 import entities.animation.Animation;
-import main.Main;
 import processing.core.PImage;
 import processing.core.PVector;
 
 /**
  * Base class for any object that : Have sprites, can attack and can move.
  */
-public abstract class Entities implements Animatable, Combatant, Moveable {
+public abstract class Entity implements Animatable, Combatant, Moveable {
     private Animation sprites;
     private PVector position;
     private final PVector size;
+    private Direction facingToward;
     private Direction direction;
 
     /**
@@ -22,7 +22,7 @@ public abstract class Entities implements Animatable, Combatant, Moveable {
      * @param height The height of the entity.
      */
 
-    public Entities(float x, float y, int width, int height) {
+    public Entity(float x, float y, int width, int height) {
         this.position = new PVector(x, y);
         this.size = new PVector(width, height);
         this.sprites = new Animation(30);
@@ -54,10 +54,7 @@ public abstract class Entities implements Animatable, Combatant, Moveable {
     /**
      * Render the entity in the map.
      */
-    public void render(){
-        Main.processing.noStroke();
-        //Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
-    }
+    public abstract void render();
 
     /**
      * Set the entity's position on the given (x,y) value.
@@ -78,10 +75,18 @@ public abstract class Entities implements Animatable, Combatant, Moveable {
 
     /**
      * Get the current direction that the entity is moving toward.
-     * @return The direction that the entitiy is moving toward.
+     * @return The direction that the entity is moving toward.
      */
     public Direction getDirection() {
         return this.direction;
+    }
+
+    /**
+     * Get the current direction that the entity is facing to.
+     * @return The direction that the entity is facing to.
+     */
+    public Direction getFacingToward() {
+        return facingToward;
     }
 
     /**
@@ -90,17 +95,18 @@ public abstract class Entities implements Animatable, Combatant, Moveable {
      * @param sprite The sprite to be added.
      */
     @Override
-    public void addSprites(Direction animationFor, PImage sprite) {
+    public void addSprite(Direction animationFor, PImage sprite) {
         this.sprites.addSprite(animationFor, sprite, this.size);
     }
 
     @Override
-    public void attack(Entities target) {
-
+    public void attack(Entity target) {
+        System.out.println("Attacking!");
     }
 
     @Override
-    public void move() {
-
+    public final void move(Direction movingToward) {
+        this.position = this.position.add(movingToward.getDirection());
+        this.facingToward = movingToward;
     }
 }

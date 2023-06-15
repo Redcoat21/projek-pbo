@@ -13,7 +13,6 @@ public enum Direction {
     Direction(float x, float y) {
         this.direction = new PVector(x, y);
     }
-
     public PVector getDirection() {
         return direction;
     }

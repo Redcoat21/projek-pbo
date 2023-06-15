@@ -1,5 +1,5 @@
 package entities;
 
 public interface Combatant {
-    void attack(Entities target);
+    void attack(Entity target);
 }
