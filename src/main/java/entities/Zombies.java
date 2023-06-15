@@ -7,8 +7,10 @@ import main.Map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 
 public class Zombies extends Movable implements Pathfinding{
+    private Random rand;
     private boolean agro;
     private int agroIdx;
     private int tickMove;
@@ -17,9 +19,14 @@ public class Zombies extends Movable implements Pathfinding{
     Obstacles[][] tiles;
     private ArrayList<Direction> pathList;
     private int pathIdx;
+    private boolean alive;
     private boolean gotPath;
     private boolean attack;
     private boolean eligible;
+    private long startTime;
+    private long elapsedTime;
+    private int elapsedSecond;
+    private int coolDown;
 
 //    public Zombies(float x, float y, int map) {
 //        super(x, y,20,20,2,1);
@@ -50,21 +57,15 @@ public class Zombies extends Movable implements Pathfinding{
         pathIdx=0;
         eligible = false;
         attack = false;
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
+        coolDown = 3;
+        alive = false;
+        rand = new Random();
     }
     @Override
     public void render() {
-//        if(map == null){
-//            System.out.println("map yes");
-//        }
-//        else{
-//            System.out.println("map no");
-//        }
-//
-//        if(pathList == null){
-//            System.out.println("null");
-//        }else{
-//            System.out.println("path no null");
-//        }
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
@@ -73,14 +74,6 @@ public class Zombies extends Movable implements Pathfinding{
         Main.processing.text("Attack : "+attack+" face: "+getAtkDirection(),getX(),getY()+160);
 
 //        j * 20, i * 20 + 80
-//        this is the source of the problem
-//        for (int i=0;i<32;i++){
-//            for (int j=0;j<64;j++){
-//                if(this.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-//                    Main.processing.text("X: "+j+"   Y: "+i,getX(),getY()+100);
-//                }
-//            }
-//        }
 //        Agro Mode
         if(agro){
             if(map==null){

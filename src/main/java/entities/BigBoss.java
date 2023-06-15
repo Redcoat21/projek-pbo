@@ -195,4 +195,9 @@ public class BigBoss extends Movable implements Pathfinding{
         coords[1] = (int) ((getY()-80)/20);
         return coords;
     }
+
+    @Override
+    protected boolean entitiesIntersectHole(Obstacles e1) {
+        return false;
+    }
 }

@@ -9,12 +9,14 @@ import entities.tiles.Wall;
 import main.Main;
 import main.Map;
 import processing.core.PConstants;
+import java.util.Random;
 
 public class Movable extends Entities{
     /**
      * The hp of the entities.
      */
     private int health;
+    private int baseHealth;
     /**
      * The direction that the entities is currently moving toward.
      */
@@ -31,6 +33,8 @@ public class Movable extends Entities{
 
     protected static Map map;
     protected float atkSpeed;
+    protected boolean alive;
+    protected Random rand;
 
     public Map getMap() {
         return map;
@@ -49,6 +53,7 @@ public class Movable extends Entities{
     //constuctor only for player
     public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, Map map) {
         super(x, y, width, height);
+        this.baseHealth = health;
         this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
@@ -56,29 +61,33 @@ public class Movable extends Entities{
         this.map = map;
         atkDirection = Direction.RIGHT;
         this.atkSpeed = atkSpeed;
+        alive = true;
+        rand = new Random();
     }
 
     //constructor for other movable except player
     public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed) {
         super(x, y, width, height);
-        this.health = health;
+        this.baseHealth = health;
+        this.health = -1;
         direction = Direction.NONE;
         this.speed = speed;
         this.atkSpeed = atkSpeed;
         savingDirection = new ArrayList<>();
-        setMap(4);
+        rand = new Random();
     }
 
-    //constructor for bullet
+    //constructor only for bullet
     public Movable(float x, float y, int width, int height, int health, int speed, Direction direction) {
         super(x, y, width, height);
+        this.baseHealth = health;
         this.health = health;
         this.direction = direction;
         this.atkDirection = direction;
         this.speed = speed;
         this.atkSpeed = 0;
         savingDirection = new ArrayList<>();
-        setMap(4);
+        rand = new Random();
     }
 
     public void setMap(int floor) {
@@ -184,7 +193,7 @@ public class Movable extends Entities{
         return false;
     }
 
-    private boolean entitiesIntersectHole(Obstacles e1){
+    protected boolean entitiesIntersectHole(Obstacles e1){
         float combHalfWidth = (e1.getWidth()+getWidth())/2;
         float combHalfHeight = (e1.getHeight()+getHeight())/2;
         float distanceOnX = Math.abs(e1.getX()-getX());
@@ -374,4 +383,30 @@ public class Movable extends Entities{
     protected void facingTo(Direction direction){
         atkDirection = direction;
     }
+
+    public boolean isDead(){
+        if(health < 1){
+            return true;
+        }
+        return false;
+    }
+
+    public void summoned(){
+        boolean clash = true;
+        while(clash) {
+            int xTemp = rand.nextInt(1, 55);
+            int yTemp = rand.nextInt(1, 30);
+            setTo(xTemp*20, yTemp*20+80);
+            if(!isEntitiesCollisionWall()){
+                clash = false;
+            }
+        }
+        health = baseHealth;
+        System.out.println(health);
+    }
+
+    public void killed(){
+        setTo(-50, -50);
+    }
+
 }
