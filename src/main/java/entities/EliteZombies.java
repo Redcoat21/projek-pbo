@@ -19,6 +19,8 @@ public class EliteZombies extends Movable implements Pathfinding{
     private ArrayList<Direction> pathList;
     private int pathIdx;
     private boolean gotPath;
+    private boolean attack;
+    private boolean eligible;
 
 //    public EliteZombies(float x, float y) {
 //        super(x, y,30,30,4,3, 4);
@@ -30,7 +32,7 @@ public class EliteZombies extends Movable implements Pathfinding{
 //    }
 
     public EliteZombies(float x, float y) {
-        super(x, y,30,30,4,3,4);
+        super(x, y,30,30,4,2,4);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -38,6 +40,8 @@ public class EliteZombies extends Movable implements Pathfinding{
 //        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
+        attack = false;
+        eligible = false;
     }
     @Override
     public void render() {
@@ -46,6 +50,7 @@ public class EliteZombies extends Movable implements Pathfinding{
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+        Main.processing.text("Attack : "+attack+" face: "+getAtkDirection(),getX(),getY()+160);
 //        j * 20, i * 20 + 80
 //        Agro Mode
         if(agro){
@@ -78,12 +83,26 @@ public class EliteZombies extends Movable implements Pathfinding{
                             this.moveTo(pathList.get(pathIdx/20));
                         }
                         Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
+                        if(pathList.get(pathIdx/20)!=Direction.NONE)eligible=false;
                     }else{
                         this.moveTo(Direction.NONE);
                         this.stop();
                         pathIdx=0;
                         pathList=null;
                         gotPath=false;
+                        eligible=true;
+                        if(target.getXFromCenter() < getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.LEFT);
+                        }
+                        else if(target.getXFromCenter() > getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.RIGHT);
+                        }
+                        else if(target.getYFromCenter() < getYFromCenter()){
+                            facingTo(Direction.UP);
+                        }
+                        else if(target.getYFromCenter() > getYFromCenter()){
+                            facingTo(Direction.DOWN);
+                        }
                     }
                 }
 
@@ -114,6 +133,9 @@ public class EliteZombies extends Movable implements Pathfinding{
         if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200){
             target = you;
             this.agro=true;
+            if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200&&eligible){
+                attack=true;
+            }else attack =false;
         }else{
             target=null;
             this.agro=false;

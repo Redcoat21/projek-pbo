@@ -51,7 +51,7 @@ public class ArcadeMode {
         elapsedTimeAtk = 0;
         elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);
         alive = true;
-        floor = 4;
+        floor = 1;
         wave = 0;
         map = new Map(floor);
         battle = false;
@@ -197,6 +197,7 @@ public class ArcadeMode {
                 if(a instanceof Zombies)a.render();
                 else if(a instanceof Skeletons)a.render();
                 else if(a instanceof EliteZombies)a.render();
+                else if(a instanceof EliteSkeletons)a.render();
                 else if(a instanceof ChargedCreeper)a.render();
                 else if(a instanceof BigBoss)a.render();
 //                System.out.println("selesai render");
@@ -211,16 +212,16 @@ public class ArcadeMode {
                     ((Skeletons) a).checkAgro(player);
                     a.move();
                     ((Skeletons) a).bulletAtkCollision(player);
-                }else if(a instanceof  EliteZombies){
+                }else if(a instanceof  EliteZombies) {
                     ((EliteZombies) a).checkAgro(player);
                     a.move();
+                }else if(a instanceof EliteSkeletons){
+                    ((EliteSkeletons) a).checkAgro(player);
+                    a.move();
+                    ((EliteSkeletons) a).bulletAtkCollision(player);
                 }else if(a instanceof ChargedCreeper){
                     ((ChargedCreeper)a).checkAgro(player);
                     a.move();
-                    if(((ChargedCreeper) a).isSuicide()){
-                        map = a.getMap();
-                        a.updateMap(map);
-                    }
                 }else if(a instanceof BigBoss){
                     ((BigBoss)a).checkAgro(player);
                     a.move();
@@ -384,13 +385,15 @@ public class ArcadeMode {
 //        System.out.println("masuk");
         wave++;
         if(wave < 4){
-//            entities.add(new Zombies(320,390));
+            entities.add(new Zombies(320,390));
 //            entities.add(new Skeletons(800,300));
 //            entities.add(new Skeletons(700,250));
 //            entities.add(new Skeletons(600,200));
-//            entities.add(new EliteZombies(100,150));
-            entities.add(new ChargedCreeper(150, 150));
-            entities.add(new ChargedCreeper(170, 150));
+            entities.add(new EliteZombies(100,150));
+//            entities.add(new EliteSkeletons(200, 150));
+//            entities.add(new EliteSkeletons(400,120));
+//            entities.add(new ChargedCreeper(150, 150));
+//            entities.add(new ChargedCreeper(170, 150));
 //            entities.add(new ChargedCreeper(190, 150));
 //            entities.add(new BigBoss(1000,300));
         }

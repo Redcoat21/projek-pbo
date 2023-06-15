@@ -18,6 +18,8 @@ public class Zombies extends Movable implements Pathfinding{
     private ArrayList<Direction> pathList;
     private int pathIdx;
     private boolean gotPath;
+    private boolean attack;
+    private boolean eligible;
 
 //    public Zombies(float x, float y, int map) {
 //        super(x, y,20,20,2,1);
@@ -46,6 +48,8 @@ public class Zombies extends Movable implements Pathfinding{
 //        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
+        eligible = false;
+        attack = false;
     }
     @Override
     public void render() {
@@ -66,6 +70,8 @@ public class Zombies extends Movable implements Pathfinding{
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+        Main.processing.text("Attack : "+attack+" face: "+getAtkDirection(),getX(),getY()+160);
+
 //        j * 20, i * 20 + 80
 //        this is the source of the problem
 //        for (int i=0;i<32;i++){
@@ -97,23 +103,35 @@ public class Zombies extends Movable implements Pathfinding{
                     }
                 }
             }else{
-                System.out.println("masuk");
                 if(pathList==null){
-                    System.out.println("pathlistnya null");
                     pathList=getNextDirection(new ArrayList<Direction>(),getObjectCoords()[0],getObjectCoords()[1],new Obstacles[64][32]);
                 }else{
-                    pathIdx++;
+                    pathIdx+=getSpeed();
                     if(pathIdx<pathList.size()*20-1){
                         if(pathIdx!=pathList.size()*20-2){
                             this.moveTo(pathList.get(pathIdx/20));
                         }
                         Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
+                        if(pathList.get(pathIdx/20)!=Direction.NONE)eligible=false;
                     }else{
                         this.moveTo(Direction.NONE);
                         this.stop();
                         pathIdx=0;
                         pathList=null;
                         gotPath=false;
+                        eligible=true;
+                        if(target.getXFromCenter() < getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.LEFT);
+                        }
+                        else if(target.getXFromCenter() > getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.RIGHT);
+                        }
+                        else if(target.getYFromCenter() < getYFromCenter()){
+                            facingTo(Direction.UP);
+                        }
+                        else if(target.getYFromCenter() > getYFromCenter()){
+                            facingTo(Direction.DOWN);
+                        }
                     }
                 }
 
@@ -144,6 +162,15 @@ public class Zombies extends Movable implements Pathfinding{
         if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200){
             target = you;
             this.agro=true;
+            if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200&&eligible){
+                attack=true;
+            }else attack =false;
+//        if(Math.abs(getXFromCenter()-you.getXFromCenter())<=400&&Math.abs(getYFromCenter()-you.getYFromCenter())<=400){
+//            target = you;
+//            this.agro=true;
+//            if(Math.abs(getXFromCenter()-you.getXFromCenter())<=400&&Math.abs(getYFromCenter()-you.getYFromCenter())<=400&&eligible){
+//                attack=true;
+//            }else attack =false;
         }else{
             target=null;
             this.agro=false;
@@ -170,10 +197,10 @@ public class Zombies extends Movable implements Pathfinding{
             return dlist;
         } else{
             ArrayList<ValueTile> moves = new ArrayList<>();
-            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=10&& !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
-            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=10&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
-            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=10&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
-            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=10 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
+            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=12&& !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
+            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=12&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
+            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=12&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
+            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=12 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
             if(moves!=null){
                 Collections.sort(moves, new Comparator<ValueTile>() {
                     @Override

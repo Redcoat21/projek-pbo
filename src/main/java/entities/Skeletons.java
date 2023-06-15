@@ -11,9 +11,6 @@ import java.util.Comparator;
 
 public class Skeletons extends Movable implements Pathfinding{
     private boolean agro;
-    private boolean primed;
-    private int shootTick;
-    private int shootCounter;
     private int agroIdx;
     private int tickMove;
     private int indexDelay;
@@ -50,20 +47,12 @@ public class Skeletons extends Movable implements Pathfinding{
     public void render() {
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
-        Main.processing.text("Shoot Idx "+shootTick+"   Shoot Counter  "+shootCounter,getX(),getY()-60);
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 //        j * 20, i * 20 + 80
 //        Agro Mode
         if(agro){
-            if(primed){
-//                shootTick++;
-//                if(shootTick>=90){
-//                    shootTick=0;
-//                    shootCounter++;
-//                }
-            }
             if(map==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
@@ -139,8 +128,6 @@ public class Skeletons extends Movable implements Pathfinding{
         if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
             this.agro=true;
-            if(Math.abs(getX()-you.getX())<=300||Math.abs(getY()-you.getY())<=300)this.primed = true;
-            else primed=false;
         }else{
             target=null;
             this.agro=false;

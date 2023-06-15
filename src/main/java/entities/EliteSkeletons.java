@@ -19,6 +19,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
     private ArrayList<Direction> pathList;
     private int pathIdx;
     private boolean gotPath;
+    private Bullet bullet;
 
 //    public EliteSkeletons(float x, float y) {
 //        super(x, y,30,30,4,3, 3);
@@ -38,6 +39,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
+        bullet = new Bullet();
     }
     @Override
     public void render() {
@@ -84,6 +86,22 @@ public class EliteSkeletons extends Movable implements Pathfinding{
                         pathIdx=0;
                         pathList=null;
                         gotPath=false;
+                        if(target.getXFromCenter() < getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.LEFT);
+                        }
+                        else if(target.getXFromCenter() > getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.RIGHT);
+                        }
+                        else if(target.getYFromCenter() < getYFromCenter()){
+                            facingTo(Direction.UP);
+                        }
+                        else if(target.getYFromCenter() > getYFromCenter()){
+                            facingTo(Direction.DOWN);
+                        }
+
+                        if(!bullet.isFired()){
+                            bullet.fired(getXFromCenter(), getYFromCenter(), 8, 1, getAtkDirection());
+                        }
                     }
                 }
 
@@ -111,7 +129,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
         }
     }
     public void checkAgro(Player you){
-        if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200){
+        if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
             this.agro=true;
         }else{
@@ -132,7 +150,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 
     @Override
     public ArrayList<Direction> getNextDirection(ArrayList<Direction> dlist, int x, int y, Obstacles[][] moved) {
-        if(Math.abs(x-getTargetCoords()[0])<=1&&Math.abs(y-getTargetCoords()[1])<=1){
+        if((Math.abs(x-getTargetCoords()[0])<=15&&Math.abs(y-getTargetCoords()[1])==0)||Math.abs(x-getTargetCoords()[0])==0&&Math.abs(y-getTargetCoords()[1])<=15){
             dlist.add(Direction.NONE);
             gotPath=true;
             System.out.println("LELE");
@@ -183,5 +201,45 @@ public class EliteSkeletons extends Movable implements Pathfinding{
         coords[0] = (int) getX()/20;
         coords[1] = (int) ((getY()-80)/20);
         return coords;
+    }
+
+    @Override
+    public void move() {
+        super.move();
+
+        if(bullet.isFired()){
+            bullet.move();
+            bullet.render();
+        }
+    }
+
+    public void bulletAtkCollision(Player target){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+
+        pointOnRectX = clamp((int) target.getX(), (int) (target.getX()+target.getWidth()), (int) bullet.getX());
+        pointOnRectY = clamp((int) target.getY(), (int) (target.getY()+target.getHeight()), (int) bullet.getY());
+        XDistToRect = (int) bullet.getX() - pointOnRectX;
+        YDistToRect = (int) bullet.getY() - pointOnRectY;
+        dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+        if(dist < bullet.getWidth() && bullet.isFired()){
+            target.subHP(bullet.getDamage());
+            bullet.hit();
+        }
+    }
+
+    private int clamp(int min, int max, int value){
+        if(min > value){
+            return min;
+        }
+        else if(max < value){
+            return max;
+        }
+        else{
+            return value;
+        }
     }
 }
