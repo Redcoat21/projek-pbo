@@ -4,15 +4,18 @@ import entities.Animateable;
 import entities.animation.Animation;
 import entities.Direction;
 import processing.core.PImage;
+import processing.core.PShape;
 import processing.core.PVector;
 
 /**
  * Represent every single tiles that will be on the map.
  */
-public class Tiles implements Animateable {
+public abstract class Tiles implements Animateable {
+    private PShape collision;
     private PVector size;
     private PVector position;
     private Animation sprites;
+    private boolean walkAble;
 
     /**
      * Constructor for the Tiles class
@@ -22,6 +25,19 @@ public class Tiles implements Animateable {
     public Tiles(float x, float y) {
         this.position = new PVector(x, y);
         this.sprites = new Animation(60);
+        this.walkAble = false;
+    }
+
+    /**
+     * Constructor for the Tiles class
+     * @param x X position of this tile.
+     * @param y Y position of this tile.
+     * @param walkAble Determine whether a tile is walkable or not (Walls or floors).
+     */
+    public Tiles(float x, float y, boolean walkAble) {
+        this.position = new PVector(x, y);
+        this.sprites = new Animation(60);
+        this.walkAble = walkAble;
     }
 
     /**
@@ -40,5 +56,13 @@ public class Tiles implements Animateable {
     @Override
     public void addSprite(Direction animationFor, PImage sprite) {
         this.sprites.addSprite(animationFor, sprite, this.size);
+    }
+
+    /**
+     * Get the sprites list.
+     * @return The sprites list.
+     */
+    public Animation getSprites() {
+        return sprites;
     }
 }

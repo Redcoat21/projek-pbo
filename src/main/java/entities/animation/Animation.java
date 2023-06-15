@@ -9,6 +9,9 @@ import processing.core.PVector;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+/**
+ * Represent all thing related to sprites of the entities, the sprites can either be static (only 1 image) or consisted of many images.
+ */
 public class Animation {
     private int frameDuration;
     private int currentSpriteIndex;

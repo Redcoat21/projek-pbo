@@ -7,7 +7,7 @@ import processing.core.PVector;
 /**
  * Representing Any object in the map that have the following criteria : have collision.
  */
-public abstract class Entities {
+public abstract class Entities implements Animateable {
     private Animation sprites;
     /**
      * Representing the Entity's position on the map. from left-top
