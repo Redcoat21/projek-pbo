@@ -13,8 +13,7 @@ import java.util.Hashtable;
  * Represent all thing related to sprites of the entities, the sprites can either be static (only 1 image) or consisted of many images.
  */
 public class Animation {
-    private int frameDuration;
-    private int currentSpriteIndex;
+    private final int frameDuration;
     private Hashtable<Direction, ArrayList<PImage>> sprites;
 
     /**
@@ -24,6 +23,10 @@ public class Animation {
     public Animation(int frameDuration) {
         this.frameDuration = frameDuration;
         this.sprites = new Hashtable<>();
+    }
+
+    public int getFrameDuration() {
+        return frameDuration;
     }
 
     /**
@@ -68,14 +71,4 @@ public class Animation {
         return this.sprites.get(animationFor);
     }
 
-    /**
-     * Load the image(s) onto the screen.
-     * @param animationFor Which animation should it played.
-     * @param entities The current entities that the sprite is displayed onto.
-     */
-    public void play(Direction animationFor, Entities entities) {
-        int frameIndex = Main.processing.frameCount / this.frameDuration;
-        currentSpriteIndex = frameIndex % sprites.size();
-        Main.processing.image(this.sprites.get(animationFor).get(currentSpriteIndex), entities.getX(), entities.getY());
-    }
 }

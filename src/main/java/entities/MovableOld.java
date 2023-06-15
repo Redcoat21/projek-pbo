@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import entities.tiles.Wall;
 import main.MapOld;
 
-public class MovableOld extends Entities{
+public class MovableOld extends Entities {
     private int health;
     private Direction direction;
     private int speed;

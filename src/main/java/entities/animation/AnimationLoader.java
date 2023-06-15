@@ -3,6 +3,9 @@ package entities.animation;
 import main.Main;
 import processing.core.PImage;
 
+/**
+ * A static class that is used to load image based on the given path (Relative or Absolute).
+ */
 public class AnimationLoader {
     /**
      * Load an image based on the given path.

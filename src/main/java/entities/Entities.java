@@ -1,26 +1,19 @@
 package entities;
+
 import entities.animation.Animation;
 import main.Main;
 import processing.core.PImage;
 import processing.core.PVector;
 
 /**
- * Representing Any object in the map that have the following criteria : have collision.
+ * Base class for any object that : Have sprites, can attack and can move.
  */
-public abstract class Entities implements Animateable {
+public abstract class Entities implements Animatable, Combatant, Moveable {
     private Animation sprites;
-    /**
-     * Representing the Entity's position on the map. from left-top
-     */
     private PVector position;
-    /**
-     * Representing the size in Width and Height
-     */
     private final PVector size;
-   /**
-     * The direction that the entities is currently moving toward.
-     */
     private Direction direction;
+
     /**
      * Constructor for the Entity class and its child.
      * @param x The x position of the entity in the map.
@@ -35,7 +28,7 @@ public abstract class Entities implements Animateable {
         this.sprites = new Animation(30);
     }
     /**
-     * Get the current position (x,y) of the entity in Vector2.
+     * Get the current position (x,y) of the entity in PVector.
      * @return Vector2 position of the entity.
      */
     public PVector getPosition() {
@@ -43,43 +36,19 @@ public abstract class Entities implements Animateable {
     }
 
     /**
-     * Get the x position of the entity.
-     * @return The x position of the entity in the map.
+     * Get the size of the entity in PVector.
+     * @return PVector format of the size (width, height).
      */
-    public float getX() {
-        return this.position.x;
+    public PVector getSize() {
+        return this.size;
     }
 
     /**
-     * Get the y position of the entity
-     * @return The y position of the entity in the map.
+     * Get the sprites list of the entity.
+     * @return Spriteslist in {@link Animation}.
      */
-    public float getY() {
-        return this.position.y;
-    }
-
-    public float getXFromCenter(){
-        return this.position.x + this.size.x/2;
-    }
-
-    public float getYFromCenter(){
-        return this.position.y + this.size.y/2;
-    }
-
-    /**
-     * Get the width of the entity.
-     * @return The width of the entity.
-     */
-    public float getWidth() {
-        return this.size.x;
-    }
-
-    /**
-     * Get the height of the entity.
-     * @return The height of the entity.
-     */
-    public float getHeight() {
-        return this.size.y;
+    public Animation getSprites() {
+        return sprites;
     }
 
     /**
@@ -108,14 +77,6 @@ public abstract class Entities implements Animateable {
     }
 
     /**
-     * Get the size of the entity in (width, height) format.
-     * @return The size of the entity in PVector (width, height)
-     */
-    protected PVector getSize() {
-        return size;
-    }
-
-    /**
      * Get the current direction that the entity is moving toward.
      * @return The direction that the entitiy is moving toward.
      */
@@ -127,18 +88,19 @@ public abstract class Entities implements Animateable {
      * Add sprites into the sprites list.
      * @param animationFor Direction for the sprite.
      * @param sprite The sprite to be added.
-     * @param resizedSize New size for the image if it want to be resized, put (0, 0) if not want to be resized.
      */
-    public void addSprites(Direction animationFor, PImage sprite, PVector resizedSize) {
-        this.sprites.addSprite(animationFor, sprite, resizedSize);
+    @Override
+    public void addSprites(Direction animationFor, PImage sprite) {
+        this.sprites.addSprite(animationFor, sprite, this.size);
     }
 
-    /**
-     * Load the sprites onto the screen.
-     * @param animationDirection Which animation should it played.
-     */
-    protected void play(Direction animationDirection) {
-        this.sprites.play(animationDirection, this);
+    @Override
+    public void attack(Entities target) {
+
     }
 
+    @Override
+    public void move() {
+
+    }
 }

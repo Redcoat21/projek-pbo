@@ -1,7 +1,6 @@
 package entities.enemies;
 
 import entities.*;
-import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
 
