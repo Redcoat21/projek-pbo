@@ -1,16 +1,15 @@
-package entities;
+package entities.enemies;
 
+import entities.*;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
-import main.Map;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ChargedCreeper extends Movable implements Pathfinding{
+public class ChargedCreeper extends MovableOld implements Pathfinding {
     private boolean agro;
     private int agroIdx;
     private int tickMove;
@@ -37,7 +36,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-        this.tiles = map.getMap();
+        this.tiles = mapOld.getMap();
         pathIdx=0;
         suicide=false;
         breakWall=false;
@@ -52,7 +51,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
 //        j * 20, i * 20 + 80
 //        Agro Mode
         if(agro){
-            if(map==null){
+            if(mapOld ==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
@@ -82,22 +81,22 @@ public class ChargedCreeper extends Movable implements Pathfinding{
 //                            System.out.println(tiles[(getObjectCoords()[0]-1)][getObjectCoords()[1]]);
                             if(!breakWall){
                                 if(tiles[getObjectCoords()[0]-1][getObjectCoords()[1]] instanceof Wall &&pathList.get(pathIdx/20)==Direction.LEFT){
-                                    map.removeTile(getObjectCoords()[0]-1,getObjectCoords()[1]);
+                                    mapOld.removeTile(getObjectCoords()[0]-1,getObjectCoords()[1]);
                                     tiles[getObjectCoords()[0]-1][getObjectCoords()[1]] =null;
                                     setHealth(0);
                                     breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]+1][getObjectCoords()[1]] instanceof Wall &&pathList.get(pathIdx/20)==Direction.RIGHT){
-                                    map.removeTile(getObjectCoords()[0]+1,getObjectCoords()[1]);
+                                    mapOld.removeTile(getObjectCoords()[0]+1,getObjectCoords()[1]);
                                     tiles[getObjectCoords()[0]+1][getObjectCoords()[1]] =null;
                                     setHealth(0);
                                     breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]][getObjectCoords()[1]-1] instanceof Wall &&pathList.get(pathIdx/20)==Direction.UP){
-                                    map.removeTile(getObjectCoords()[0],getObjectCoords()[1]-1);
+                                    mapOld.removeTile(getObjectCoords()[0],getObjectCoords()[1]-1);
                                     tiles[getObjectCoords()[0]][getObjectCoords()[1]-1] =null;
                                     setHealth(0);
                                     breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]][getObjectCoords()[1]+1] instanceof Wall &&pathList.get(pathIdx/20)==Direction.DOWN){
-                                    map.removeTile(getObjectCoords()[0],getObjectCoords()[1]+1);
+                                    mapOld.removeTile(getObjectCoords()[0],getObjectCoords()[1]+1);
                                     tiles[getObjectCoords()[0]][getObjectCoords()[1]+1] =null;
                                     setHealth(0);
                                     breakWall=true;suicide=true;

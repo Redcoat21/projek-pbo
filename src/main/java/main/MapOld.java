@@ -4,11 +4,11 @@ import entities.tiles.Hole;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 
-public class Map {
+public class MapOld {
     Obstacles[][] map;
     int floor;
 
-    public Map(int floor){
+    public MapOld(int floor){
         this.floor = floor;
         map = new Obstacles[64][32];
         clearMap();
@@ -55,7 +55,6 @@ public class Map {
 
 
     private void setWall(){
-
             for(int i=0; i<32; i++){
                 for(int j=0; j<64; j++){
                     if (j == 56 && i < 14) {

@@ -1,11 +1,8 @@
 package entities;
+import entities.animation.Animation;
 import main.Main;
 import processing.core.PImage;
 import processing.core.PVector;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import main.Map;
 
 /**
  * Representing Any object in the map that have the following criteria : have collision.

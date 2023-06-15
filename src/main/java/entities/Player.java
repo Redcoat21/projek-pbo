@@ -1,22 +1,19 @@
 package entities;
 
-import main.Map;
-import org.w3c.dom.ranges.Range;
+import main.MapOld;
 import processing.core.PConstants;
-import processing.core.PImage;
 import weapon.*;
 import main.Main;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Player extends Movable {
+public class Player extends MovableOld {
     int baseHp;
     private Weapon weapon;
     private SwordFactory swordFactory;
     private SpearFactory spearFactory;
     private RangedFactory rangedFactory;
-    private Bullet[] bullets;
+    private BulletOld[] bulletOlds;
     float baseX;
     float baseY;
 
@@ -31,18 +28,18 @@ public class Player extends Movable {
 ////        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
 //    }
 
-    public Player(float x, float y, Map map){
-        super(x, y, 20, 20, 3, 3, 3, map);
+    public Player(float x, float y, MapOld mapOld){
+        super(x, y, 20, 20, 3, 3, 3, mapOld);
         baseHp = 3;
         baseX = x;
         baseY = y;
         swordFactory = new SwordFactory();
         spearFactory = new SpearFactory();
         rangedFactory = new RangedFactory();
-        bullets = new Bullet[10];
+        bulletOlds = new BulletOld[10];
         int temp = 1;
-        for(int i=0; i<bullets.length; i++){
-            bullets[i] = new Bullet();
+        for(int i = 0; i< bulletOlds.length; i++){
+            bulletOlds[i] = new BulletOld();
         }
 //        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
@@ -82,7 +79,7 @@ public class Player extends Movable {
         setTo(baseX, baseY);
     }
 
-    public void atk(ArrayList<Movable> enemy){
+    public void atk(ArrayList<MovableOld> enemy){
         int atkX = (int) getXFromCenter();
         int atkY = (int) getYFromCenter();
         int WHArc = 0;
@@ -176,41 +173,41 @@ public class Player extends Movable {
         else if(weapon instanceof Ranged && weapon.getWeaponName().equals("Wooden Bow")){
 //            bullet.add(new Bullet(atkX, atkY, 5, 1, ((Ranged) weapon).getSpeed(), ((Ranged) weapon).calculateDamageDealt(), getAtkDirection()));
 //            System.out.println("harusnya ke add ya");
-            for(int i=0; i< bullets.length; i++){
-                if(!bullets[i].isFired()){
+            for(int i = 0; i< bulletOlds.length; i++){
+                if(!bulletOlds[i].isFired()){
                     System.out.println("bullet " + i + " belum gerak");
-                    bullets[i].fired(atkX, atkY, ((Ranged) weapon).getSpeed(), ((Ranged) weapon).calculateDamageDealt(), getAtkDirection());
+                    bulletOlds[i].fired(atkX, atkY, ((Ranged) weapon).getSpeed(), ((Ranged) weapon).calculateDamageDealt(), getAtkDirection());
                     break;
                 }
             }
         }
     }
 
-    public void bulletAtkCollision(ArrayList<Movable> enemy){
+    public void bulletAtkCollision(ArrayList<MovableOld> enemy){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
         int XDistToRect = 0;
         int YDistToRect = 0;
         float dist = 0;
 
-        for(int i=0; i<bullets.length; i++){
-            if(bullets[i].isFired()){
-                for(Movable musuh: enemy){
-                    pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), (int) bullets[i].getX());
-                    pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), (int) bullets[i].getY());
-                    XDistToRect = (int) bullets[i].getX() - pointOnRectX;
-                    YDistToRect = (int) bullets[i].getY() - pointOnRectY;
+        for(int i = 0; i< bulletOlds.length; i++){
+            if(bulletOlds[i].isFired()){
+                for(MovableOld musuh: enemy){
+                    pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), (int) bulletOlds[i].getX());
+                    pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), (int) bulletOlds[i].getY());
+                    XDistToRect = (int) bulletOlds[i].getX() - pointOnRectX;
+                    YDistToRect = (int) bulletOlds[i].getY() - pointOnRectY;
                     dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
-                    if(dist < bullets[i].getWidth() && bullets[i].isFired()){
+                    if(dist < bulletOlds[i].getWidth() && bulletOlds[i].isFired()){
                         musuh.subHP(weapon.calculateDamageDealt());
-                        bullets[i].hit();
+                        bulletOlds[i].hit();
                     }
                 }
             }
         }
     }
 
-    private void stabAtkCollision(int atkX, int atkY, int width, int height, ArrayList<Movable> enemy, Direction direction){
+    private void stabAtkCollision(int atkX, int atkY, int width, int height, ArrayList<MovableOld> enemy, Direction direction){
         int Xcenter = atkX;
         int Ycenter = atkY;
         int aWidth = width;
@@ -237,7 +234,7 @@ public class Player extends Movable {
             aHeight = width;
         }
 
-        for(Movable musuh: enemy){
+        for(MovableOld musuh: enemy){
             combWidth = (aWidth+musuh.getWidth())/2;
             combHeight = (aHeight+musuh.getHeight())/2;
             distX = Math.abs(Xcenter - musuh.getXFromCenter());
@@ -249,13 +246,13 @@ public class Player extends Movable {
         }
     }
 
-    private void swingAtkCollision(int atkX, int atkY, int radius, ArrayList<Movable> enemy, Direction direction){
+    private void swingAtkCollision(int atkX, int atkY, int radius, ArrayList<MovableOld> enemy, Direction direction){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
         int XDistToRect = 0;
         int YDistToRect = 0;
         float dist = 0;
-        for(Movable musuh: enemy){
+        for(MovableOld musuh: enemy){
             pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), atkX);
             pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), atkY);
 //            System.out.println(pointOnRectX + ", " + pointOnRectY);
@@ -317,11 +314,11 @@ public class Player extends Movable {
     @Override
     public void move() {
         super.move();
-        for(int i=0; i < bullets.length; i++){
-            if(bullets[i].isFired()) {
+        for(int i = 0; i < bulletOlds.length; i++){
+            if(bulletOlds[i].isFired()) {
 //                System.out.println("bullet " + i + " gerak");
-                bullets[i].move();
-                bullets[i].render();
+                bulletOlds[i].move();
+                bulletOlds[i].render();
             }
         }
     }

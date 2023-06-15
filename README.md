@@ -38,7 +38,7 @@ Setiap 9 wave musuhnya juga akan semakin sulit dan kuat.
 
 ## MAP
 
-Besar mapnya adalah tiles 64x32. Setiap tile memiliki besar 20x20 pixel. Sehingga total resolusi adalah 1280x640 pixel. entities.Player akan summon dari gerbang awal. 80 pixel diatas map akan digunakan untuk memberikan informasi jumlah darah player sekarang, jumlah musuh tersisa, lantai tower, informasi power up dan sisa waktunya. Jadi total resolusi game adalah 1280x720.
+Besar mapnya adalah tiles 64x32. Setiap tile memiliki besar 20x20 pixel. Sehingga total resolusi adalah 1280x640 pixel. entities.Player akan summon dari gerbang awal. 80 pixel diatas mapOld akan digunakan untuk memberikan informasi jumlah darah player sekarang, jumlah musuh tersisa, lantai tower, informasi power up dan sisa waktunya. Jadi total resolusi game adalah 1280x720.
 
 Ada 3 tipe tiles disini:
 

@@ -4,18 +4,18 @@ import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
 
-public class Bullet extends Movable{
+public class BulletOld extends MovableOld {
     private float baseX;
     private float baseY;
     private int damage;
     private boolean firing;
-    public Bullet(float x, float y, int radius, int health, int speed, int damage, Direction facing) {
+    public BulletOld(float x, float y, int radius, int health, int speed, int damage, Direction facing) {
         super(x, y, radius, radius, health, speed, facing);
         this.damage = damage;
         firing = false;
     }
 
-    public Bullet(){
+    public BulletOld(){
         //the x and y from bullet is already from center
         super(-10, -10, 10, 1, 10, 1, Direction.RIGHT);
         this.baseX = -10;
@@ -35,7 +35,7 @@ public class Bullet extends Movable{
     }
 
     private void entitiesCollisionWall(){
-        for(Obstacles[] obsTemp: map.getMap()){
+        for(Obstacles[] obsTemp: mapOld.getMap()){
             for(Obstacles obs: obsTemp){
                 if(obs != null) {
                     if (entitiesIntersectWall(obs) && obs instanceof Wall) {

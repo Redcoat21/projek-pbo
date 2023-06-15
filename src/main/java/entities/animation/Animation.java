@@ -1,5 +1,7 @@
-package entities;
+package entities.animation;
 
+import entities.Direction;
+import entities.Entities;
 import main.Main;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -12,6 +14,10 @@ public class Animation {
     private int currentSpriteIndex;
     private Hashtable<Direction, ArrayList<PImage>> sprites;
 
+    /**
+     * Constructor for the Animation class.
+     * @param frameDuration How many in seconds that the sprite will be showed on.
+     */
     public Animation(int frameDuration) {
         this.frameDuration = frameDuration;
         this.sprites = new Hashtable<>();
@@ -33,9 +39,20 @@ public class Animation {
             temp.resize(newWidth, newHeight);
         }
 
-        // Meaning that the current direction for the spriteslist is null, then assign a new list to it.
+        // Meaning that the current direction for the sprites list is null, then assign a new list to it.
         this.sprites.computeIfAbsent(animationFor, k -> new ArrayList<>());
+        this.sprites.get(animationFor).add(temp);
+    }
 
+    /**
+     * Add the sprites based on the given direction
+     * @param animationFor based on {@link entities.Direction} NONE for idle, LEFT, UP, RIGHT, DOWN
+     * @param image 1 frame of image.
+     */
+    public void addSprite(Direction animationFor, PImage image) {
+        PImage temp = image;
+        // Meaning that the current direction for the sprites list is null, then assign a new list to it.
+        this.sprites.computeIfAbsent(animationFor, k -> new ArrayList<>());
         this.sprites.get(animationFor).add(temp);
     }
 

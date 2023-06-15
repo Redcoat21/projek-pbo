@@ -3,11 +3,11 @@ import main.Main;
 import ultilities.Vector2;
 
 /**
- * Representing Any object in the map that have the following criteria : able to move or have collision.
+ * Representing Any object in the mapOld that have the following criteria : able to move or have collision.
  */
 public abstract class Entities {
     /**
-     * Representing the Entity's position on the map.
+     * Representing the Entity's position on the mapOld.
      */
     private Vector2 position;
     /**
@@ -28,8 +28,8 @@ public abstract class Entities {
     private final float speed;
     /**
      * Constructor for the Entity class and its child.
-     * @param x The x position of the entity in the map.
-     * @param y The y position of the entity in the map.
+     * @param x The x position of the entity in the mapOld.
+     * @param y The y position of the entity in the mapOld.
      * @param width The width of the entity.
      * @param height The height of the entity.
      * @param health The health that the entity have.
@@ -54,7 +54,7 @@ public abstract class Entities {
 
     /**
      * Get the x position of the entity.
-     * @return The x position of the entity in the map.
+     * @return The x position of the entity in the mapOld.
      */
     public float getX() {
 <span class="fc" id="L60">        return this.position.getX();</span>
@@ -62,7 +62,7 @@ public abstract class Entities {
 
     /**
      * Get the y position of the entity
-     * @return The y position of the entity in the map.
+     * @return The y position of the entity in the mapOld.
      */
     public float getY() {
 <span class="fc" id="L68">        return this.position.getY();</span>
@@ -93,7 +93,7 @@ public abstract class Entities {
     }
 
     /**
-     * Render the entity in the map.
+     * Render the entity in the mapOld.
      */
     public void render(){
 <span class="nc" id="L99">        Main.processing.noStroke();</span>

@@ -1,7 +1,6 @@
 package weapon;
 
 public class RangedFactory implements WeaponFactory<RangedType>{
-
     @Override
     public Weapon createWeapon(RangedType type, int phase) {
         switch (type){
@@ -12,6 +11,6 @@ public class RangedFactory implements WeaponFactory<RangedType>{
                 return new Ranged(Rarity.EPIC, "Iron Bow", 8, phase, 2, 8);
             }
         }
-        throw new IllegalArgumentException("Invalid sword type!");
+        throw new IllegalArgumentException("Invalid ranged type!");
     }
 }

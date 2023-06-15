@@ -1,15 +1,15 @@
-package entities;
+package entities.enemies;
 
+import entities.*;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
-import main.Map;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class EliteZombies extends Movable implements Pathfinding{
+public class EliteSkeletons extends MovableOld implements Pathfinding {
     private boolean agro;
     private int agroIdx;
     private int tickMove;
@@ -20,8 +20,8 @@ public class EliteZombies extends Movable implements Pathfinding{
     private int pathIdx;
     private boolean gotPath;
 
-//    public EliteZombies(float x, float y) {
-//        super(x, y,30,30,4,3, 4);
+//    public EliteSkeletons(float x, float y) {
+//        super(x, y,30,30,4,3, 3);
 //        agro = false;
 //        agroIdx=0;
 //        tickMove=0;
@@ -29,14 +29,14 @@ public class EliteZombies extends Movable implements Pathfinding{
 //        gotPath=false;
 //    }
 
-    public EliteZombies(float x, float y) {
-        super(x, y,30,30,4,3,4);
+    public EliteSkeletons(float x, float y) {
+        super(x, y,30,30,4,3,3);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
 //        this.map=map;
-        this.tiles = map.getMap();
+        this.tiles = mapOld.getMap();
         pathIdx=0;
     }
     @Override
@@ -49,7 +49,7 @@ public class EliteZombies extends Movable implements Pathfinding{
 //        j * 20, i * 20 + 80
 //        Agro Mode
         if(agro){
-            if(map==null){
+            if(mapOld ==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){

@@ -1,6 +1,8 @@
 package main;
 
 import entities.*;
+import entities.enemies.Skeletons;
+import entities.enemies.Zombies;
 import processing.core.PConstants;
 
 import java.util.ArrayList;
@@ -22,11 +24,11 @@ public class EndlessMode {
     float elapsedSecondsAtk;
     int wave;
     int phase;
-    Map map;
+    MapOld mapOld;
     boolean alive;
     boolean battle;
-    ArrayList<Movable> entities;
-    ArrayList<Bullet> bullet;
+    ArrayList<MovableOld> entities;
+    ArrayList<BulletOld> bulletOld;
 
     public EndlessMode(){
         floor = 4;
@@ -45,15 +47,15 @@ public class EndlessMode {
         alive = true;
         wave = 0;
         phase = 0;
-        map = new Map(floor);
-        player = new Player(0,15.5f*20+80, map);
+        mapOld = new MapOld(floor);
+        player = new Player(0,15.5f*20+80, mapOld);
         battle = false;
         entities = new ArrayList<>();
-        bullet = new ArrayList<>();
+        bulletOld = new ArrayList<>();
     }
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
-            Movable a = entities.get(i);
+            MovableOld a = entities.get(i);
             if(a.getHealth()<=0){
                 entities.remove(i);
             }
@@ -96,7 +98,7 @@ public class EndlessMode {
             Main.processing.textSize(24);
             Main.processing.text("WAVE " + wave, Main.processing.width / 2, 0);
 
-            map.printMap();
+            mapOld.printMap();
             player.render();
             player.move();
 
@@ -148,7 +150,7 @@ public class EndlessMode {
                 printWave();
             }
 
-            map.printMap();
+            mapOld.printMap();
             player.render();
             player.move();
 
@@ -163,12 +165,12 @@ public class EndlessMode {
                 startTimeAtk = System.currentTimeMillis();
             }
 
-            for (Movable a:entities){
+            for (MovableOld a:entities){
                 if(a instanceof Zombies)a.render();
                 else if(a instanceof Skeletons)a.render();
             }
 
-            for (Movable a:entities){
+            for (MovableOld a:entities){
                 if(a instanceof Zombies){
                     ((Zombies) a).checkAgro(player);
                     a.move();
@@ -232,8 +234,8 @@ public class EndlessMode {
     private void startBattle(){
         if(player.getX()>20){
             battle = true;
-            map.battleStart();
-            player.updateMap(map);
+            mapOld.battleStart();
+            player.updateMap(mapOld);
             startTime = System.currentTimeMillis();
         }
     }

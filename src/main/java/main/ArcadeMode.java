@@ -1,6 +1,7 @@
 package main;
 
 import entities.*;
+import entities.enemies.*;
 import processing.core.PConstants;
 
 import java.util.ArrayList;
@@ -21,18 +22,18 @@ public class ArcadeMode {
     long elapsedTimeAtk;
     float elapsedSecondsAtk;
     int wave;
-    Map map;
+    MapOld mapOld;
     boolean alive;
     boolean battle;
     boolean done;
     boolean win;
-    ArrayList<Movable> entities;
-    ArrayList<Bullet> bullet;
+    ArrayList<MovableOld> entities;
+    ArrayList<BulletOld> bulletOld;
 
 
     public ArcadeMode(){
         floor = 4;
-        player = new Player(0,15.5f*20+80, new Map(floor));
+        player = new Player(0,15.5f*20+80, new MapOld(floor));
         startTime = System.currentTimeMillis();
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSeconds = (int) (elapsedTime / 1000);
@@ -48,16 +49,16 @@ public class ArcadeMode {
         alive = true;
         floor = 1;
         wave = 0;
-        map = new Map(floor);
+        mapOld = new MapOld(floor);
         battle = false;
         done = false;
         win = false;
         entities = new ArrayList<>();
-        bullet = new ArrayList<>();
+        bulletOld = new ArrayList<>();
     }
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
-            Movable a = entities.get(i);
+            MovableOld a = entities.get(i);
             if(a.getHealth()<=0){
                 entities.remove(i);
             }
@@ -100,7 +101,7 @@ public class ArcadeMode {
             Main.processing.textSize(24);
             Main.processing.text("FLOOR " + floor, Main.processing.width / 2, 0);
 
-            map.printMap();
+            mapOld.printMap();
             player.render();
             player.move();
 
@@ -155,7 +156,7 @@ public class ArcadeMode {
                 printWave();
             }
 
-            map.printMap();
+            mapOld.printMap();
             player.render();
             player.move();
 
@@ -173,7 +174,7 @@ public class ArcadeMode {
             }
 
 //            System.out.println("waktu render enemy");
-            for (Movable a:entities){
+            for (MovableOld a:entities){
 //                System.out.println("lagi render");
                 if(a instanceof Zombies)a.render();
                 else if(a instanceof Skeletons)a.render();
@@ -184,7 +185,7 @@ public class ArcadeMode {
             }
 
 //            System.out.println("waktu serang enemy");
-            for (Movable a:entities){
+            for (MovableOld a:entities){
                 if(a instanceof Zombies){
                     ((Zombies) a).checkAgro(player);
                     a.move();
@@ -198,8 +199,8 @@ public class ArcadeMode {
                     ((ChargedCreeper)a).checkAgro(player);
                     a.move();
                     if(((ChargedCreeper) a).isSuicide()){
-                        map = a.getMap();
-                        a.updateMap(map);
+                        mapOld = a.getMap();
+                        a.updateMap(mapOld);
                     }
                 }else if(a instanceof BigBoss){
                     ((BigBoss)a).checkAgro(player);
@@ -261,7 +262,7 @@ public class ArcadeMode {
             Main.processing.textSize(24);
             Main.processing.text("FLOOR " + floor, Main.processing.width / 2, 0);
 
-            map.printMap();
+            mapOld.printMap();
             player.render();
             player.move();
 
@@ -303,9 +304,9 @@ public class ArcadeMode {
     private void changingMap(){
         floor++;
         wave = 0;
-        map = new Map(floor);
+        mapOld = new MapOld(floor);
         player.resetPos();
-        player.updateMap(map);
+        player.updateMap(mapOld);
 //        for()
         battle = false;
         done = false;
@@ -320,8 +321,8 @@ public class ArcadeMode {
     private void battleDone(){
         battle = false;
         done = true;
-        map.battleDone();
-        player.updateMap(map);
+        mapOld.battleDone();
+        player.updateMap(mapOld);
 //        System.out.println("SUDAH SELESAI");
     }
     private void gantiWave(){
@@ -338,9 +339,9 @@ public class ArcadeMode {
 //            entities.add(new ChargedCreeper(190, 150));
 //            entities.add(new BigBoss(1000,300));
         }
-        player.updateMap(map);
-        for(Movable a: entities){
-            a.updateMap(map);
+        player.updateMap(mapOld);
+        for(MovableOld a: entities){
+            a.updateMap(mapOld);
         }
 //        System.out.println("selesai");
         startTimeText = System.currentTimeMillis();
@@ -357,8 +358,8 @@ public class ArcadeMode {
     private void startBattle(){
         if(player.getX()>20 && !done){
             battle = true;
-            map.battleStart();
-            player.updateMap(map);
+            mapOld.battleStart();
+            player.updateMap(mapOld);
             startTime = System.currentTimeMillis();
         }
     }

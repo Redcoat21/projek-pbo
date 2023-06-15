@@ -1,15 +1,15 @@
-package entities;
+package entities.enemies;
 
+import entities.*;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
-import main.Map;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class Skeletons extends Movable implements Pathfinding{
+public class Skeletons extends MovableOld implements Pathfinding {
     private boolean agro;
     private boolean primed;
     private int shootTick;
@@ -41,7 +41,7 @@ public class Skeletons extends Movable implements Pathfinding{
         tickMove=0;
         indexDelay=0;
 //        this.map=map;
-        this.tiles = map.getMap();
+        this.tiles = mapOld.getMap();
         pathIdx=0;
     }
     @Override
@@ -62,7 +62,7 @@ public class Skeletons extends Movable implements Pathfinding{
                     shootCounter++;
                 }
             }
-            if(map!=null){
+            if(mapOld !=null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){

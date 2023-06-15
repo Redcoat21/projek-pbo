@@ -1,15 +1,16 @@
-package entities;
+package entities.enemies;
 
+import entities.*;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
-import main.Map;
+import main.MapOld;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class EliteSkeletons extends Movable implements Pathfinding{
+public class BigBoss extends MovableOld implements Pathfinding {
     private boolean agro;
     private int agroIdx;
     private int tickMove;
@@ -20,7 +21,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
     private int pathIdx;
     private boolean gotPath;
 
-//    public EliteSkeletons(float x, float y) {
+//    public BigBoss(float x, float y) {
 //        super(x, y,30,30,4,3, 3);
 //        agro = false;
 //        agroIdx=0;
@@ -29,14 +30,25 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //        gotPath=false;
 //    }
 
-    public EliteSkeletons(float x, float y) {
-        super(x, y,30,30,4,3,3);
+    public BigBoss(float x, float y, MapOld mapOld) {
+        super(x, y,50,50,10,2,5);
+        agro = false;
+        agroIdx=0;
+        tickMove=0;
+        indexDelay=0;
+        this.mapOld = mapOld;
+        this.tiles = mapOld.getMap();
+        pathIdx=0;
+    }
+
+    public BigBoss(float x, float y) {
+        super(x, y,50,50,10,2,5);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
 //        this.map=map;
-        this.tiles = map.getMap();
+        this.tiles = mapOld.getMap();
         pathIdx=0;
     }
     @Override
@@ -49,7 +61,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //        j * 20, i * 20 + 80
 //        Agro Mode
         if(agro){
-            if(map==null){
+            if(mapOld ==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
@@ -111,7 +123,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
         }
     }
     public void checkAgro(Player you){
-        if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200){
+        if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
             this.agro=true;
         }else{
@@ -132,17 +144,17 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 
     @Override
     public ArrayList<Direction> getNextDirection(ArrayList<Direction> dlist, int x, int y, Obstacles[][] moved) {
-        if(Math.abs(x-getTargetCoords()[0])<=1&&Math.abs(y-getTargetCoords()[1])<=1){
+        if(Math.abs(x-getTargetCoords()[0])<=3&&Math.abs(y-getTargetCoords()[1])<=3){
             dlist.add(Direction.NONE);
             gotPath=true;
             System.out.println("LELE");
             return dlist;
         } else{
             ArrayList<ValueTile> moves = new ArrayList<>();
-            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=10&& !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
-            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=10&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
-            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=10&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
-            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=10 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
+            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=15 && !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
+            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=15 && !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
+            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=15 && !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
+            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=15 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
             if(moves!=null){
                 Collections.sort(moves, new Comparator<ValueTile>() {
                     @Override

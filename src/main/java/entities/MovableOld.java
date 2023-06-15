@@ -6,38 +6,23 @@ import entities.tiles.Obstacles;
 import java.util.ArrayList;
 
 import entities.tiles.Wall;
-import main.Main;
-import main.Map;
-import processing.core.PConstants;
+import main.MapOld;
 
-public class Movable extends Entities{
-    /**
-     * The hp of the entities.
-     */
+public class MovableOld extends Entities{
     private int health;
-    /**
-     * The direction that the entities is currently moving toward.
-     */
     private Direction direction;
-    /**
-     * The speed that the entity (if able to move) moves on.
-     */
     private int speed;
-    /**
-     * The list of what key is pressed
-     */
     private ArrayList<Direction> savingDirection;
     private Direction atkDirection;
 
-    protected static Map map;
+    protected static MapOld mapOld;
     protected float atkSpeed;
-
-    public Map getMap() {
-        return map;
+    public MapOld getMap() {
+        return mapOld;
     }
 
     /**
-     *
+     * Constructor
      * @param x
      * @param y
      * @param width
@@ -47,19 +32,19 @@ public class Movable extends Entities{
      */
 
     //constuctor only for player
-    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, Map map) {
+    public MovableOld(float x, float y, int width, int height, int health, int speed, int atkSpeed, MapOld mapOld) {
         super(x, y, width, height);
         this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
         savingDirection = new ArrayList<>();
-        this.map = map;
+        this.mapOld = mapOld;
         atkDirection = Direction.RIGHT;
         this.atkSpeed = atkSpeed;
     }
 
     //constructor for other movable except player
-    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed) {
+    public MovableOld(float x, float y, int width, int height, int health, int speed, int atkSpeed) {
         super(x, y, width, height);
         this.health = health;
         direction = Direction.NONE;
@@ -70,7 +55,7 @@ public class Movable extends Entities{
     }
 
     //constructor for bullet
-    public Movable(float x, float y, int width, int height, int health, int speed, Direction direction) {
+    public MovableOld(float x, float y, int width, int height, int health, int speed, Direction direction) {
         super(x, y, width, height);
         this.health = health;
         this.direction = direction;
@@ -82,15 +67,15 @@ public class Movable extends Entities{
     }
 
     public void setMap(int floor) {
-        map = new Map(floor);
+        mapOld = new MapOld(floor);
     }
 
-    public void updateMap(Map map){
-        this.map = map;
+    public void updateMap(MapOld mapOld){
+        this.mapOld = mapOld;
     }
 
     protected boolean entitiesCollisionChecker(){
-        for(Obstacles[] obsTemp: map.getMap()){
+        for(Obstacles[] obsTemp: mapOld.getMap()){
             for(Obstacles obs: obsTemp){
                 if(obs != null) {
                     if (entitiesIntersectWall(obs) && obs instanceof Wall) {
@@ -119,7 +104,7 @@ public class Movable extends Entities{
     }
 
     private void entitiesCollisionHole(){
-        for(Obstacles[] obsTemp: map.getMap()){
+        for(Obstacles[] obsTemp: mapOld.getMap()){
             for(Obstacles obs: obsTemp){
                 if(obs != null) {
                     if (entitiesIntersectHole(obs) && obs instanceof Hole) {
@@ -131,7 +116,7 @@ public class Movable extends Entities{
     }
 
     private void entitiesCollisionWall(){
-        for(Obstacles[] obsTemp: map.getMap()){
+        for(Obstacles[] obsTemp: mapOld.getMap()){
             for(Obstacles obs: obsTemp){
                 if(obs != null) {
                     if (entitiesIntersectWall(obs) && obs instanceof Wall) {
@@ -158,7 +143,7 @@ public class Movable extends Entities{
      * @return
      */
     protected boolean isEntitiesCollisionWall(){
-        for(Obstacles[] obsTemp: map.getMap()){
+        for(Obstacles[] obsTemp: mapOld.getMap()){
             for(Obstacles obs: obsTemp){
                 if(obs != null) {
                     if (entitiesIntersectWall(obs) && obs instanceof Wall) {
