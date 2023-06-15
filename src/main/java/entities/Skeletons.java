@@ -4,6 +4,7 @@ import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
 import main.Map;
+import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +35,7 @@ public class Skeletons extends Movable implements Pathfinding{
 //    }
     public Skeletons(float x, float y) {
         super(x, y,20,20,2,1,5);
+        loadImage();
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -138,10 +140,10 @@ public class Skeletons extends Movable implements Pathfinding{
             agroIdx=0;
         }
         this.stop();
-        if(agroIdx>=0&&agroIdx<1)this.moveTo(Direction.DOWN);
-        else if(agroIdx>=1&&agroIdx<2)this.moveTo(Direction.RIGHT);
-        else if(agroIdx>=2&&agroIdx<3)this.moveTo(Direction.UP);
-        else if(agroIdx>=3&&agroIdx<4)this.moveTo(Direction.LEFT);
+        if(agroIdx == 0)this.moveTo(Direction.DOWN);
+        else if(agroIdx == 1)this.moveTo(Direction.RIGHT);
+        else if(agroIdx == 2)this.moveTo(Direction.UP);
+        else if(agroIdx == 3)this.moveTo(Direction.LEFT);
     }
 
     @Override
@@ -157,23 +159,21 @@ public class Skeletons extends Movable implements Pathfinding{
             if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=20&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
             if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=20&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
             if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=20 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
-            if(moves!=null){
-                Collections.sort(moves, new Comparator<ValueTile>() {
-                    @Override
-                    public int compare(ValueTile o1, ValueTile o2) {
-                        return (int)(o1.getValue()-o2.getValue());
-                    }
-                });
-                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
-                System.out.println();
-                for (ValueTile a : moves){
-                    if(!gotPath){
-                        if(tiles[a.getX()][a.getY()] instanceof Wall);
-                        else if(moved[a.getX()][a.getY()]==null){
-                            dlist.add(a.getMoved());
-                            moved[a.getX()][a.getY()] = new Obstacles(a.getX(),a.getY());
-                            getNextDirection(dlist,a.getX(),a.getY(),moved);
-                        }
+            Collections.sort(moves, new Comparator<ValueTile>() {
+                @Override
+                public int compare(ValueTile o1, ValueTile o2) {
+                    return (int) (o1.getValue() - o2.getValue());
+                }
+            });
+            for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
+            System.out.println();
+            for (ValueTile a : moves){
+                if(!gotPath){
+                    if(tiles[a.getX()][a.getY()] instanceof Wall);
+                    else if(moved[a.getX()][a.getY()]==null){
+                        dlist.add(a.getMoved());
+                        moved[a.getX()][a.getY()] = new Obstacles(a.getX(),a.getY());
+                        getNextDirection(dlist,a.getX(),a.getY(),moved);
                     }
                 }
             }
@@ -236,6 +236,19 @@ public class Skeletons extends Movable implements Pathfinding{
         }
         else{
             return value;
+        }
+    }
+
+    private void loadImage() {
+        String root = "src/main/resources/assets/Sprites/Skeleton";
+        Direction[] temp = new Direction[2];
+
+        temp[0] = Direction.NONE;
+        temp[1] = Direction.RIGHT;
+        for(int i = 0; i < 4; i++) {
+            PImage temp2 = Main.processing.loadImage(root + String.format("skeleton_idle_down%d.png", i));
+            this.addSprites(temp[0], temp2, this.getSize());
+            System.out.println(this.getSprites().getSpritesList(Direction.NONE));
         }
     }
 }

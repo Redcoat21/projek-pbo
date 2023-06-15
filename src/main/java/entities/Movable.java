@@ -282,6 +282,7 @@ public class Movable extends Entities{
             case DOWN -> getPosition().add(0.0f, this.speed);
             case LEFT -> getPosition().add(-(this.speed), 0.0f);
         }
+
         boolean outOfBoundUp = getPosition().y < 80.0f;
         boolean outOfBoundRight = getPosition().x > 1280.0f - getSize().x;
         boolean outOfBoundDown = getPosition().y > 720.0f - getSize().y;

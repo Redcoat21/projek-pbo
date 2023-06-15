@@ -35,7 +35,6 @@ public class Animation {
 
         // Meaning that the current direction for the spriteslist is null, then assign a new list to it.
         this.sprites.computeIfAbsent(animationFor, k -> new ArrayList<>());
-
         this.sprites.get(animationFor).add(temp);
     }
 
@@ -55,7 +54,7 @@ public class Animation {
      */
     public void play(Direction animationFor, Entities entities) {
         int frameIndex = Main.processing.frameCount / this.frameDuration;
-        currentSpriteIndex = frameIndex % sprites.size();
+        currentSpriteIndex = frameIndex % sprites.get(animationFor).size();
         Main.processing.image(this.sprites.get(animationFor).get(currentSpriteIndex), entities.getX(), entities.getY());
     }
 }

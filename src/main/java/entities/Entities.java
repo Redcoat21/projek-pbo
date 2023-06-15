@@ -144,4 +144,7 @@ public abstract class Entities {
         this.sprites.play(animationDirection, this);
     }
 
+    public Animation getSprites() {
+        return sprites;
+    }
 }
