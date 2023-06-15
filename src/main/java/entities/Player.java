@@ -44,9 +44,9 @@ public class Player extends Movable {
         for(int i=0; i<bullets.length; i++){
             bullets[i] = new Bullet();
         }
-//        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
+        weapon = swordFactory.createWeapon(SwordType.GREATSWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
-        weapon = rangedFactory.createWeapon(RangedType.IRON_BOW, 0);
+//        weapon = rangedFactory.createWeapon(RangedType.IRON_BOW, 0);
     }
 
     @Override
@@ -54,13 +54,6 @@ public class Player extends Movable {
         Main.processing.noStroke();
 //        this.addSprites(Direction.NONE, "./assets/Tileset/tile004.png");
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
-//        for (int i=0;i<32;i++){
-//            for (int j=0;j<64;j++){
-//                if(this.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-//                    Main.processing.text("X: "+j+"   Y: "+i,getX(),getY()+100);
-//                }
-//            }
-//        }
 //        Animation temp = this.getAnimationList().get(this.getDirection());
 //        temp.playAnimation(this);
     }
@@ -71,18 +64,114 @@ public class Player extends Movable {
         }
     }
 
-    public boolean isDead(){
-        if(getHealth() < 1){
-            return true;
-        }
-        return false;
-    }
+
 
     public void resetPos(){
         setTo(baseX, baseY);
     }
 
-    public void atk(ArrayList<Movable> enemy){
+//    public void atk(ArrayList<Movable> enemy){
+//        int atkX = (int) getXFromCenter();
+//        int atkY = (int) getYFromCenter();
+//        int WHArc = 0;
+//        int Wstab = 0;
+//        int Hstab = 0;
+//        Main.processing.noStroke();
+//        Main.processing.fill(255,0,0);
+//        if(weapon instanceof Sword && !weapon.getWeaponName().equals("Great Sword")){
+//            WHArc = 60;
+////            System.out.println(swingAtkCollision(atkX, atkY, WHArc, enemy, getAtkDirection()));
+//            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
+//            if(getAtkDirection().equals(Direction.RIGHT)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.DOWN)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.LEFT)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.UP)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+//            }
+//        }
+//        else if(weapon instanceof Sword && weapon.getWeaponName().equals("Great Sword")){
+//            WHArc = 80;
+//            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
+//            if(getAtkDirection().equals(Direction.RIGHT)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.DOWN)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.LEFT)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.UP)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+//            }
+//        }
+//        else if(weapon instanceof Spear && weapon.getWeaponName().equals("Glaive")){
+//            WHArc = 100;
+//            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
+//            if(getAtkDirection().equals(Direction.RIGHT)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.DOWN)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.LEFT)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);
+//            }
+//            else if(getAtkDirection().equals(Direction.UP)){
+//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+//            }
+//        }
+//        else if(weapon instanceof Spear && weapon.getWeaponName().equals("Iron Spear")){
+//            Hstab = 20;
+//            Wstab = 50;
+//            stabAtkCollision(atkX, atkY, Wstab, Hstab, enemy, getAtkDirection());
+//            if(getAtkDirection().equals(Direction.RIGHT)){
+//                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX + Wstab, atkY + Hstab/2, atkX + Wstab, atkY - Hstab/2);
+//            }
+//            else if(getAtkDirection().equals(Direction.DOWN)){
+//                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY + Wstab, atkX - Hstab/2, atkY + Wstab);
+//            }
+//            else if(getAtkDirection().equals(Direction.LEFT)){
+//                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX - Wstab, atkY + Hstab/2, atkX - Wstab, atkY - Hstab/2);
+//            }
+//            else if(getAtkDirection().equals(Direction.UP)){
+//                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);
+//            }
+//        }
+//        else if(weapon instanceof Spear && weapon.getWeaponName().equals("Spear of The Lord")){
+//            Hstab = 30;
+//            Wstab = 70;
+//            stabAtkCollision(atkX, atkY, Wstab, Hstab, enemy, getAtkDirection());
+//            if(getAtkDirection().equals(Direction.RIGHT)){
+//                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX + Wstab, atkY + Hstab/2, atkX + Wstab, atkY - Hstab/2);
+//            }
+//            else if(getAtkDirection().equals(Direction.DOWN)){
+//                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY + Wstab, atkX - Hstab/2, atkY + Wstab);
+//            }
+//            else if(getAtkDirection().equals(Direction.LEFT)){
+//                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX - Wstab, atkY + Hstab/2, atkX - Wstab, atkY - Hstab/2);
+//            }
+//            else if(getAtkDirection().equals(Direction.UP)){
+//                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);
+//            }
+//        }
+//        else if(weapon instanceof Ranged){
+//            for(int i=0; i< bullets.length; i++){
+//                if(!bullets[i].isFired()){
+//                    bullets[i].fired(atkX, atkY, ((Ranged) weapon).getSpeed(), ((Ranged) weapon).calculateDamageDealt(), getAtkDirection());
+//                    break;
+//                }
+//            }
+//        }
+//    }
+
+    public void atk(Movable[] enemy){
         int atkX = (int) getXFromCenter();
         int atkY = (int) getYFromCenter();
         int WHArc = 0;
@@ -207,7 +296,31 @@ public class Player extends Movable {
         }
     }
 
-    private void stabAtkCollision(int atkX, int atkY, int width, int height, ArrayList<Movable> enemy, Direction direction){
+    public void bulletAtkCollision(Movable[] enemy){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+
+        for(int i=0; i<bullets.length; i++){
+            if(bullets[i].isFired()){
+                for(Movable musuh: enemy){
+                    pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), (int) bullets[i].getX());
+                    pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), (int) bullets[i].getY());
+                    XDistToRect = (int) bullets[i].getX() - pointOnRectX;
+                    YDistToRect = (int) bullets[i].getY() - pointOnRectY;
+                    dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+                    if(dist < bullets[i].getWidth() && bullets[i].isFired()){
+                        musuh.subHP(weapon.calculateDamageDealt());
+                        bullets[i].hit();
+                    }
+                }
+            }
+        }
+    }
+
+    private void stabAtkCollision(int atkX, int atkY, int width, int height, Movable[] enemy, Direction direction){
         int Xcenter = atkX;
         int Ycenter = atkY;
         int aWidth = width;
@@ -246,7 +359,7 @@ public class Player extends Movable {
         }
     }
 
-    private void swingAtkCollision(int atkX, int atkY, int radius, ArrayList<Movable> enemy, Direction direction){
+    private void swingAtkCollision(int atkX, int atkY, int radius, Movable[] enemy, Direction direction){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
         int XDistToRect = 0;

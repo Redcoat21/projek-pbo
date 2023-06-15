@@ -156,7 +156,7 @@ public class EndlessMode {
             elapsedTimeAtk = System.currentTimeMillis() - startTimeAtk;
             elapsedSecondsAtk = (float) elapsedTimeAtk/1000;
             if(elapsedSecondsAtk>=player.getAtkSpeed()) {
-                player.atk(entities);
+//                player.atk(enemy);
                 System.out.println("waktu: " + elapsedSecondsAtk);
                 System.out.println("speed: " + player.getAtkSpeed());
                 System.out.println("masuk");
