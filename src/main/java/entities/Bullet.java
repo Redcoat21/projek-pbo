@@ -20,7 +20,7 @@ public class Bullet extends Movable{
         super(-10, -10, 10, 1, 10, 1, Direction.RIGHT);
         this.baseX = -10;
         this.baseY = -10;
-        this.damage = 0;
+        this.damage = 1;
     }
 
     public boolean getHit(){
@@ -74,5 +74,9 @@ public class Bullet extends Movable{
 
     public void hit(){
         firing = false;
+    }
+
+    public int getDamage(){
+        return damage;
     }
 }

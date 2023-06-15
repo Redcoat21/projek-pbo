@@ -46,7 +46,7 @@ public class Player extends Movable {
         }
 //        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
-        weapon = rangedFactory.createWeapon(RangedType.WOOD_BOW, 0);
+        weapon = rangedFactory.createWeapon(RangedType.IRON_BOW, 0);
     }
 
     @Override
@@ -173,12 +173,9 @@ public class Player extends Movable {
                 Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);
             }
         }
-        else if(weapon instanceof Ranged && weapon.getWeaponName().equals("Wooden Bow")){
-//            bullet.add(new Bullet(atkX, atkY, 5, 1, ((Ranged) weapon).getSpeed(), ((Ranged) weapon).calculateDamageDealt(), getAtkDirection()));
-//            System.out.println("harusnya ke add ya");
+        else if(weapon instanceof Ranged){
             for(int i=0; i< bullets.length; i++){
                 if(!bullets[i].isFired()){
-                    System.out.println("bullet " + i + " belum gerak");
                     bullets[i].fired(atkX, atkY, ((Ranged) weapon).getSpeed(), ((Ranged) weapon).calculateDamageDealt(), getAtkDirection());
                     break;
                 }
@@ -267,22 +264,22 @@ public class Player extends Movable {
 //            System.out.println("arcnya: " + radius);
             if(dist < radius){
                 if(direction.equals(Direction.RIGHT) && XDistToRect<=0){
-                    System.out.println("kena kanan");
+//                    System.out.println("kena kanan");
                     musuh.subHP(weapon.calculateDamageDealt());
 //                    return true;
                 }
                 else if(direction.equals(Direction.LEFT) && XDistToRect>=0){
-                    System.out.println("kena kiri");
+//                    System.out.println("kena kiri");
                     musuh.subHP(weapon.calculateDamageDealt());
 //                    return true;
                 }
                 else if(direction.equals(Direction.UP) && YDistToRect>=0){
-                    System.out.println("kena atas");
+//                    System.out.println("kena atas");
                     musuh.subHP(weapon.calculateDamageDealt());
 //                    return true;
                 }
                 else if(direction.equals(Direction.DOWN) && YDistToRect<=0){
-                    System.out.println("kena bawah");
+//                    System.out.println("kena bawah");
 //                    System.out.println("dist: " + dist);
 //                    System.out.println("arc: " + radius);
                     musuh.subHP(weapon.calculateDamageDealt());
@@ -323,6 +320,12 @@ public class Player extends Movable {
                 bullets[i].move();
                 bullets[i].render();
             }
+        }
+    }
+
+    public void clearBullet(){
+        for(int i=0; i< bullets.length; i++){
+            bullets[i].hit();
         }
     }
 }

@@ -77,7 +77,7 @@ public class Zombies extends Movable implements Pathfinding{
 //        }
 //        Agro Mode
         if(agro){
-            if(map!=null){
+            if(map==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){

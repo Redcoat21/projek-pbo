@@ -22,6 +22,7 @@ public class Skeletons extends Movable implements Pathfinding{
     private ArrayList<Direction> pathList;
     private int pathIdx;
     private boolean gotPath;
+    private Bullet bullet;
 
 //    public Skeletons(float x, float y) {
 //        super(x, y,20,20,2,1, 5);
@@ -43,6 +44,7 @@ public class Skeletons extends Movable implements Pathfinding{
 //        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
+        bullet = new Bullet();
     }
     @Override
     public void render() {
@@ -56,13 +58,13 @@ public class Skeletons extends Movable implements Pathfinding{
 //        Agro Mode
         if(agro){
             if(primed){
-                shootTick++;
-                if(shootTick>=90){
-                    shootTick=0;
-                    shootCounter++;
-                }
+//                shootTick++;
+//                if(shootTick>=90){
+//                    shootTick=0;
+//                    shootCounter++;
+//                }
             }
-            if(map!=null){
+            if(map==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
                 if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
@@ -90,13 +92,29 @@ public class Skeletons extends Movable implements Pathfinding{
                         if(pathIdx!=pathList.size()*20-2){
                             this.moveTo(pathList.get(pathIdx/20));
                         }
-                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
+                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx + "atk : " + getAtkDirection(),getX(),getY()+120);
                     }else{
                         this.moveTo(Direction.NONE);
                         this.stop();
                         pathIdx=0;
                         pathList=null;
                         gotPath=false;
+                        if(target.getXFromCenter() < getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.LEFT);
+                        }
+                        else if(target.getXFromCenter() > getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.RIGHT);
+                        }
+                        else if(target.getYFromCenter() < getYFromCenter()){
+                            facingTo(Direction.UP);
+                        }
+                        else if(target.getYFromCenter() > getYFromCenter()){
+                            facingTo(Direction.DOWN);
+                        }
+
+                        if(!bullet.isFired()){
+                            bullet.fired(getXFromCenter(), getYFromCenter(), 4, 1, getAtkDirection());
+                        }
                     }
                 }
 
@@ -121,7 +139,7 @@ public class Skeletons extends Movable implements Pathfinding{
         if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
             this.agro=true;
-            if(Math.abs(getX()-you.getX())<=100&&Math.abs(getY()-you.getY())<=100)this.primed = true;
+            if(Math.abs(getX()-you.getX())<=300||Math.abs(getY()-you.getY())<=300)this.primed = true;
             else primed=false;
         }else{
             target=null;
@@ -141,7 +159,7 @@ public class Skeletons extends Movable implements Pathfinding{
 
     @Override
     public ArrayList<Direction> getNextDirection(ArrayList<Direction> dlist, int x, int y, Obstacles[][] moved) {
-        if(Math.abs(x-getTargetCoords()[0])<=6&&Math.abs(y-getTargetCoords()[1])<=6){
+        if((Math.abs(x-getTargetCoords()[0])<=12&&Math.abs(y-getTargetCoords()[1])==0)||Math.abs(x-getTargetCoords()[0])==0&&Math.abs(y-getTargetCoords()[1])<=12){
             dlist.add(Direction.NONE);
             gotPath=true;
             System.out.println("LELE");
@@ -192,5 +210,45 @@ public class Skeletons extends Movable implements Pathfinding{
         coords[0] = (int) getX()/20;
         coords[1] = (int) ((getY()-80)/20);
         return coords;
+    }
+
+    @Override
+    public void move() {
+        super.move();
+
+        if(bullet.isFired()){
+            bullet.move();
+            bullet.render();
+        }
+    }
+
+    public void bulletAtkCollision(Player target){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+
+        pointOnRectX = clamp((int) target.getX(), (int) (target.getX()+target.getWidth()), (int) bullet.getX());
+        pointOnRectY = clamp((int) target.getY(), (int) (target.getY()+target.getHeight()), (int) bullet.getY());
+        XDistToRect = (int) bullet.getX() - pointOnRectX;
+        YDistToRect = (int) bullet.getY() - pointOnRectY;
+        dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+        if(dist < bullet.getWidth() && bullet.isFired()){
+            target.subHP(bullet.getDamage());
+            bullet.hit();
+        }
+    }
+
+    private int clamp(int min, int max, int value){
+        if(min > value){
+            return min;
+        }
+        else if(max < value){
+            return max;
+        }
+        else{
+            return value;
+        }
     }
 }

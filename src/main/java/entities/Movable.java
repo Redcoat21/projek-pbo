@@ -369,4 +369,8 @@ public class Movable extends Entities{
     public float getAtkSpeed(){
         return atkSpeed/5;
     }
+
+    protected void facingTo(Direction direction){
+        atkDirection = direction;
+    }
 }

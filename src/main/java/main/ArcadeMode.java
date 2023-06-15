@@ -25,7 +25,12 @@ public class ArcadeMode {
     boolean alive;
     boolean battle;
     boolean done;
+    boolean reward;
+    boolean choosing;
     boolean win;
+    private int[] x;
+    private int[] y;
+    private int[] r;
     ArrayList<Movable> entities;
     ArrayList<Bullet> bullet;
 
@@ -46,14 +51,28 @@ public class ArcadeMode {
         elapsedTimeAtk = 0;
         elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);
         alive = true;
-        floor = 1;
+        floor = 4;
         wave = 0;
         map = new Map(floor);
         battle = false;
         done = false;
+        reward = false;
+        choosing = false;
         win = false;
         entities = new ArrayList<>();
         bullet = new ArrayList<>();
+        x = new int[3];
+        y = new int[3];
+        r = new int[3];
+        x[0] = Main.processing.width/2-200;
+        x[1] = Main.processing.width/2;
+        x[2] = Main.processing.width/2+200;
+        y[0] = Main.processing.height/2-30;
+        y[1] = Main.processing.height/2-30;
+        y[2] = Main.processing.height/2-30;
+        r[0] = 50;
+        r[1] = 50;
+        r[2] = 50;
     }
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
@@ -164,13 +183,13 @@ public class ArcadeMode {
             //atk section
             elapsedTimeAtk = System.currentTimeMillis() - startTimeAtk;
             elapsedSecondsAtk = (float) elapsedTimeAtk/1000;
-            if(elapsedSecondsAtk>=player.getAtkSpeed()) {
-                player.atk(entities);
-//                System.out.println("waktu: " + elapsedSecondsAtk);
-//                System.out.println("speed: " + player.getAtkSpeed());
-//                System.out.println("masuk");
-                startTimeAtk = System.currentTimeMillis();
-            }
+//            if(elapsedSecondsAtk>=player.getAtkSpeed()) {
+//                player.atk(entities);
+////                System.out.println("waktu: " + elapsedSecondsAtk);
+////                System.out.println("speed: " + player.getAtkSpeed());
+////                System.out.println("masuk");
+//                startTimeAtk = System.currentTimeMillis();
+//            }
 
 //            System.out.println("waktu render enemy");
             for (Movable a:entities){
@@ -191,6 +210,7 @@ public class ArcadeMode {
                 }else if(a instanceof Skeletons){
                     ((Skeletons) a).checkAgro(player);
                     a.move();
+                    ((Skeletons) a).bulletAtkCollision(player);
                 }else if(a instanceof  EliteZombies){
                     ((EliteZombies) a).checkAgro(player);
                     a.move();
@@ -219,6 +239,7 @@ public class ArcadeMode {
             }
             else if(isEnemyDie()){
                 battleDone();
+                player.clearBullet();
             }
 
             if(player.isDead()){
@@ -261,9 +282,44 @@ public class ArcadeMode {
             Main.processing.textSize(24);
             Main.processing.text("FLOOR " + floor, Main.processing.width / 2, 0);
 
-            map.printMap();
-            player.render();
-            player.move();
+            if(player.getX() >= 57*20 && !reward){
+                choosing = true;
+            }
+            if(choosing){
+                Main.processing.background(0);
+
+                //first choice
+                Main.processing.noStroke();
+                Main.processing.fill(125);
+                Main.processing.rect(x[0], y[0], r[0], r[0], 5);
+                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
+                Main.processing.textSize(20);
+                Main.processing.fill(255);
+                Main.processing.text("heal", x[0]  + r[0]/2, y[0] + 60);
+
+                //second choice
+                Main.processing.noStroke();
+                Main.processing.fill(125);
+                Main.processing.rect(x[1], y[1], r[1], r[1], 5);
+                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
+                Main.processing.textSize(20);
+                Main.processing.fill(255);
+                Main.processing.text("level up", x[1]  + r[1]/2, y[1] + 60);
+
+                //third choice
+                Main.processing.noStroke();
+                Main.processing.fill(125);
+                Main.processing.rect(x[2], y[2], r[2], r[2], 5);
+                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
+                Main.processing.textSize(20);
+                Main.processing.fill(255);
+                Main.processing.text("change weapon", x[2]  + r[2]/2, y[2] + 60);
+            }
+            else {
+                map.printMap();
+                player.render();
+                player.move();
+            }
 
             if(player.isDead()){
                 alive = false;
@@ -328,20 +384,18 @@ public class ArcadeMode {
 //        System.out.println("masuk");
         wave++;
         if(wave < 4){
-            entities.add(new Zombies(320,390));
-            entities.add(new Skeletons(800,300));
-            entities.add(new Skeletons(700,250));
-            entities.add(new Skeletons(600,200));
+//            entities.add(new Zombies(320,390));
+//            entities.add(new Skeletons(800,300));
+//            entities.add(new Skeletons(700,250));
+//            entities.add(new Skeletons(600,200));
 //            entities.add(new EliteZombies(100,150));
-//            entities.add(new ChargedCreeper(150, 150));
-//            entities.add(new ChargedCreeper(170, 150));
+            entities.add(new ChargedCreeper(150, 150));
+            entities.add(new ChargedCreeper(170, 150));
 //            entities.add(new ChargedCreeper(190, 150));
 //            entities.add(new BigBoss(1000,300));
         }
         player.updateMap(map);
-        for(Movable a: entities){
-            a.updateMap(map);
-        }
+
 //        System.out.println("selesai");
         startTimeText = System.currentTimeMillis();
         elapsedTimeText = System.currentTimeMillis() - startTimeText;
@@ -377,5 +431,9 @@ public class ArcadeMode {
 
     public boolean isWin(){
         return win;
+    }
+
+    public boolean isChoosing() {
+        return choosing;
     }
 }

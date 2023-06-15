@@ -82,23 +82,15 @@ public class ChargedCreeper extends Movable implements Pathfinding{
 //                            System.out.println(tiles[(getObjectCoords()[0]-1)][getObjectCoords()[1]]);
                             if(!breakWall){
                                 if(tiles[getObjectCoords()[0]-1][getObjectCoords()[1]] instanceof Wall &&pathList.get(pathIdx/20)==Direction.LEFT){
-                                    map.removeTile(getObjectCoords()[0]-1,getObjectCoords()[1]);
-                                    tiles[getObjectCoords()[0]-1][getObjectCoords()[1]] =null;
                                     setHealth(0);
                                     breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]+1][getObjectCoords()[1]] instanceof Wall &&pathList.get(pathIdx/20)==Direction.RIGHT){
-                                    map.removeTile(getObjectCoords()[0]+1,getObjectCoords()[1]);
-                                    tiles[getObjectCoords()[0]+1][getObjectCoords()[1]] =null;
                                     setHealth(0);
                                     breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]][getObjectCoords()[1]-1] instanceof Wall &&pathList.get(pathIdx/20)==Direction.UP){
-                                    map.removeTile(getObjectCoords()[0],getObjectCoords()[1]-1);
-                                    tiles[getObjectCoords()[0]][getObjectCoords()[1]-1] =null;
                                     setHealth(0);
                                     breakWall=true;suicide=true;
                                 }else if(tiles[getObjectCoords()[0]][getObjectCoords()[1]+1] instanceof Wall &&pathList.get(pathIdx/20)==Direction.DOWN){
-                                    map.removeTile(getObjectCoords()[0],getObjectCoords()[1]+1);
-                                    tiles[getObjectCoords()[0]][getObjectCoords()[1]+1] =null;
                                     setHealth(0);
                                     breakWall=true;suicide=true;
                                 }
