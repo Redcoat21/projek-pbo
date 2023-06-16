@@ -33,7 +33,7 @@ public class Skeletons extends Movable implements Pathfinding{
 //        shootTick=0;
 //    }
     public Skeletons(float x, float y) {
-        super(x, y,20,20,2,1,5, 2);
+        super(x, y,20,20,12,1,5, 2);
         agro = false;
         agroIdx=0;
         tickMove=0;

@@ -44,7 +44,7 @@ public class Zombies extends Movable implements Pathfinding{
 //    }
 
     public Zombies(float x, float y) {
-        super(x, y,20,20,2,1, 5, 3);
+        super(x, y,20,20,18,1, 5, 3);
         agro = false;
         agroIdx=0;
         tickMove=0;

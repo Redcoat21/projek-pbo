@@ -33,7 +33,7 @@ public class EliteZombies extends Movable implements Pathfinding{
 //    }
 
     public EliteZombies(float x, float y) {
-        super(x, y,30,30,4,2,4, 4);
+        super(x, y,30,30,22,2,4, 4);
         agro = false;
         agroIdx=0;
         tickMove=0;

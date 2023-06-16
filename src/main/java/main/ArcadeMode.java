@@ -470,22 +470,22 @@ public class ArcadeMode {
             countEZ+=70;
             countES+=80;
             for(int i=0; i<countZ; i++){
-                enemy[i].summoned();
+                enemy[i].summoned(floor);
             }
 
             for(int i=35; i<countS; i++){
-                enemy[i].summoned();
+                enemy[i].summoned(floor);
             }
 
             for(int i=70; i<countEZ; i++){
-                enemy[i].summoned();
+                enemy[i].summoned(floor);
             }
 
             for(int i=80; i<countES; i++){
-                enemy[i].summoned();
+                enemy[i].summoned(floor);
             }
             if(countBB > 0){
-                enemy[90].summoned();
+                enemy[90].summoned(30, 15, floor);
             }
         }
         player.updateMap(map);

@@ -31,7 +31,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //    }
 
     public EliteSkeletons(float x, float y) {
-        super(x, y,30,30,4,3,3, 2);
+        super(x, y,30,30,15,3,3, 2);
         agro = false;
         agroIdx=0;
         tickMove=0;

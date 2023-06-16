@@ -398,7 +398,7 @@ public class Movable extends Entities{
         return false;
     }
 
-    public void summoned(){
+    public void summoned(int phase){
         boolean clash = true;
         while(clash) {
             int xTemp = rand.nextInt(1, 55);
@@ -411,7 +411,26 @@ public class Movable extends Entities{
         startTime = System.currentTimeMillis();
         elapsedTime = System.currentTimeMillis()-startTime;
         elapsedSecond = (int) elapsedTime/1000;
-        health = baseHealth;
+        health = baseHealth*phase;
+        System.out.println(health);
+    }
+
+    public void summoned(int x, int y, int phase){
+        boolean clash = true;
+        while(clash) {
+            int xTemp = x;
+            int yTemp = y;
+            setTo(xTemp*20, yTemp*20+80);
+            if(!isEntitiesCollisionWall()){
+                clash = false;
+            }
+            xTemp = rand.nextInt(1, 55);
+            yTemp = rand.nextInt(1, 30);
+        }
+        startTime = System.currentTimeMillis();
+        elapsedTime = System.currentTimeMillis()-startTime;
+        elapsedSecond = (int) elapsedTime/1000;
+        health = baseHealth*phase;
         System.out.println(health);
     }
 
