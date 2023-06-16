@@ -50,7 +50,7 @@ public class ArcadeMode {
         elapsedTimeAtk = 0;
         elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);
         alive = true;
-        floor = 5;
+        floor =1;
         wave = 0;
         map = new Map(floor);
         battle = false;
@@ -200,13 +200,13 @@ public class ArcadeMode {
             //atk section
             elapsedTimeAtk = System.currentTimeMillis() - startTimeAtk;
             elapsedSecondsAtk = (float) elapsedTimeAtk/1000;
-            if(elapsedSecondsAtk>=player.getAtkSpeed()) {
-                player.atk(enemy);
-//                System.out.println("waktu: " + elapsedSecondsAtk);
-//                System.out.println("speed: " + player.getAtkSpeed());
-//                System.out.println("masuk");
-                startTimeAtk = System.currentTimeMillis();
-            }
+//            if(elapsedSecondsAtk>=player.getAtkSpeed()) {
+//                player.atk(enemy);
+////                System.out.println("waktu: " + elapsedSecondsAtk);
+////                System.out.println("speed: " + player.getAtkSpeed());
+////                System.out.println("masuk");
+//                startTimeAtk = System.currentTimeMillis();
+//            }
 
             for (Movable a:enemy){
                 if(!a.isDead()) {
@@ -224,6 +224,7 @@ public class ArcadeMode {
                     if (a instanceof Zombies) {
                         ((Zombies) a).checkAgro(player);
                         a.move();
+                        ((Zombies) a).atk(player);
                     } else if (a instanceof Skeletons) {
                         ((Skeletons) a).checkAgro(player);
                         a.move();
@@ -231,6 +232,7 @@ public class ArcadeMode {
                     } else if (a instanceof EliteZombies) {
                         ((EliteZombies) a).checkAgro(player);
                         a.move();
+                        ((EliteZombies) a).atk(player);
                     } else if (a instanceof EliteSkeletons) {
                         ((EliteSkeletons) a).checkAgro(player);
                         a.move();
@@ -460,7 +462,8 @@ public class ArcadeMode {
             int countBB = 0;
             if(floor == 1){
                 if(wave == 1){
-                    countZ = 5;
+//                    countZ = 5;
+                    countEZ = 10;
                 }
                 else if(wave == 2){
                     countZ = 7;

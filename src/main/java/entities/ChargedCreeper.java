@@ -32,7 +32,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
 //        gotPath=false;
 //    }
     public ChargedCreeper(float x, float y) {
-        super(x, y,10,10,4,4,5);
+        super(x, y,10,10,4,4,5, 5);
         agro = false;
         agroIdx=0;
         tickMove=0;

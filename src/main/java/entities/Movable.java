@@ -35,6 +35,10 @@ public class Movable extends Entities{
     protected float atkSpeed;
     protected boolean alive;
     protected Random rand;
+    protected long startTime;
+    protected long elapsedTime;
+    protected int elapsedSecond;
+    protected int coolDown;
 
     public Map getMap() {
         return map;
@@ -66,7 +70,7 @@ public class Movable extends Entities{
     }
 
     //constructor for other movable except player
-    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed) {
+    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, int coolDown) {
         super(x, y, width, height);
         this.baseHealth = health;
         this.health = -1;
@@ -75,6 +79,10 @@ public class Movable extends Entities{
         this.atkSpeed = atkSpeed;
         savingDirection = new ArrayList<>();
         rand = new Random();
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) elapsedTime/1000;
+        this.coolDown = coolDown;
     }
 
     //constructor only for bullet
@@ -400,12 +408,27 @@ public class Movable extends Entities{
                 clash = false;
             }
         }
+        startTime = System.currentTimeMillis();
+        elapsedTime = System.currentTimeMillis()-startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         health = baseHealth;
         System.out.println(health);
     }
 
     public void killed(){
         setTo(-50, -50);
+    }
+
+    protected int clamp(int min, int max, int value){
+        if(min > value){
+            return min;
+        }
+        else if(max < value){
+            return max;
+        }
+        else{
+            return value;
+        }
     }
 
 }

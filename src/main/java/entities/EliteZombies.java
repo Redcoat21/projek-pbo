@@ -4,6 +4,7 @@ import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
 import main.Map;
+import processing.core.PConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,7 @@ public class EliteZombies extends Movable implements Pathfinding{
 //    }
 
     public EliteZombies(float x, float y) {
-        super(x, y,30,30,4,2,4);
+        super(x, y,30,30,4,2,4, 4);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -42,9 +43,14 @@ public class EliteZombies extends Movable implements Pathfinding{
         pathIdx=0;
         attack = false;
         eligible = false;
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
@@ -205,5 +211,69 @@ public class EliteZombies extends Movable implements Pathfinding{
         coords[0] = (int) getX()/20;
         coords[1] = (int) ((getY()-80)/20);
         return coords;
+    }
+
+    public void atk(Movable target){
+        int atkX = (int) getXFromCenter();
+        int atkY = (int) getYFromCenter();
+        int WHArc = 80;
+        Main.processing.noStroke();
+        Main.processing.fill(255,0,0);
+        if(elapsedSecond > coolDown && attack) {
+            swingAtkCollision(atkX, atkY, WHArc / 2, target, getAtkDirection());
+            if (getAtkDirection().equals(Direction.RIGHT)) {
+                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
+            } else if (getAtkDirection().equals(Direction.DOWN)) {
+                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);
+            } else if (getAtkDirection().equals(Direction.LEFT)) {
+                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI + PConstants.HALF_PI);
+            } else if (getAtkDirection().equals(Direction.UP)) {
+                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+            }
+            startTime = System.currentTimeMillis();
+        }
+    }
+
+    private void swingAtkCollision(int atkX, int atkY, int radius, Movable musuh, Direction direction){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+        pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), atkX);
+        pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), atkY);
+//            System.out.println(pointOnRectX + ", " + pointOnRectY);
+        XDistToRect = atkX - pointOnRectX;
+        YDistToRect = atkY - pointOnRectY;
+//            System.out.println(XDistToRect + ", " + YDistToRect);
+        dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+//            System.out.println("dist gak kena: " + dist);
+//            System.out.println("arcnya: " + radius);
+        if(dist < radius){
+            if(direction.equals(Direction.RIGHT) && XDistToRect<=0){
+//                    System.out.println("kena kanan");
+                musuh.subHP(1);
+//                    return true;
+            }
+            else if(direction.equals(Direction.LEFT) && XDistToRect>=0){
+//                    System.out.println("kena kiri");
+                musuh.subHP(1);
+//                    return true;
+            }
+            else if(direction.equals(Direction.UP) && YDistToRect>=0){
+//                    System.out.println("kena atas");
+                musuh.subHP(1);
+//                    return true;
+            }
+            else if(direction.equals(Direction.DOWN) && YDistToRect<=0){
+//                    System.out.println("kena bawah");
+//                    System.out.println("dist: " + dist);
+//                    System.out.println("arc: " + radius);
+                musuh.subHP(1);
+//                    return true;
+            }
+
+        }
+//        return false;
     }
 }

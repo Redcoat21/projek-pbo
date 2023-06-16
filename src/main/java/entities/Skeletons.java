@@ -33,7 +33,7 @@ public class Skeletons extends Movable implements Pathfinding{
 //        shootTick=0;
 //    }
     public Skeletons(float x, float y) {
-        super(x, y,20,20,2,1,5);
+        super(x, y,20,20,2,1,5, 3);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -227,15 +227,5 @@ public class Skeletons extends Movable implements Pathfinding{
         }
     }
 
-    private int clamp(int min, int max, int value){
-        if(min > value){
-            return min;
-        }
-        else if(max < value){
-            return max;
-        }
-        else{
-            return value;
-        }
-    }
+
 }

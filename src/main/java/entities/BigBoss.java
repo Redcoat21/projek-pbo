@@ -30,7 +30,7 @@ public class BigBoss extends Movable implements Pathfinding{
 //    }
 
     public BigBoss(float x, float y, Map map) {
-        super(x, y,50,50,10,2,5);
+        super(x, y,50,50,10,2,5, 10);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -41,7 +41,7 @@ public class BigBoss extends Movable implements Pathfinding{
     }
 
     public BigBoss(float x, float y) {
-        super(x, y,50,50,10,2,5);
+        super(x, y,50,50,10,2,5, 10);
         agro = false;
         agroIdx=0;
         tickMove=0;

@@ -31,7 +31,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //    }
 
     public EliteSkeletons(float x, float y) {
-        super(x, y,30,30,4,3,3);
+        super(x, y,30,30,4,3,3, 5);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -228,18 +228,6 @@ public class EliteSkeletons extends Movable implements Pathfinding{
         if(dist < bullet.getWidth() && bullet.isFired()){
             target.subHP(bullet.getDamage());
             bullet.hit();
-        }
-    }
-
-    private int clamp(int min, int max, int value){
-        if(min > value){
-            return min;
-        }
-        else if(max < value){
-            return max;
-        }
-        else{
-            return value;
         }
     }
 }

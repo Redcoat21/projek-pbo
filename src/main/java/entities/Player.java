@@ -403,18 +403,6 @@ public class Player extends Movable {
 //        return false;
     }
 
-    private int clamp(int min, int max, int value){
-        if(min > value){
-            return min;
-        }
-        else if(max < value){
-            return max;
-        }
-        else{
-            return value;
-        }
-    }
-
     public Weapon getWeapon() {
         return weapon;
     }
