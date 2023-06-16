@@ -177,10 +177,10 @@ public class ArcadeMode {
             if(elapsedSecondsText<3){
                 printWave();
             }
-
-            map.printMap();
-            player.render();
             player.move();
+            map.printMap();
+
+
 
             player.bulletAtkCollision(enemy);
 
@@ -194,7 +194,7 @@ public class ArcadeMode {
 //                System.out.println("masuk");
                 startTimeAtk = System.currentTimeMillis();
             }
-
+            player.render();
             for (Movable a:enemy){
                 if(!a.isDead()) {
                     if (a instanceof Zombies) a.render();
@@ -409,7 +409,7 @@ public class ArcadeMode {
             int countBB = 0;
             if(floor == 1){
                 if(wave == 1){
-                    countZ = 1;
+                    countBB = 1;
                 }
                 else if(wave == 2){
                     countZ = 3;
