@@ -12,7 +12,6 @@ public class Main extends PApplet {
         ARCADE,
         ENDLESS
     }
-
     private GameMode gameMode;
     private static PApplet processing;
     private TestPlayerEntity player;
@@ -20,13 +19,12 @@ public class Main extends PApplet {
     public void settings() {
         size(1280, 720);
     }
-
     @Override
     public void setup() {
         background(100);
         processing = this;
         this.frameRate(60);
-        this.player = this.gameMode.getPlayer();
+        this.player = new TestPlayerEntity(100, 100, 100, 100);
     }
 
     @Override

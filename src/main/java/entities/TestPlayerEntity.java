@@ -1,7 +1,7 @@
 package entities;
 
-import entities.animation.AnimationLoader;
-import entities.animation.AnimationPlayer;
+import animation.AnimationLoader;
+import animation.AnimationPlayer;
 import main.Main;
 import processing.core.PApplet;
 
@@ -17,6 +17,10 @@ public class TestPlayerEntity extends Entity {
         a.play(Direction.NONE, this);
     }
 
+    /**
+     * Move method for player object.
+     * Note that it doesn't have any parameter, unlike {@link Entity}'s method {@link #move(Direction)}.
+     */
     public void move() {
         PApplet mainProgram = Main.getMainProgram();
         Direction movingToward = switch(mainProgram.key) {

@@ -1,6 +1,6 @@
 package entities;
 
-import entities.animation.Animation;
+import animation.Animation;
 import processing.core.PImage;
 import processing.core.PVector;
 
@@ -89,11 +89,6 @@ public abstract class Entity implements Animatable, Combatant, Moveable {
         return this.facingToward;
     }
 
-    /**
-     * Add sprites into the sprites list.
-     * @param animationFor Direction for the sprite.
-     * @param sprite The sprite to be added.
-     */
     @Override
     public void addSprite(Direction animationFor, PImage sprite) {
         this.sprites.addSprite(animationFor, sprite, this.size);
