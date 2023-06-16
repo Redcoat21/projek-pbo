@@ -26,7 +26,7 @@ public class Skeletons extends Movable implements Pathfinding{
      * @param y the y-axis that the enitty will spawn into
      */
     public Skeletons(float x, float y) {
-        super(x, y,60,60,12,1,5, 2);
+        super(x, y,50,50,12,1,5, 2);
         loadImage();
         agro = false;
         agroIdx=0;

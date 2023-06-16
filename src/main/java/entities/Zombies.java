@@ -32,7 +32,7 @@ public class Zombies extends Movable implements Pathfinding{
      * @param y y-axis that the entity will spawn in
      */
     public Zombies(float x, float y) {
-        super(x, y,60,60,18,1, 5, 3);
+        super(x, y,50,50,18,1, 5, 3);
         loadImage();
         agro = false;
         agroIdx=0;
