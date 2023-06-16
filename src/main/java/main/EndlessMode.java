@@ -101,9 +101,9 @@ public class EndlessMode {
             Main.processing.text("fps " + (int) Main.processing.frameRate, Main.processing.width, 14);
 
             //health section
-            Main.processing.textSize(14);
-            Main.processing.textAlign(PConstants.LEFT);
-            Main.processing.text("Heart " + player.getHealth(), 10, 14);
+            Main.processing.textSize(20);
+            Main.processing.textAlign(PConstants.LEFT, PConstants.CENTER);
+            Main.processing.text(player.getHealth() + " lives left", 10, 40);
 
             //timer section
             Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
@@ -172,9 +172,9 @@ public class EndlessMode {
             Main.processing.text("fps " + (int) Main.processing.frameRate, Main.processing.width, 14);
 
             //health section
-            Main.processing.textSize(14);
-            Main.processing.textAlign(PConstants.LEFT);
-            Main.processing.text("Heart " + player.getHealth(), 10, 14);
+            Main.processing.textSize(20);
+            Main.processing.textAlign(PConstants.LEFT, PConstants.CENTER);
+            Main.processing.text(player.getHealth() + " lives left", 10, 40);
 
             //timer section
             elapsedTime = System.currentTimeMillis() - startTime;
