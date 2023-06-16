@@ -3,7 +3,6 @@ package entities;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
-import main.Map;
 import processing.core.PImage;
 
 import java.util.ArrayList;
@@ -39,7 +38,8 @@ public class Skeletons extends Movable implements Pathfinding{
      * @param y the y-axis that the enitty will spawn into
      */
     public Skeletons(float x, float y) {
-        super(x, y,20,20,12,1,5, 2);
+        super(x, y,60,60,12,1,5, 2);
+        loadImage();
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -57,9 +57,10 @@ public class Skeletons extends Movable implements Pathfinding{
         elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
-        Main.processing.noStroke();
-        Main.processing.fill(0,255,127);
-        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+//        Main.processing.noStroke();
+//        Main.processing.fill(0,255,127);
+//        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+        this.play(Direction.NONE);
 //        j * 20, i * 20 + 80
 //        Agro Mode
         if(agro){
@@ -243,8 +244,7 @@ public class Skeletons extends Movable implements Pathfinding{
         }
     }
 
-<<<<<<< HEAD
-    private int clamp(int min, int max, int value){
+    protected int clamp(int min, int max, int value){
         if(min > value){
             return min;
         }
@@ -257,18 +257,15 @@ public class Skeletons extends Movable implements Pathfinding{
     }
 
     private void loadImage() {
-        String root = "src/main/resources/assets/Sprites/Skeleton";
+        String root = "src/main/resources/assets/Sprites/Skeleton/";
         Direction[] temp = new Direction[2];
 
         temp[0] = Direction.NONE;
         temp[1] = Direction.RIGHT;
         for(int i = 0; i < 4; i++) {
-            PImage temp2 = Main.processing.loadImage(root + String.format("skeleton_idle_down%d.png", i));
+            PImage temp2 = Main.processing.loadImage(root + String.format("skeleton_idle_down%d.png", i + 1));
             this.addSprites(temp[0], temp2, this.getSize());
             System.out.println(this.getSprites().getSpritesList(Direction.NONE));
         }
     }
-=======
-
->>>>>>> ee7b9e3f83bef35e76d9946e4027817a61277859
 }
