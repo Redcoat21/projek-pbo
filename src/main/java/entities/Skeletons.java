@@ -49,7 +49,8 @@ public class Skeletons extends Movable implements Pathfinding{
 //        Main.processing.fill(0,255,127);
 //        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 //        j * 20, i * 20 + 80
-            this.play("idle", this.getAtkDirection());
+            this.play("walk", this.getAtkDirection());
+        System.err.println(this.getDirection());
 //        Agro Mode
         if(agro){
             if(map==null){
