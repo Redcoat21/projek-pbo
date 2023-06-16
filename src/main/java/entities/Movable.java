@@ -332,7 +332,9 @@ public class Movable extends Entities{
      */
     public void moveTo(Direction direction) {
         this.direction = direction;
-        addDirection(direction);
+        if(!direction.equals(Direction.NONE)) {
+            addDirection(direction);
+        }
     }
 
     protected void facing(){
