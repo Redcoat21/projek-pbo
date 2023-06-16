@@ -108,11 +108,6 @@ public class ArcadeMode {
             Main.processing.text("Heart " + player.getHealth(), 10, 14);
 
             //timer section
-//            elapsedTime = System.currentTimeMillis() - startTime;
-//            elapsedSeconds = (int) (elapsedTime / 1000);
-//            secondsDisplay = elapsedSeconds % 60;
-//            elapsedMinutes = elapsedSeconds / 60;
-//            minutesDisplay = elapsedMinutes % 60;
             Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
             Main.processing.textSize(40);
             Main.processing.fill(0);
@@ -129,14 +124,11 @@ public class ArcadeMode {
 
             startBattle();
             if(battle) {
-//                System.out.println("masuk battle");
                 gantiWave();
                 startTimeAtk = System.currentTimeMillis();
-//                System.out.println("selesai battle");
             }
         }
         else if(alive && battle) {
-//            System.out.println("masuk suasana battle");
             Main.processing.background(204,102,0);
             Main.processing.noStroke();
 
@@ -283,8 +275,9 @@ public class ArcadeMode {
             Main.processing.textSize(24);
             Main.processing.text("FLOOR " + floor, Main.processing.width / 2, 0);
 
-            if(player.getX() >= 57*20 && !reward){
+            if(player.getX() >= 57*20 && !reward && !choosing){
                 choosing = true;
+                player.generateNextWeapon(floor);
             }
             if(choosing){
                 Main.processing.background(0);
@@ -315,6 +308,7 @@ public class ArcadeMode {
                 Main.processing.textSize(20);
                 Main.processing.fill(255);
                 Main.processing.text("change weapon", x[2]  + r[2]/2, y[2] + 60);
+                Main.processing.text(player.getNextWeaponName(), x[2] + r[2]/2, y[2] + 80);
             }
             else {
                 map.printMap();
@@ -410,13 +404,13 @@ public class ArcadeMode {
             int countBB = 0;
             if(floor == 1){
                 if(wave == 1){
-                    countBB = 1;
+                    countZ = 1;
                 }
                 else if(wave == 2){
-                    countZ = 3;
+//                    countZ = 3;
                 }
                 else{
-                    countZ = 4;
+//                    countZ = 4;
 //                    countES = 2;
                 }
             }

@@ -32,6 +32,7 @@ public class Bullet extends Movable{
         Main.processing.noStroke();
         Main.processing.fill(255,0,0);
         Main.processing.circle(getX(), getY(), getWidth());
+        Main.processing.fill(255);
     }
 
     private void entitiesCollisionWall(){

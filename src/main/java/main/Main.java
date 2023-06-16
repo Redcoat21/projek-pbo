@@ -187,15 +187,14 @@ public class Main extends PApplet{
             if(click == 0){
                 am.getPlayer().heal();
                 am.choosed();
-                System.out.println("ke heal");
             }
             else if(click == 1){
                 am.getPlayer().getWeapon().setLevel(1);
                 am.choosed();
-                System.out.println("senjata level up");
             }
             else if(click == 2){
                 am.choosed();
+                am.getPlayer().switchWeapon();
             }
         }
         else if(mode == 3 && am.win){

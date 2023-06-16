@@ -18,7 +18,7 @@ public class Zombies extends Movable implements Pathfinding{
     private int tickMove;
     private int indexDelay;
     private Player target;
-    Obstacles[][] tiles;
+    private Obstacles[][] tiles;
     private ArrayList<Direction> pathList;
     private int pathIdx;
     private boolean gotPath;

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Player extends Movable {
     int baseHp;
     private Weapon weapon;
+    private Weapon nextWeapon;
     private SwordFactory swordFactory;
     private SpearFactory spearFactory;
     private RangedFactory rangedFactory;
@@ -47,6 +48,7 @@ public class Player extends Movable {
         weapon = swordFactory.createWeapon(SwordType.GREATSWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
 //        weapon = rangedFactory.createWeapon(RangedType.IRON_BOW, 0);
+        nextWeapon = null;
     }
 
     @Override
@@ -452,5 +454,66 @@ public class Player extends Movable {
         for(int i=0; i< bullets.length; i++){
             bullets[i].hit();
         }
+    }
+
+    public void generateNextWeapon(int phase){
+        int type = rand.nextInt(3);
+        int rarity = rand.nextInt(30);
+
+        /*
+        if type = 1
+        rarity from 0-19 = common
+        rarity from 20-25 = epic
+        rarity from 26-29 = unique
+
+        if type = 2
+        rarity from 0-19 = common
+        rarity from 20-25 = epic
+        rarity from 26-29 = legendary
+
+        if type = 3
+        rarity from 0-25 = common
+        rarity from 26-29 = epic
+         */
+
+        if(type == 1){
+            if(rarity < 20){
+                nextWeapon = swordFactory.createWeapon(SwordType.IRON_SWORD, phase);
+            }
+            else if(rarity < 26){
+                nextWeapon = swordFactory.createWeapon(SwordType.GOLDEN_SWORD, phase);
+            }
+            else{
+                nextWeapon = swordFactory.createWeapon(SwordType.GREATSWORD, phase);
+            }
+        }
+        else if(type == 2){
+            if(rarity < 20){
+                nextWeapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, phase);
+            }
+            else if(rarity < 26){
+                nextWeapon = spearFactory.createWeapon(SpearType.GLAIVE, phase);
+            }
+            else{
+                nextWeapon = spearFactory.createWeapon(SpearType.SPEAR_OF_THE_LORD, phase);
+            }
+        }
+        else{
+            if(rarity < 26){
+                nextWeapon = rangedFactory.createWeapon(RangedType.WOOD_BOW, phase);
+            }
+            else{
+                nextWeapon = rangedFactory.createWeapon(RangedType.IRON_BOW, phase);
+            }
+        }
+    }
+
+    public void switchWeapon(){
+        weapon = nextWeapon;
+        nextWeapon = null;
+    }
+
+    public String getNextWeaponName() {
+        return nextWeapon.getWeaponName();
     }
 }
