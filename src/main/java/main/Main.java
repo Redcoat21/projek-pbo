@@ -19,13 +19,14 @@ public class Main extends PApplet{
      */
     int mode;
     boolean bgmplaying;
-    boolean[] isplaying = new boolean[3];
+    boolean[] isplaying;
     public static PApplet processing;
     private LoadingScreen ls;
     private ChoosingMenu cm;
     private ArcadeMode am;
     private EndlessMode em;
     private Random rand;
+    private Bgm song;
     @Override
     public void settings() {
         size(1280, 720);
@@ -41,6 +42,8 @@ public class Main extends PApplet{
         am = new ArcadeMode();
         em = new EndlessMode();
         rand = new Random();
+        song = new Bgm();
+        isplaying = new boolean[3];
         mode = 1;
         frameRate(60);
         bgmplaying=false;
@@ -107,47 +110,14 @@ public class Main extends PApplet{
             isplaying[1]=false;
             isplaying[2]=true;
         }
-//        if(mode==1&&bgmplaying==false||mode==2&&bgmplaying==false){
-//            playMusic(1);
-//            bgmplaying=true;
-//        } else if (mode==3||mode==4) {
-//            if(mode==3){
-//                if(am.isEnemyDie()==true){
-//                    if(bgmplaying==false){
-//                        playMusic(1);
-//                        bgmplaying=true;
-//                    }else{
-//                        if(needchange==true)
-//                        stopMusic();
-//
-//                    }
-//                }if(am.isEnemyDie()==false){
-//                    if(bgmplaying==false){
-//                        playMusic(4);
-//                        bgmplaying=true;
-//                    }else{
-//                        if(needchange==true)
-//                            stopMusic();
-//
-//                    }
-//                }
-//            } else if (mode==4) {
-//                if(em.isEnemyDie()==true){
-//                    playMusic(1);
-//                    bgmplaying=true;
-//                }else{
-//                    playMusic(4);
-//                    bgmplaying=true;
-//                }
-//            }
-        }
-    bgm song = new bgm();
+    }
+
     public void playMusic(int mode){
-        bgm.setFile(mode);
-        bgm.loop();
+        Bgm.setFile(mode);
+        Bgm.loop();
     }
     public void stopMusic(){
-        bgm.stop();
+        Bgm.stop();
     }
     @Override
     public void keyPressed(){
@@ -155,8 +125,6 @@ public class Main extends PApplet{
             ls.pressed();
         }
         else if(mode == 3 && am.isAlive()) {
-//            am.getPlayer().setSpeed(am.getPlayer().getSpeed());
-//            am.getPlayer().setSpeed(1);
             if (key == 'a') {
                 am.getPlayer().moveTo(Direction.LEFT);
             }
