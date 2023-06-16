@@ -107,6 +107,7 @@ public class EndlessMode {
             }
         }
         else if(alive && battle) {
+
             Main.processing.background(204,102,0);
             Main.processing.noStroke();
 

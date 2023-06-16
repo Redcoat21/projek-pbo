@@ -89,6 +89,7 @@ public class ArcadeMode {
     public void render() {
         if(alive && !battle && !done && !win){
 //            System.out.println("AWAL AWAL");
+
             Main.processing.background(204,102,0);
             Main.processing.noStroke();
 
@@ -136,6 +137,7 @@ public class ArcadeMode {
             }
         }
         else if(alive && battle) {
+
 //            System.out.println("masuk suasana battle");
             Main.processing.background(204,102,0);
             Main.processing.noStroke();

@@ -7,11 +7,10 @@ public class bgm {
     static Clip clip;
     static URL[] bgmURL = new URL[30];
     public bgm(){
-        bgmURL[3]=getClass().getResource("/assets/sound/04. Awakening.wav");
+        bgmURL[4]=getClass().getResource("/assets/sound/AI_Test_Kitchen_soothing_instrumental_music_to_help_me_focus.wav");
         bgmURL[2]=getClass().getResource("/assets/sound/23. Accolade - Intro.wav");
         bgmURL[1]=getClass().getResource("/assets/sound/AI_Test_Kitchen_dark_loopable.wav");
-        System.out.println(bgmURL[1]);
-        System.out.println(bgmURL[2]);
+        bgmURL[3]=getClass().getResource("/assets/sound/04. Awakening.wav");
     }
     public static void setFile(int i){
         try{
