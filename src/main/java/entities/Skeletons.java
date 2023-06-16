@@ -60,8 +60,8 @@ public class Skeletons extends Movable implements Pathfinding{
 //        Main.processing.noStroke();
 //        Main.processing.fill(0,255,127);
 //        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
-        this.play(Direction.NONE);
 //        j * 20, i * 20 + 80
+            this.play("idle", this.getAtkDirection());
 //        Agro Mode
         if(agro){
             if(map==null){
@@ -258,14 +258,34 @@ public class Skeletons extends Movable implements Pathfinding{
 
     private void loadImage() {
         String root = "src/main/resources/assets/Sprites/Skeleton/";
-        Direction[] temp = new Direction[2];
+        Direction[] temp = new Direction[4];
 
-        temp[0] = Direction.NONE;
-        temp[1] = Direction.RIGHT;
-        for(int i = 0; i < 4; i++) {
-            PImage temp2 = Main.processing.loadImage(root + String.format("skeleton_idle_down%d.png", i + 1));
-            this.addSprites(temp[0], temp2, this.getSize());
-            System.out.println(this.getSprites().getSpritesList(Direction.NONE));
+        temp[0] = Direction.RIGHT;
+        temp[1] = Direction.LEFT;
+        temp[2] = Direction.UP;
+        temp[3] = Direction.DOWN;
+
+        for(Direction d : temp) {
+            for (int i = 0; i < 4; i++) {
+                String directionString = switch(d) {
+                    case UP -> "up";
+                    case DOWN -> "down";
+                    case RIGHT -> "right";
+                    case LEFT -> "left";
+                    default -> null;
+                };
+
+                PImage temp2 = Main.processing.loadImage(root + String.format("skeleton_idle_%s%d.png", directionString, i + 1));
+                PImage temp3 = Main.processing.loadImage(root + String.format("skeleton_walk_%s%d.png", directionString, i + 1));
+                PImage temp4 = Main.processing.loadImage(root + String.format("skeleton_idle_down%d.png", i + 1));
+                this.addSprites("idle", d, temp2, this.getSize());
+                this.addSprites("walk", d, temp3, this.getSize());
+            }
+
+            this.addSprites("walk", Direction.NONE, Main.processing.loadImage("src/main/resources/assets/Sprites/Skeleton/skeleton_idle_down1.png"), this.getSize());
+            this.addSprites("walk", Direction.NONE, Main.processing.loadImage("src/main/resources/assets/Sprites/Skeleton/skeleton_idle_down2.png"), this.getSize());
+            this.addSprites("walk", Direction.NONE, Main.processing.loadImage("src/main/resources/assets/Sprites/Skeleton/skeleton_idle_down3.png"), this.getSize());
+            this.addSprites("walk", Direction.NONE, Main.processing.loadImage("src/main/resources/assets/Sprites/Skeleton/skeleton_idle_down4.png"), this.getSize());
         }
     }
 }
