@@ -368,7 +368,7 @@ public class ArcadeMode {
         done = false;
 //        System.out.println("masuk");
     }
-    private boolean isEnemyDie(){
+    public boolean isEnemyDie(){
 //        if(entities.size()<1){
 //            return true;
 //        }

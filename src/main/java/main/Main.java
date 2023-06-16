@@ -2,7 +2,10 @@ package main;
 
 import entities.Direction;
 import processing.core.PApplet;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.sound.sampled.*;
 import java.util.Random;
 
 public class Main extends PApplet{
@@ -43,6 +46,7 @@ public class Main extends PApplet{
 
     @Override
     public void draw() {
+
         if(mode == 1) {
             background(0);
             ls.display();
@@ -62,8 +66,37 @@ public class Main extends PApplet{
         else if(mode == 4){
             em.render();
         }
+        if(mode==1||mode==2){
+            playMusic(1);
+        } else if (mode==3||mode==4) {
+            if(mode==3){
+                if(am.isEnemyDie()==true){
+                    playMusic(1);
+                }else{
+                    playMusic(1);
+                }
+            } else if (mode==4) {
+                if(em.isEnemyDie()==true){
+                    playMusic(1);
+                }else{
+                    playMusic(1);
+                }
+            }
+        }
     }
-
+    bgm song = new bgm();
+    public void playMusic(int mode){
+        bgm.setFile(mode);
+        bgm.play();
+        bgm.loop();
+    }
+    public void stopMusic(){
+        bgm.stop();
+    }
+    public void playSE(int mode){
+        bgm.setFile(mode);
+        bgm.play();
+    }
     @Override
     public void keyPressed(){
         if(mode == 1){
@@ -208,6 +241,8 @@ public class Main extends PApplet{
     }
     public static void main(String[] args) {
         PApplet.main("main.Main");
+
+
     }
 }
 

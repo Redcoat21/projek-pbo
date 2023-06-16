@@ -199,7 +199,7 @@ public class EndlessMode {
         }
     }
 
-    private boolean isEnemyDie(){
+    public boolean isEnemyDie(){
         if(entities.size()<1){
             return true;
         }
