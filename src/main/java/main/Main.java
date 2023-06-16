@@ -2,6 +2,12 @@ package main;
 
 import entities.Direction;
 import processing.core.PApplet;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.sound.sampled.*;
+import java.util.Random;
+
 public class Main extends PApplet{
     /*
         this variable mode is used for marking the condition of the game
@@ -12,12 +18,15 @@ public class Main extends PApplet{
         5 = exit
      */
     int mode;
+    boolean bgmplaying;
+    boolean[] isplaying;
     public static PApplet processing;
-//    Player player;
     private LoadingScreen ls;
     private ChoosingMenu cm;
     private ArcadeMode am;
     private EndlessMode em;
+    private Random rand;
+    private Bgm song;
     @Override
     public void settings() {
         size(1280, 720);
@@ -32,13 +41,22 @@ public class Main extends PApplet{
         cm = new ChoosingMenu();
         am = new ArcadeMode();
         em = new EndlessMode();
-        mode = 4;
+        rand = new Random();
+        song = new Bgm();
+        isplaying = new boolean[3];
+        mode = 1;
         frameRate(60);
+        bgmplaying=false;
+        isplaying[0]=false;
+        isplaying[1]=false;
+        isplaying[2]=false;
     }
 
     @Override
     public void draw() {
+
         if(mode == 1) {
+
             background(0);
             ls.display();
             if(ls.isPressed()){
@@ -47,8 +65,6 @@ public class Main extends PApplet{
             }
         }
         else if(mode == 2){
-//            am = new ArcadeMode();
-//            em = new EndlessMode();
             cm.render();
         }
         else if(mode == 3){
@@ -57,16 +73,58 @@ public class Main extends PApplet{
         else if(mode == 4){
             em.render();
         }
+        if(mode==2&&bgmplaying==true&&isplaying[0]!=true){
+            stopMusic();
+            playMusic(2);
+            isplaying[0]=true;
+            isplaying[1]=false;
+            isplaying[2]=false;
+        } else if (mode==3&&bgmplaying==true&&isplaying[1]!=true) {
+            stopMusic();
+            playMusic(3);
+            isplaying[0]=false;
+            isplaying[1]=true;
+            isplaying[2]=false;
+        } else if (mode==4&&bgmplaying==true&&isplaying[2]!=true) {
+            stopMusic();
+            playMusic(4);
+            isplaying[0]=false;
+            isplaying[1]=false;
+            isplaying[2]=true;
+        }else if(mode==2&&bgmplaying==false&&isplaying[0]!=true){
+            playMusic(2);
+            bgmplaying=true;
+            isplaying[0]=true;
+            isplaying[1]=false;
+            isplaying[2]=false;
+        } else if (mode==3&&bgmplaying==false&&isplaying[1]!=true) {
+            playMusic(3);
+            bgmplaying=true;
+            isplaying[0]=false;
+            isplaying[1]=true;
+            isplaying[2]=false;
+        } else if (mode==4&&bgmplaying==false&&isplaying[2]!=true) {
+            playMusic(4);
+            bgmplaying=true;
+            isplaying[0]=false;
+            isplaying[1]=false;
+            isplaying[2]=true;
+        }
     }
 
+    public void playMusic(int mode){
+        Bgm.setFile(mode);
+        Bgm.loop();
+    }
+    public void stopMusic(){
+        Bgm.stop();
+    }
     @Override
     public void keyPressed(){
         if(mode == 1){
             ls.pressed();
         }
         else if(mode == 3 && am.isAlive()) {
-//            am.getPlayer().setSpeed(am.getPlayer().getSpeed());
-//            am.getPlayer().setSpeed(1);
             if (key == 'a') {
                 am.getPlayer().moveTo(Direction.LEFT);
             }
@@ -177,8 +235,41 @@ public class Main extends PApplet{
             mode = 2;
             am = new ArcadeMode();
         }
+        else if(mode == 3 && am.isChoosing()){
+            int click = am.buttonPressed();
+            if(click == 0){
+                am.getPlayer().heal();
+                am.choosed();
+            }
+            else if(click == 1){
+                am.getPlayer().getWeapon().increaseLevel(1);
+                am.choosed();
+            }
+            else if(click == 2){
+                am.choosed();
+                am.getPlayer().switchWeapon();
+            }
+        }
         else if(mode == 3 && am.win){
             mode = 2;
+        }
+        else if(mode == 4 && em.isChoosing()){
+            int click = em.buttonPressed();
+            if(click == 0){
+                em.getPlayer().heal();
+                em.choosed();
+                System.out.println("keheal");
+            }
+            else if(click == 1){
+                em.getPlayer().getWeapon().increaseLevel(1);
+                em.choosed();
+                System.out.println("level up");
+            }
+            else if(click == 2){
+                em.choosed();
+                em.getPlayer().switchWeapon();
+                System.out.println("ganti senjata");
+            }
         }
         else if(mode == 4 && !em.isAlive()) {
             mode = 2;

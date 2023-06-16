@@ -2,7 +2,7 @@ package weapon;
 
 public abstract class Weapon {
     private final String weaponName;
-    private float attackSpeed;
+//    private float attackSpeed;
     // Base damage of the weapon, not the damage dealt.
     private final int damage;
     // Phase is calculated using Waves / 9
@@ -10,6 +10,7 @@ public abstract class Weapon {
     private int level;
     // Bonus act as a bonus damage based on the level of the previous phase when switching phase.
     private int bonus;
+    private float weight;
     private final Rarity weaponRarity;
 
     /**
@@ -26,9 +27,10 @@ public abstract class Weapon {
      * @param damage The base damage of the weapon
      * @param phase What phase is the weapon acquired on. Note that phase can't be negative!
      */
-    public Weapon(Rarity weaponRarity, String weaponName, int damage, int phase) {
+    public Weapon(Rarity weaponRarity, String weaponName, int damage, int phase, float weight) {
         this.weaponName = weaponName;
         this.damage = damage;
+        this.weight = weight;
 
         if(phase >= 0) {
             this.phase = phase;
@@ -120,4 +122,20 @@ public abstract class Weapon {
     public String getWeaponName() {
         return weaponName;
     }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    //    public float getAttackSpeed() {
+//        return attackSpeed;
+//    }
+//
+//    public void setAttackSpeed(float attackSpeed) {
+//        this.attackSpeed = attackSpeed;
+//    }
 }

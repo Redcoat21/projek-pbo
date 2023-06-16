@@ -3,7 +3,7 @@ package entities;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
-import main.Map;
+import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,66 +11,47 @@ import java.util.Comparator;
 
 public class Skeletons extends Movable implements Pathfinding{
     private boolean agro;
-    private boolean primed;
-    private int shootTick;
-    private int shootCounter;
     private int agroIdx;
     private int tickMove;
     private int indexDelay;
     private Player target;
-    private Map map;
     Obstacles[][] tiles;
     private ArrayList<Direction> pathList;
     private int pathIdx;
     private boolean gotPath;
+    private Bullet bullet;
 
-    public Skeletons(float x, float y, int map) {
-        super(x, y,20,20,2,1, map);
+    /**
+     * @param x the x-axis that the entity will spawn into
+     * @param y the y-axis that the enitty will spawn into
+     */
+    public Skeletons(float x, float y) {
+        super(x, y,50,50,12,1,5, 2);
+        loadImage();
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-        primed=false;
-//        Throwaway variable just for checking if delay is working
-        shootCounter=0;
-        shootTick=0;
-        setMap(map);
-    }
-    public Skeletons(float x, float y, Map map) {
-        super(x, y,20,20,2,1, map.getFloor());
-        agro = false;
-        agroIdx=0;
-        tickMove=0;
-        indexDelay=0;
-        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
+        bullet = new Bullet();
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
-        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
-        Main.processing.text("Shoot Idx "+shootTick+"   Shoot Counter  "+shootCounter,getX(),getY()-60);
-        Main.processing.noStroke();
-        Main.processing.fill(0,255,127);
-        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+//        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
+//        Main.processing.noStroke();
+//        Main.processing.fill(0,255,127);
+//        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 //        j * 20, i * 20 + 80
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(this.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    Main.processing.text("X: "+j+"   Y: "+i,getX(),getY()+100);
-                }
-            }
-        }
+            this.play("walk", this.getAtkDirection());
 //        Agro Mode
         if(agro){
-            if(primed){
-                shootTick++;
-                if(shootTick>=90){
-                    shootTick=0;
-                    shootCounter++;
-                }
-            }
             if(map==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
@@ -99,13 +80,30 @@ public class Skeletons extends Movable implements Pathfinding{
                         if(pathIdx!=pathList.size()*20-2){
                             this.moveTo(pathList.get(pathIdx/20));
                         }
-                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
+//                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx + "atk : " + getAtkDirection(),getX(),getY()+120);
                     }else{
                         this.moveTo(Direction.NONE);
                         this.stop();
                         pathIdx=0;
                         pathList=null;
                         gotPath=false;
+                        if(target.getXFromCenter() < getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.LEFT);
+                        }
+                        else if(target.getXFromCenter() > getXFromCenter() && target.getYFromCenter() > getY() && target.getYFromCenter() < getY()+getHeight()){
+                            facingTo(Direction.RIGHT);
+                        }
+                        else if(target.getYFromCenter() < getYFromCenter()){
+                            facingTo(Direction.UP);
+                        }
+                        else if(target.getYFromCenter() > getYFromCenter()){
+                            facingTo(Direction.DOWN);
+                        }
+
+                        if(!bullet.isFired() && elapsedSecond > coolDown){
+                            bullet.fired(getXFromCenter(), getYFromCenter(), 4, 1, getAtkDirection());
+                            startTime = System.currentTimeMillis();
+                        }
                     }
                 }
 
@@ -126,12 +124,14 @@ public class Skeletons extends Movable implements Pathfinding{
             agroIdx++;
         }
 }
+
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
             this.agro=true;
-            if(Math.abs(getX()-you.getX())<=100&&Math.abs(getY()-you.getY())<=100)this.primed = true;
-            else primed=false;
         }else{
             target=null;
             this.agro=false;
@@ -142,15 +142,15 @@ public class Skeletons extends Movable implements Pathfinding{
             agroIdx=0;
         }
         this.stop();
-        if(agroIdx>=0&&agroIdx<1)this.moveTo(Direction.DOWN);
-        else if(agroIdx>=1&&agroIdx<2)this.moveTo(Direction.RIGHT);
-        else if(agroIdx>=2&&agroIdx<3)this.moveTo(Direction.UP);
-        else if(agroIdx>=3&&agroIdx<4)this.moveTo(Direction.LEFT);
+        if(agroIdx == 0)this.moveTo(Direction.DOWN);
+        else if(agroIdx == 1)this.moveTo(Direction.RIGHT);
+        else if(agroIdx == 2)this.moveTo(Direction.UP);
+        else if(agroIdx == 3)this.moveTo(Direction.LEFT);
     }
 
     @Override
     public ArrayList<Direction> getNextDirection(ArrayList<Direction> dlist, int x, int y, Obstacles[][] moved) {
-        if(Math.abs(x-getTargetCoords()[0])<=6&&Math.abs(y-getTargetCoords()[1])<=6){
+        if((Math.abs(x-getTargetCoords()[0])<=12&&Math.abs(y-getTargetCoords()[1])==0)||Math.abs(x-getTargetCoords()[0])==0&&Math.abs(y-getTargetCoords()[1])<=12){
             dlist.add(Direction.NONE);
             gotPath=true;
             System.out.println("LELE");
@@ -168,7 +168,7 @@ public class Skeletons extends Movable implements Pathfinding{
                         return (int)(o1.getValue()-o2.getValue());
                     }
                 });
-                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
+//                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
                 System.out.println();
                 for (ValueTile a : moves){
                     if(!gotPath){
@@ -190,25 +190,84 @@ public class Skeletons extends Movable implements Pathfinding{
     @Override
     public int[] getTargetCoords() {
         int[] coords = new int[2];
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(target.entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    coords[0] = j;coords[1]=i;
-                }
-            }
-        }
+        coords[0] = (int) target.getX()/20;
+        coords[1] = (int) ((target.getY()-80)/20);
         return coords;
     }
 
     @Override
     public int[] getObjectCoords() {
         int[] coords = new int[2];
-        for (int i=0;i<32;i++){
-            for (int j=0;j<64;j++){
-                if(entitiesIntersectWall(new Obstacles(j*20,i*20+80))){
-                    coords[0] = j;coords[1]=i;
-                }
+        coords[0] = (int) getX()/20;
+        coords[1] = (int) ((getY()-80)/20);
+        return coords;
+    }
+
+    @Override
+    public void move() {
+        super.move();
+
+        if(bullet.isFired()){
+            bullet.move();
+            bullet.render();
+        }
+    }
+
+    /**
+     * @param target if the bullet collision with the player/target
+     */
+    public void bulletAtkCollision(Player target){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+
+        pointOnRectX = clamp((int) target.getX(), (int) (target.getX()+target.getWidth()), (int) bullet.getX());
+        pointOnRectY = clamp((int) target.getY(), (int) (target.getY()+target.getHeight()), (int) bullet.getY());
+        XDistToRect = (int) bullet.getX() - pointOnRectX;
+        YDistToRect = (int) bullet.getY() - pointOnRectY;
+        dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+        if(dist < bullet.getWidth() && bullet.isFired()){
+            target.subHP(bullet.getDamage());
+            bullet.hit();
+        }
+    }
+
+    protected int clamp(int min, int max, int value){
+        if(min > value){
+            return min;
+        }
+        else if(max < value){
+            return max;
+        }
+        else{
+            return value;
+        }
+    }
+
+    private void loadImage() {
+        String root = "src/main/resources/assets/Sprites/Skeleton_Archer/";
+        Direction[] temp = new Direction[4];
+
+        temp[0] = Direction.RIGHT;
+        temp[1] = Direction.LEFT;
+        temp[2] = Direction.UP;
+        temp[3] = Direction.DOWN;
+
+        for(Direction d : temp) {
+            for (int i = 0; i < 4; i++) {
+                String directionString = switch(d) {
+                    case UP -> "up";
+                    case DOWN -> "down";
+                    case RIGHT -> "right";
+                    case LEFT -> "left";
+                    default -> null;
+                };
+
+                PImage temp2 = Main.processing.loadImage(root + String.format("walk%s%d.png", directionString, i + 1));
+                this.addSprites("walk", d, temp2, this.getSize());
             }
         }
-        return coords;
-    }}
+    }
+}

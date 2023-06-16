@@ -1,9 +1,6 @@
 package main;
 
-import entities.Movable;
-import entities.Player;
-import entities.Skeletons;
-import entities.Zombies;
+import entities.*;
 import processing.core.PConstants;
 
 import java.util.ArrayList;
@@ -20,17 +17,26 @@ public class ArcadeMode {
     long startTimeText;
     long elapsedTimeText;
     int elapsedSecondsText;
+    long startTimeAtk;
+    long elapsedTimeAtk;
+    float elapsedSecondsAtk;
     int wave;
     Map map;
     boolean alive;
     boolean battle;
     boolean done;
+    boolean reward;
+    boolean choosing;
     boolean win;
-    ArrayList<Movable> entities = new ArrayList<>();
+    private int[] x;
+    private int[] y;
+    private int[] r;
+    private Movable[] enemy;
+
 
     public ArcadeMode(){
-        floor = 5;
-        player = new Player(0,15.5f*20+80, floor);
+        floor = 4;
+        player = new Player(0,15.5f*20+80, new Map(floor));
         startTime = System.currentTimeMillis();
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSeconds = (int) (elapsedTime / 1000);
@@ -40,30 +46,46 @@ public class ArcadeMode {
         startTimeText = 0;
         elapsedTimeText = 0;
         elapsedSecondsText = (int) (elapsedTimeText / 1000);
+        startTimeAtk = 0;
+        elapsedTimeAtk = 0;
+        elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);
         alive = true;
-        floor = 4;
+        floor =1;
         wave = 0;
         map = new Map(floor);
         battle = false;
         done = false;
+        reward = false;
+        choosing = false;
         win = false;
-//        entities.add(new Zombies(100,100,map));
-//        entities.add(new Zombies(320,390,map));
-//        entities.add(new Skeletons(800,300,map));
-//        entities.add(new EliteZombies(100,150,map));
-//        entities.add(new ChargedCreeper(150, 150,map));
-//        entities.add(new ChargedCreeper(170, 150,map));
-//        entities.add(new ChargedCreeper(190, 150,map));
-//        entities.add(new BigBoss(1000,300,map));
-    }
-    public void removeDead(){
-        for (int i=0;i< entities.size();i++){
-            Movable a = entities.get(i);
-            if(a.getHealth()==0){
-                entities.remove(i);
-            }
+        x = new int[3];
+        y = new int[3];
+        r = new int[3];
+        x[0] = Main.processing.width/2-200;
+        x[1] = Main.processing.width/2;
+        x[2] = Main.processing.width/2+200;
+        y[0] = Main.processing.height/2-30;
+        y[1] = Main.processing.height/2-30;
+        y[2] = Main.processing.height/2-30;
+        r[0] = 50;
+        r[1] = 50;
+        r[2] = 50;
+        enemy = new Movable[91];
+        for(int i=0; i<35; i++){
+            enemy[i] = new Zombies(-100, -100);
         }
+        for(int i=35; i<70; i++){
+            enemy[i] = new Skeletons(-100, -100);
+        }
+        for(int i=70; i<80; i++){
+            enemy[i] = new EliteZombies(-100, -100);
+        }
+        for(int i=80; i<90; i++){
+            enemy[i] = new EliteSkeletons(-100, -100);
+        }
+        enemy[90] = new BigBoss(-100,-100);
     }
+
     public void render() {
         if(alive && !battle && !done && !win){
 //            System.out.println("AWAL AWAL");
@@ -81,16 +103,11 @@ public class ArcadeMode {
             Main.processing.text("fps " + (int) Main.processing.frameRate, Main.processing.width, 14);
 
             //health section
-            Main.processing.textSize(14);
-            Main.processing.textAlign(PConstants.LEFT);
-            Main.processing.text("Heart " + player.getHealth(), 10, 14);
+            Main.processing.textSize(20);
+            Main.processing.textAlign(PConstants.LEFT, PConstants.CENTER);
+            Main.processing.text(player.getHealth() + " lives left", 10, 40);
 
             //timer section
-//            elapsedTime = System.currentTimeMillis() - startTime;
-//            elapsedSeconds = (int) (elapsedTime / 1000);
-//            secondsDisplay = elapsedSeconds % 60;
-//            elapsedMinutes = elapsedSeconds / 60;
-//            minutesDisplay = elapsedMinutes % 60;
             Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
             Main.processing.textSize(40);
             Main.processing.fill(0);
@@ -108,6 +125,7 @@ public class ArcadeMode {
             startBattle();
             if(battle) {
                 gantiWave();
+                startTimeAtk = System.currentTimeMillis();
             }
         }
         else if(alive && battle) {
@@ -125,9 +143,9 @@ public class ArcadeMode {
             Main.processing.text("fps " + (int) Main.processing.frameRate, Main.processing.width, 14);
 
             //health section
-            Main.processing.textSize(14);
-            Main.processing.textAlign(PConstants.LEFT);
-            Main.processing.text("Heart " + player.getHealth(), 10, 14);
+            Main.processing.textSize(20);
+            Main.processing.textAlign(PConstants.LEFT, PConstants.CENTER);
+            Main.processing.text(player.getHealth() + " lives left", 10, 40);
 
             //timer section
             elapsedTime = System.currentTimeMillis() - startTime;
@@ -151,50 +169,78 @@ public class ArcadeMode {
             if(elapsedSecondsText<3){
                 printWave();
             }
-
-            map.printMap();
-            player.render();
             player.move();
+            map.printMap();
 
-            for (Movable a:entities){
-                if(a instanceof Zombies)a.render();
-                else if(a instanceof Skeletons)a.render();
-//                else if(a instanceof EliteZombies)a.render();
-//                else if(a instanceof ChargedCreeper)a.render();
-//                else if(a instanceof BigBoss)a.render();
+
+
+            player.bulletAtkCollision(enemy);
+
+            //atk section
+            elapsedTimeAtk = System.currentTimeMillis() - startTimeAtk;
+            elapsedSecondsAtk = (float) elapsedTimeAtk/1000;
+            if(elapsedSecondsAtk>=player.getAtkSpeed()) {
+                player.atk(enemy);
+//                System.out.println("waktu: " + elapsedSecondsAtk);
+//                System.out.println("speed: " + player.getAtkSpeed());
+//                System.out.println("masuk");
+                startTimeAtk = System.currentTimeMillis();
             }
 
-            for (Movable a:entities){
-                if(a instanceof Zombies){
-                    ((Zombies) a).checkAgro(player);
-                    a.move();
-                }else if(a instanceof Skeletons){
-                    ((Skeletons) a).checkAgro(player);
-                    a.move();
+            player.render();
+
+            for (Movable a:enemy){
+                if(!a.isDead()) {
+                    if (a instanceof Zombies) a.render();
+                    else if (a instanceof Skeletons) a.render();
+                    else if (a instanceof EliteZombies) a.render();
+                    else if (a instanceof EliteSkeletons) a.render();
+                    else if (a instanceof ChargedCreeper) a.render();
+                    else if (a instanceof BigBoss) a.render();
                 }
-//                else if(a instanceof  EliteZombies){
-//                    ((EliteZombies) a).checkAgro(player);
-//                    a.move();
-//                }else if(a instanceof ChargedCreeper){
-//                    ((ChargedCreeper)a).checkAgro(player);
-//                    a.move();
-//                }else if(a instanceof BigBoss){
-//                    ((BigBoss)a).checkAgro(player);
-//                    a.move();
-//                }
             }
-            removeDead();
+
+            for (Movable a:enemy){
+                if(!a.isDead()) {
+                    if (a instanceof Zombies) {
+                        ((Zombies) a).checkAgro(player);
+                        a.move();
+                        ((Zombies) a).atk(player);
+                    } else if (a instanceof Skeletons) {
+                        ((Skeletons) a).checkAgro(player);
+                        a.move();
+                        ((Skeletons) a).bulletAtkCollision(player);
+                    } else if (a instanceof EliteZombies) {
+                        ((EliteZombies) a).checkAgro(player);
+                        a.move();
+                        ((EliteZombies) a).atk(player);
+                    } else if (a instanceof EliteSkeletons) {
+                        ((EliteSkeletons) a).checkAgro(player);
+                        a.move();
+                        ((EliteSkeletons) a).bulletAtkCollision(player);
+                    } else if (a instanceof ChargedCreeper) {
+                        ((ChargedCreeper) a).checkAgro(player);
+                        a.move();
+                    } else if (a instanceof BigBoss) {
+                        ((BigBoss) a).checkAgro(player);
+                        a.move();
+                        ((BigBoss) a).atk(player);
+                    }
+                }
+            }
 
             if(wave<3 && isEnemyDie()){
                 gantiWave();
             }
             else if(isEnemyDie()){
                 battleDone();
+                player.clearBullet();
             }
 
             if(player.isDead()){
                 alive = false;
             }
+//            System.out.println("selesai suasana battle");
         }
         else if(alive && done){
             Main.processing.background(204,102,0);
@@ -211,16 +257,11 @@ public class ArcadeMode {
             Main.processing.text("fps " + (int) Main.processing.frameRate, Main.processing.width, 14);
 
             //health section
-            Main.processing.textSize(14);
-            Main.processing.textAlign(PConstants.LEFT);
-            Main.processing.text("Heart " + player.getHealth(), 10, 14);
+            Main.processing.textSize(20);
+            Main.processing.textAlign(PConstants.LEFT, PConstants.CENTER);
+            Main.processing.text(player.getHealth() + " lives left", 10, 40);
 
             //timer section
-//            elapsedTime = System.currentTimeMillis() - startTime;
-//            elapsedSeconds = (int) (elapsedTime / 1000);
-//            secondsDisplay = elapsedSeconds % 60;
-//            elapsedMinutes = elapsedSeconds / 60;
-//            minutesDisplay = elapsedMinutes % 60;
             Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
             Main.processing.textSize(40);
             Main.processing.fill(0);
@@ -231,9 +272,46 @@ public class ArcadeMode {
             Main.processing.textSize(24);
             Main.processing.text("FLOOR " + floor, Main.processing.width / 2, 0);
 
-            map.printMap();
-            player.render();
-            player.move();
+            if(player.getX() >= 57*20 && !reward && !choosing){
+                choosing = true;
+                player.generateNextWeapon(floor);
+            }
+            if(choosing){
+                Main.processing.background(0);
+
+                //first choice
+                Main.processing.noStroke();
+                Main.processing.fill(125);
+                Main.processing.rect(x[0], y[0], r[0], r[0], 5);
+                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
+                Main.processing.textSize(20);
+                Main.processing.fill(255);
+                Main.processing.text("heal", x[0]  + r[0]/2, y[0] + 60);
+
+                //second choice
+                Main.processing.noStroke();
+                Main.processing.fill(125);
+                Main.processing.rect(x[1], y[1], r[1], r[1], 5);
+                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
+                Main.processing.textSize(20);
+                Main.processing.fill(255);
+                Main.processing.text("level up", x[1]  + r[1]/2, y[1] + 60);
+
+                //third choice
+                Main.processing.noStroke();
+                Main.processing.fill(125);
+                Main.processing.rect(x[2], y[2], r[2], r[2], 5);
+                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
+                Main.processing.textSize(20);
+                Main.processing.fill(255);
+                Main.processing.text("change weapon", x[2]  + r[2]/2, y[2] + 60);
+                Main.processing.text(player.getNextWeaponName(), x[2] + r[2]/2, y[2] + 80);
+            }
+            else {
+                map.printMap();
+                player.render();
+                player.move();
+            }
 
             if(player.isDead()){
                 alive = false;
@@ -279,13 +357,17 @@ public class ArcadeMode {
 //        for()
         battle = false;
         done = false;
+        reward = false;
+        choosing = false;
 //        System.out.println("masuk");
     }
     private boolean isEnemyDie(){
-        if(entities.size()<1){
-            return true;
+        for(int i=0; i<enemy.length; i++){
+            if(!enemy[i].isDead()){
+                return false;
+            }
         }
-        return false;
+        return true;
     }
     private void battleDone(){
         battle = false;
@@ -297,9 +379,95 @@ public class ArcadeMode {
     private void gantiWave(){
         wave++;
         if(wave < 4){
-            entities.add(new Zombies(320,390, floor));
-//            entities.add(new Skeletons(800,300));
+            int countZ = 0;
+            int countS = 0;
+            int countEZ = 0;
+            int countES = 0;
+            int countBB = 0;
+            if(floor == 1){
+                if(wave == 1){
+                    countZ = 1;
+                }
+                else if(wave == 2){
+                    countZ = 3;
+                }
+                else{
+                    countZ = 4;
+//                    countES = 2;
+                }
+            }
+            else if(floor == 2){
+                if(wave == 1){
+                    countZ = 2;
+                    countS = 3;
+                }
+                else if(wave == 2){
+                    countZ = 3;
+                    countS = 6;
+                }
+                else{
+                    countZ = 3;
+                    countS = 8;
+                }
+            }
+            else if(floor == 3){
+                if(wave == 1) {
+                    countZ = 5;
+                    countS = 4;
+                    countES = 1;
+                }
+                else{
+                    countZ = 5;
+                    countS = 5;
+                    countES = 1;
+                }
+            }
+            else if(floor == 4){
+                if(wave == 1) {
+                    countZ = 5;
+                    countS = 4;
+                    countEZ = 2;
+                    countES = 2;
+                }
+                else{
+                    countZ = 6;
+                    countS = 3;
+                    countEZ = 3;
+                    countES = 2;
+                }
+            }
+            else if(floor == 5){
+                countZ = 5;
+                countS = 5;
+                countEZ = 2;
+                countES = 2;
+                countBB = 1;
+            }
+            countS+=35;
+            countEZ+=70;
+            countES+=80;
+            for(int i=0; i<countZ; i++){
+                enemy[i].summoned(floor);
+            }
+
+            for(int i=35; i<countS; i++){
+                enemy[i].summoned(floor);
+            }
+
+            for(int i=70; i<countEZ; i++){
+                enemy[i].summoned(floor);
+            }
+
+            for(int i=80; i<countES; i++){
+                enemy[i].summoned(floor);
+            }
+            if(countBB > 0){
+                enemy[90].summoned(30, 15, floor);
+            }
         }
+        player.updateMap(map);
+
+//        System.out.println("selesai");
         startTimeText = System.currentTimeMillis();
         elapsedTimeText = System.currentTimeMillis() - startTimeText;
         elapsedSecondsText = (int) (elapsedTimeText / 1000);
@@ -309,7 +477,12 @@ public class ArcadeMode {
     private void printWave(){
         Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
         Main.processing.textSize(30);
-        Main.processing.text("WAVE " + wave, Main.processing.width/2, 120);
+        if(floor == 5){
+            Main.processing.text("BOSS LEVEL!", Main.processing.width / 2, 120);
+        }
+        else {
+            Main.processing.text("WAVE " + wave, Main.processing.width / 2, 120);
+        }
     }
     private void startBattle(){
         if(player.getX()>20 && !done){
@@ -334,5 +507,24 @@ public class ArcadeMode {
 
     public boolean isWin(){
         return win;
+    }
+
+    public boolean isChoosing() {
+        return choosing;
+    }
+
+    public int buttonPressed(){
+        for(int i = 0; i<x.length; i++){
+            if(Main.processing.mouseX > x[i] && Main.processing.mouseX < x[i]+r[i] &&
+                    Main.processing.mouseY > y[i] && Main.processing.mouseY < y[i]+r[i]){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void choosed(){
+        choosing = false;
+        reward = true;
     }
 }

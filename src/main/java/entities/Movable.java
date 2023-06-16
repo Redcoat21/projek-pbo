@@ -9,12 +9,14 @@ import entities.tiles.Wall;
 import main.Main;
 import main.Map;
 import processing.core.PConstants;
+import java.util.Random;
 
 public class Movable extends Entities{
     /**
      * The hp of the entities.
      */
     private int health;
+    private int baseHealth;
     /**
      * The direction that the entities is currently moving toward.
      */
@@ -28,7 +30,19 @@ public class Movable extends Entities{
      */
     private ArrayList<Direction> savingDirection;
     private Direction atkDirection;
-    private Map map;
+
+    protected static Map map;
+    protected float atkSpeed;
+    protected boolean alive;
+    protected Random rand;
+    protected long startTime;
+    protected long elapsedTime;
+    protected int elapsedSecond;
+    protected int coolDown;
+
+    public Map getMap() {
+        return map;
+    }
 
     /**
      *
@@ -39,14 +53,49 @@ public class Movable extends Entities{
      * @param health The health that the entity have.
      * @param speed The speed that the entity is moving on.
      */
-    public Movable(float x, float y, int width, int height, int health, int speed, int map) {
+
+    //constuctor only for player
+    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, Map map) {
         super(x, y, width, height);
+        this.baseHealth = health;
         this.health = health;
         direction = Direction.NONE;
         this.speed = speed;
         savingDirection = new ArrayList<>();
-        setMap(map);
+        this.map = map;
         atkDirection = Direction.RIGHT;
+        this.atkSpeed = atkSpeed;
+        alive = true;
+        rand = new Random();
+    }
+
+    //constructor for other movable except player
+    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, int coolDown) {
+        super(x, y, width, height);
+        this.baseHealth = health;
+        this.health = -1;
+        direction = Direction.NONE;
+        this.speed = speed;
+        this.atkSpeed = atkSpeed;
+        savingDirection = new ArrayList<>();
+        rand = new Random();
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) elapsedTime/1000;
+        this.coolDown = coolDown;
+    }
+
+    //constructor only for bullet
+    public Movable(float x, float y, int width, int height, int health, int speed, Direction direction) {
+        super(x, y, width, height);
+        this.baseHealth = health;
+        this.health = health;
+        this.direction = direction;
+        this.atkDirection = direction;
+        this.speed = speed;
+        this.atkSpeed = 0;
+        savingDirection = new ArrayList<>();
+        rand = new Random();
     }
 
     public void setMap(int floor) {
@@ -69,29 +118,6 @@ public class Movable extends Entities{
         }
         return false;
     }
-    private void entitiesCollisionWall(){
-        for(Obstacles[] obsTemp: map.getMap()){
-            for(Obstacles obs: obsTemp){
-                if(obs != null) {
-                    if (entitiesIntersectWall(obs) && obs instanceof Wall) {
-                        if(direction.equals(Direction.UP)){
-                            getPosition().add(0.0f, this.speed - gapCollisionOnY(obs));
-                        }
-                        else if(direction.equals(Direction.DOWN)){
-                            getPosition().add(0.0f, -(this.speed) + gapCollisionOnY(obs));
-                        }
-                        else if(direction.equals(Direction.RIGHT)){
-                            getPosition().add(-(this.speed) + gapCollisionOnX(obs), 0.0f);
-                        }
-                        else if(direction.equals(Direction.LEFT)){
-                            getPosition().add(this.speed - gapCollisionOnX(obs), 0.0f);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private float gapCollisionOnX (Obstacles e1){
         float combHalfWidth = (e1.getWidth()+getWidth())/2;
 //        float distanceOnX = Math.abs((e1.getX() + e1.getWidth()/2)-(getX() + getWidth()/2));
@@ -121,6 +147,46 @@ public class Movable extends Entities{
         }
     }
 
+    private void entitiesCollisionWall(){
+        for(Obstacles[] obsTemp: map.getMap()){
+            for(Obstacles obs: obsTemp){
+                if(obs != null) {
+                    if (entitiesIntersectWall(obs) && obs instanceof Wall) {
+                        if(direction.equals(Direction.UP)){
+                            getPosition().add(0.0f, this.speed - gapCollisionOnY(obs));
+                        }
+                        else if(direction.equals(Direction.DOWN)){
+                            getPosition().add(0.0f, -(this.speed) + gapCollisionOnY(obs));
+                        }
+                        else if(direction.equals(Direction.RIGHT)){
+                            getPosition().add(-(this.speed) + gapCollisionOnX(obs), 0.0f);
+                        }
+                        else if(direction.equals(Direction.LEFT)){
+                            getPosition().add(this.speed - gapCollisionOnX(obs), 0.0f);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * this function is excluively for bullet to check if it hit wall or no
+     * @return
+     */
+    protected boolean isEntitiesCollisionWall(){
+        for(Obstacles[] obsTemp: map.getMap()){
+            for(Obstacles obs: obsTemp){
+                if(obs != null) {
+                    if (entitiesIntersectWall(obs) && obs instanceof Wall) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     protected boolean entitiesIntersectWall(Obstacles e1){
         float combHalfWidth = (e1.getWidth()+getWidth())/2;
         float combHalfHeight = (e1.getHeight()+getHeight())/2;
@@ -135,11 +201,12 @@ public class Movable extends Entities{
         return false;
     }
 
-    private boolean entitiesIntersectHole(Obstacles e1){
+    protected boolean entitiesIntersectHole(Obstacles e1){
         float combHalfWidth = (e1.getWidth()+getWidth())/2;
         float combHalfHeight = (e1.getHeight()+getHeight())/2;
         float distanceOnX = Math.abs(e1.getX()-getX());
         float distanceOnY = Math.abs(e1.getY()-getY());
+
 
         if(distanceOnX+5<combHalfWidth && distanceOnY+5<combHalfHeight){
             return true;
@@ -180,7 +247,6 @@ public class Movable extends Entities{
         }
 //        System.out.println("the last index is " + savingDirection.get(savingDirection.size()-1));
         moveTo(savingDirection.get(savingDirection.size()-1));
-
     }
 
     /**
@@ -189,6 +255,38 @@ public class Movable extends Entities{
      */
     public int getHealth() {
         return health;
+    }
+
+    /**
+     * this function is used for bullet class only to move
+     */
+    protected void moving(){
+        switch(direction) {
+            case UP -> getPosition().add(0.0f, -(this.speed));
+            case RIGHT -> getPosition().add(this.speed, 0.0f);
+            case DOWN -> getPosition().add(0.0f, this.speed);
+            case LEFT -> getPosition().add(-(this.speed), 0.0f);
+        }
+        boolean outOfBoundUp = getPosition().y < 80.0f;
+        boolean outOfBoundRight = getPosition().x > 1280.0f - getSize().x;
+        boolean outOfBoundDown = getPosition().y > 720.0f - getSize().y;
+        boolean outOfBoundLeft = getPosition().x < 0.0f;
+
+        if(outOfBoundUp) {
+            getPosition().set(getPosition().x, 80.0f);
+        }
+
+        if(outOfBoundRight) {
+            getPosition().set(1280.0f - getSize().x, getPosition().y);
+        }
+
+        if(outOfBoundDown) {
+            getPosition().set(getPosition().x, 720.0f - getSize().y);
+        }
+
+        if(outOfBoundLeft) {
+            getPosition().set(0.0f, getPosition().y);
+        }
     }
 
     /**
@@ -201,6 +299,7 @@ public class Movable extends Entities{
             case DOWN -> getPosition().add(0.0f, this.speed);
             case LEFT -> getPosition().add(-(this.speed), 0.0f);
         }
+
         boolean outOfBoundUp = getPosition().y < 80.0f;
         boolean outOfBoundRight = getPosition().x > 1280.0f - getSize().x;
         boolean outOfBoundDown = getPosition().y > 720.0f - getSize().y;
@@ -233,7 +332,9 @@ public class Movable extends Entities{
      */
     public void moveTo(Direction direction) {
         this.direction = direction;
-        addDirection(direction);
+        if(!direction.equals(Direction.NONE)) {
+            addDirection(direction);
+        }
     }
 
     protected void facing(){
@@ -281,4 +382,75 @@ public class Movable extends Entities{
     public void subHP(int hp){
         health -= hp;
     }
+    protected void setHealth(int health){
+        this.health = health;
+    }
+
+    public float getAtkSpeed(){
+        return atkSpeed/5;
+    }
+
+    protected void facingTo(Direction direction){
+        atkDirection = direction;
+    }
+
+    public boolean isDead(){
+        if(health < 1){
+            return true;
+        }
+        return false;
+    }
+
+    public void summoned(int phase){
+        boolean clash = true;
+        while(clash) {
+            int xTemp = rand.nextInt(1, 55);
+            int yTemp = rand.nextInt(1, 30);
+            setTo(xTemp*20, yTemp*20+80);
+            if(!isEntitiesCollisionWall()){
+                clash = false;
+            }
+        }
+        startTime = System.currentTimeMillis();
+        elapsedTime = System.currentTimeMillis()-startTime;
+        elapsedSecond = (int) elapsedTime/1000;
+        health = baseHealth*phase;
+        System.out.println(health);
+    }
+
+    public void summoned(int x, int y, int phase){
+        boolean clash = true;
+        while(clash) {
+            int xTemp = x;
+            int yTemp = y;
+            setTo(xTemp*20, yTemp*20+80);
+            if(!isEntitiesCollisionWall()){
+                clash = false;
+            }
+            xTemp = rand.nextInt(1, 55);
+            yTemp = rand.nextInt(1, 30);
+        }
+        startTime = System.currentTimeMillis();
+        elapsedTime = System.currentTimeMillis()-startTime;
+        elapsedSecond = (int) elapsedTime/1000;
+        health = baseHealth*phase;
+        System.out.println(health);
+    }
+
+    public void killed(){
+        setTo(-50, -50);
+    }
+
+    protected int clamp(int min, int max, int value){
+        if(min > value){
+            return min;
+        }
+        else if(max < value){
+            return max;
+        }
+        else{
+            return value;
+        }
+    }
+
 }
