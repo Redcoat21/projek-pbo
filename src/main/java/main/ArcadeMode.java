@@ -230,6 +230,7 @@ public class ArcadeMode {
                     } else if (a instanceof BigBoss) {
                         ((BigBoss) a).checkAgro(player);
                         a.move();
+                        ((BigBoss) a).atk(player);
                     }
                 }
             }

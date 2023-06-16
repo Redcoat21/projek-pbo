@@ -4,6 +4,7 @@ import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
 import main.Map;
+import processing.core.PConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,36 +17,24 @@ public class BigBoss extends Movable{
     private int indexDelay;
     private Player target;
     Obstacles[][] tiles;
-    private ArrayList<Direction> pathList;
     private boolean attack;
     private int attack_Idx_Counter;
+    private long startTimeCharging;
+    private long elapsedTimeCharging;
+    private int elapsedSecondCharging;
+    private int chargingTime;
+    private boolean charged;
+    private int chargingX;
+    private int chargingY;
+    private int chargingArc;
 
-//    public BigBoss(float x, float y) {
-//        super(x, y,30,30,4,3, 3);
-//        agro = false;
-//        agroIdx=0;
-//        tickMove=0;
-//        indexDelay=0;
-//        gotPath=false;
-//    }
-
-    public BigBoss(float x, float y, Map map) {
-        super(x, y,50,50,200,2,5, 10);
-        agro = false;
-        agroIdx=0;
-        tickMove=0;
-        indexDelay=0;
-        this.map=map;
-        this.tiles = map.getMap();
-        attack=false;
-    }
     /**
      *
      * @param x x-axis that the entity will spawn in
      * @param y y-axis that the entity will spawn in
      */
     public BigBoss(float x, float y) {
-        super(x, y,50,50,200,2,5, 10);
+        super(x, y,50,50,200,2,5, 3);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -54,9 +43,20 @@ public class BigBoss extends Movable{
         this.tiles = map.getMap();
         attack=false;
         attack_Idx_Counter=0;
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
+        startTimeCharging = 0;
+        elapsedTimeCharging = 0;
+        elapsedSecondCharging = (int) (elapsedTime / 1000);
+        chargingTime = 2;
+        charged = false;
+        chargingArc = 140;
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro+" Attack : "+attack,getX(),getY()+60);
         Main.processing.noStroke();
@@ -110,7 +110,6 @@ public class BigBoss extends Movable{
             indexDelay=0;
         }
         if(!agro&&tickMove>35){
-            pathList=null;
             indexDelay++;
             tickMove=0;
             idle();
@@ -144,5 +143,63 @@ public class BigBoss extends Movable{
     @Override
     protected boolean entitiesIntersectHole(Obstacles e1) {
         return false;
+    }
+
+    private void charging(){
+        Main.processing.fill(255,0,0,100);
+        Main.processing.circle(chargingX, chargingY, chargingArc);
+        Main.processing.fill(255,0,0);
+        elapsedTimeCharging = System.currentTimeMillis() - startTimeCharging;
+        elapsedSecondCharging = (int) elapsedTimeCharging/1000;
+    }
+
+    /**
+     * @param target the entity that can be attacked by this entity
+     */
+    public void atk(Movable target){
+        Main.processing.noStroke();
+        Main.processing.fill(255,0,0);
+        if(elapsedSecond > coolDown && attack && !charged) {
+            charged = true;
+            chargingX = (int) target.getXFromCenter();
+            chargingY = (int) target.getYFromCenter();
+            startTime = System.currentTimeMillis();
+            startTimeCharging = System.currentTimeMillis();
+            elapsedTimeCharging = System.currentTimeMillis() - startTimeCharging;
+            elapsedSecondCharging = (int) elapsedTimeCharging;
+        }
+        else if(charged){
+            charging();
+        }
+
+        if(elapsedSecondCharging > chargingTime && charged){
+            thunderCollision(chargingX, chargingY, chargingArc/2, target);
+            Main.processing.circle(chargingX, chargingY, chargingArc);
+            System.out.println("dor");
+            charged = false;
+        }
+    }
+
+    /**
+     * @param atkX the x point that determine the radius of the attack
+     * @param atkY the y point that determine the radius of the attack
+     * @param radius the surface that indicate the attack
+     * @param musuh the target that will be attack if there is any
+     */
+    private void thunderCollision(int atkX, int atkY, int radius, Movable musuh){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+        pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), atkX);
+        pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), atkY);
+        XDistToRect = atkX - pointOnRectX;
+        YDistToRect = atkY - pointOnRectY;
+
+        dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+        if(dist < radius){
+            musuh.subHP(1);
+        }
     }
 }
