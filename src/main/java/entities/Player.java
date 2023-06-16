@@ -33,8 +33,8 @@ public class Player extends Movable {
 //    }
 
     public Player(float x, float y, Map map){
-        super(x, y, 20, 20, 3, 3, 3, map);
-        baseHp = 3;
+        super(x, y, 20, 20, 5, 3, 3, map);
+        baseHp = getHealth();
         baseX = x;
         baseY = y;
         swordFactory = new SwordFactory();
@@ -45,7 +45,7 @@ public class Player extends Movable {
         for(int i=0; i<bullets.length; i++){
             bullets[i] = new Bullet();
         }
-        weapon = swordFactory.createWeapon(SwordType.GREATSWORD, 0);
+        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
 //        weapon = rangedFactory.createWeapon(RangedType.IRON_BOW, 0);
         nextWeapon = null;

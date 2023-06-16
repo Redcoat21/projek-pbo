@@ -39,7 +39,6 @@ public class BigBoss extends Movable{
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-//        this.map=map;
         this.tiles = map.getMap();
         attack=false;
         attack_Idx_Counter=0;
@@ -58,7 +57,7 @@ public class BigBoss extends Movable{
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
-        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro+" Attack : "+attack,getX(),getY()+60);
+//        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro+" Attack : "+attack,getX(),getY()+60);
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());

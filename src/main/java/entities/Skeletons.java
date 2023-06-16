@@ -21,18 +21,6 @@ public class Skeletons extends Movable implements Pathfinding{
     private boolean gotPath;
     private Bullet bullet;
 
-//    public Skeletons(float x, float y) {
-//        super(x, y,20,20,2,1, 5);
-//        agro = false;
-//        agroIdx=0;
-//        tickMove=0;
-//        indexDelay=0;
-//        primed=false;
-////        Throwaway variable just for checking if delay is working
-//        shootCounter=0;
-//        shootTick=0;
-//    }
-
     /**
      * @param x the x-axis that the entity will spawn into
      * @param y the y-axis that the enitty will spawn into
@@ -92,7 +80,7 @@ public class Skeletons extends Movable implements Pathfinding{
                         if(pathIdx!=pathList.size()*20-2){
                             this.moveTo(pathList.get(pathIdx/20));
                         }
-                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx + "atk : " + getAtkDirection(),getX(),getY()+120);
+//                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx + "atk : " + getAtkDirection(),getX(),getY()+120);
                     }else{
                         this.moveTo(Direction.NONE);
                         this.stop();
@@ -173,21 +161,23 @@ public class Skeletons extends Movable implements Pathfinding{
             if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=20&& !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
             if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=20&& !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
             if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=20 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
-            Collections.sort(moves, new Comparator<ValueTile>() {
-                @Override
-                public int compare(ValueTile o1, ValueTile o2) {
-                    return (int) (o1.getValue() - o2.getValue());
-                }
-            });
-            for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
-            System.out.println();
-            for (ValueTile a : moves){
-                if(!gotPath){
-                    if(tiles[a.getX()][a.getY()] instanceof Wall);
-                    else if(moved[a.getX()][a.getY()]==null){
-                        dlist.add(a.getMoved());
-                        moved[a.getX()][a.getY()] = new Obstacles(a.getX(),a.getY());
-                        getNextDirection(dlist,a.getX(),a.getY(),moved);
+            if(moves!=null){
+                Collections.sort(moves, new Comparator<ValueTile>() {
+                    @Override
+                    public int compare(ValueTile o1, ValueTile o2) {
+                        return (int)(o1.getValue()-o2.getValue());
+                    }
+                });
+//                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
+                System.out.println();
+                for (ValueTile a : moves){
+                    if(!gotPath){
+                        if(tiles[a.getX()][a.getY()] instanceof Wall);
+                        else if(moved[a.getX()][a.getY()]==null){
+                            dlist.add(a.getMoved());
+                            moved[a.getX()][a.getY()] = new Obstacles(a.getX(),a.getY());
+                            getNextDirection(dlist,a.getX(),a.getY(),moved);
+                        }
                     }
                 }
             }

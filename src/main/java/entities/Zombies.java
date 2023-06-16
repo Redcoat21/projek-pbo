@@ -25,24 +25,6 @@ public class Zombies extends Movable implements Pathfinding{
     private boolean attack;
     private boolean eligible;
 
-//    public Zombies(float x, float y, int map) {
-//        super(x, y,20,20,2,1);
-//        agro = false;
-//        agroIdx=0;
-//        tickMove=0;
-//        indexDelay=0;
-//        gotPath=false;
-//    }
-//    public Zombies(float x, float y, Map map) {
-//        super(x, y,20,20,2,1);
-//        agro = false;
-//        agroIdx=0;
-//        tickMove=0;
-//        indexDelay=0;
-//        this.tiles = map.getMap();
-//        pathIdx=0;
-//    }
-
     /**
      *
      * @param x x-axis that the entity will spawn in
@@ -71,8 +53,8 @@ public class Zombies extends Movable implements Pathfinding{
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
-        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
-        Main.processing.text("Attack : "+attack+" face: "+getAtkDirection(),getX(),getY()+160);
+//        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
+//        Main.processing.text("Attack : "+attack+" face: "+getAtkDirection(),getX(),getY()+160);
 
 //        j * 20, i * 20 + 80
 //        Agro Mode
@@ -105,7 +87,7 @@ public class Zombies extends Movable implements Pathfinding{
                         if(pathIdx!=pathList.size()*20-2){
                             this.moveTo(pathList.get(pathIdx/20));
                         }
-                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
+//                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
                         if(pathList.get(pathIdx/20)!=Direction.NONE)eligible=false;
                     }else{
                         this.moveTo(Direction.NONE);
@@ -206,7 +188,7 @@ public class Zombies extends Movable implements Pathfinding{
                         return (int)(o1.getValue()-o2.getValue());
                     }
                 });
-                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
+//                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
                 System.out.println();
                 for (ValueTile a : moves){
                     if(!gotPath){
