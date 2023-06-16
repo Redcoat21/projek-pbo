@@ -1,8 +1,8 @@
-package entities.animation;
+package animation;
 
 import entities.Direction;
 import entities.Entity;
-import entities.tiles.Tiles;
+import tiles.Tiles;
 
 import main.Main;
 import processing.core.PApplet;

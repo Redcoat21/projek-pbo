@@ -1,4 +1,4 @@
-package entities.animation;
+package animation;
 
 import main.Main;
 import processing.core.PApplet;

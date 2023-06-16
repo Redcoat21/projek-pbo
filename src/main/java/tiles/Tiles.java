@@ -1,9 +1,9 @@
-package entities.tiles;
+package tiles;
 
 import entities.Animatable;
-import entities.animation.Animation;
+import animation.Animation;
 import entities.Direction;
-import entities.animation.AnimationPlayer;
+import animation.AnimationPlayer;
 import processing.core.PImage;
 import processing.core.PVector;
 

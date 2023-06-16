@@ -1,4 +1,4 @@
-package entities.tiles;
+package tiles;
 
 /**
  * Represent a wall tile, a wall tile is not walkable.

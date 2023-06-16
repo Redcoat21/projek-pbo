@@ -1,4 +1,4 @@
-package entities.animation;
+package animation;
 
 import entities.Direction;
 import processing.core.PImage;

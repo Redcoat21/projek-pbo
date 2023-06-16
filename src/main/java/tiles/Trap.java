@@ -1,4 +1,4 @@
-package entities.tiles;
+package tiles;
 
 import entities.Collideable;
 import entities.CollisionObserver;
