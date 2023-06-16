@@ -1,9 +1,6 @@
 package main;
 
-import entities.Movable;
-import entities.Player;
-import entities.Skeletons;
-import entities.Zombies;
+import entities.*;
 import processing.core.PConstants;
 
 import java.util.ArrayList;
@@ -47,6 +44,10 @@ public class ArcadeMode {
         battle = false;
         done = false;
         win = false;
+        Powerup pwr = new Powerup(15f,15f,20,20);
+        pwr.myMethod();
+        bgm msc = new bgm();
+
 //        entities.add(new Zombies(100,100,map));
 //        entities.add(new Zombies(320,390,map));
 //        entities.add(new Skeletons(800,300,map));

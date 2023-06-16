@@ -1,9 +1,6 @@
 package main;
 
-import entities.Movable;
-import entities.Player;
-import entities.Skeletons;
-import entities.Zombies;
+import entities.*;
 import processing.core.PConstants;
 
 import java.util.ArrayList;
@@ -44,6 +41,9 @@ public class EndlessMode {
         map = new Map(floor);
         player = new Player(0,15.5f*20+80, map);
         battle = false;
+        Powerup pwr = new Powerup(15f,15f,20,20);
+        pwr.myMethod();
+        bgm msc = new bgm();
     }
     public void removeDead(){
         for (int i=0;i< entities.size();i++){
