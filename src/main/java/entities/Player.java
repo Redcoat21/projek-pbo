@@ -171,6 +171,9 @@ public class Player extends Movable {
 //        }
 //    }
 
+    /**
+     * @param enemy the enemy that the entity will attack
+     */
     public void atk(Movable[] enemy){
         int atkX = (int) getXFromCenter();
         int atkY = (int) getYFromCenter();
@@ -272,6 +275,9 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * @param enemy the target that the player targets
+     */
     public void bulletAtkCollision(ArrayList<Movable> enemy){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
@@ -296,6 +302,9 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * @param enemy if the bullet collision with the target
+     */
     public void bulletAtkCollision(Movable[] enemy){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
@@ -320,6 +329,14 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * @param atkX the x-point that indicate the center of the attack radius
+     * @param atkY the y-point that indicate the center of the attack radius
+     * @param width the width of the attack radius
+     * @param height the height of the attack radius
+     * @param enemy the enemy that's in the radius
+     * @param direction the direction that the attack is facing
+     */
     private void stabAtkCollision(int atkX, int atkY, int width, int height, Movable[] enemy, Direction direction){
         int Xcenter = atkX;
         int Ycenter = atkY;
@@ -359,6 +376,13 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * @param atkX the x-point that the swing centered upon
+     * @param atkY the y-point that the swing centered upon
+     * @param radius the radius of the swing
+     * @param enemy the enemy that collide with the swing
+     * @param direction the direction of the swing
+     */
     private void swingAtkCollision(int atkX, int atkY, int radius, Movable[] enemy, Direction direction){
         int pointOnRectX = 0;
         int pointOnRectY = 0;

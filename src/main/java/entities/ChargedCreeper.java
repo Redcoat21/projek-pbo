@@ -31,6 +31,10 @@ public class ChargedCreeper extends Movable implements Pathfinding{
 //        indexDelay=0;
 //        gotPath=false;
 //    }
+    /**
+     * @param x x-axis that the entity will spawn in
+     * @param y y-axis that the entity will spawn in
+     */
     public ChargedCreeper(float x, float y) {
         super(x, y,10,10,4,4,5, 5);
         agro = false;
@@ -126,6 +130,9 @@ public class ChargedCreeper extends Movable implements Pathfinding{
 //        Idle Mode
 
     }
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=150&&Math.abs(getY()-you.getY())<=150){
             target = you;

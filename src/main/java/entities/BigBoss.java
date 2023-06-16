@@ -39,7 +39,11 @@ public class BigBoss extends Movable{
         this.tiles = map.getMap();
         attack=false;
     }
-
+    /**
+     *
+     * @param x x-axis that the entity will spawn in
+     * @param y y-axis that the entity will spawn in
+     */
     public BigBoss(float x, float y) {
         super(x, y,50,50,200,2,5, 10);
         agro = false;
@@ -113,6 +117,10 @@ public class BigBoss extends Movable{
             agroIdx++;
         }
     }
+
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=800&&Math.abs(getY()-you.getY())<=800){
             target = you;

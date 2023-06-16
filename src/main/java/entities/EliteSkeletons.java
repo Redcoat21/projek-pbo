@@ -29,7 +29,10 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //        indexDelay=0;
 //        gotPath=false;
 //    }
-
+    /**
+     * @param x the x-axis that the entity will spawn into
+     * @param y the y-axis that the enitty will spawn into
+     */
     public EliteSkeletons(float x, float y) {
         super(x, y,30,30,15,3,3, 2);
         agro = false;
@@ -134,6 +137,9 @@ public class EliteSkeletons extends Movable implements Pathfinding{
             agroIdx++;
         }
     }
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
@@ -218,7 +224,9 @@ public class EliteSkeletons extends Movable implements Pathfinding{
             bullet.render();
         }
     }
-
+    /**
+     * @param target if the bullet collision with the player/target
+     */
     public void bulletAtkCollision(Player target){
         int pointOnRectX = 0;
         int pointOnRectY = 0;

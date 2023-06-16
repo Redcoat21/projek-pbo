@@ -58,6 +58,13 @@ public class Bullet extends Movable{
         }
     }
 
+    /**
+     * @param x the x-axis that indicate where the bullet fired
+     * @param y the y-axis that indicate where the bullet fired
+     * @param speed the speed which the bullet travels
+     * @param damage the damage that the bullet does
+     * @param facing the direction that the bullet is facing
+     */
     public void fired(float x, float y, int speed, int damage, Direction facing){
         firing = true;
         float baseX = x;

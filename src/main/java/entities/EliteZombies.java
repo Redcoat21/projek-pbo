@@ -32,6 +32,10 @@ public class EliteZombies extends Movable implements Pathfinding{
 //        gotPath=false;
 //    }
 
+    /**
+     * @param x the x-axis that the entity will be spawned
+     * @param y the y-axis that the entity will be spawned
+     */
     public EliteZombies(float x, float y) {
         super(x, y,30,30,22,2,4, 4);
         agro = false;
@@ -135,6 +139,10 @@ public class EliteZombies extends Movable implements Pathfinding{
             agroIdx++;
         }
     }
+
+    /**
+     * @param you the target that the entity has agro-ed upon
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200){
             target = you;
@@ -213,6 +221,9 @@ public class EliteZombies extends Movable implements Pathfinding{
         return coords;
     }
 
+    /**
+     * @param target the target that the entity attacked
+     */
     public void atk(Movable target){
         int atkX = (int) getXFromCenter();
         int atkY = (int) getYFromCenter();
@@ -233,7 +244,13 @@ public class EliteZombies extends Movable implements Pathfinding{
             startTime = System.currentTimeMillis();
         }
     }
-
+    /**
+     * @param atkX the x-point that the swing centered upon
+     * @param atkY the y-point that the swing centered upon
+     * @param radius the radius of the swing
+     * @param musuh the enemy that collide with the swing
+     * @param direction the direction of the swing
+     */
     private void swingAtkCollision(int atkX, int atkY, int radius, Movable musuh, Direction direction){
         int pointOnRectX = 0;
         int pointOnRectY = 0;

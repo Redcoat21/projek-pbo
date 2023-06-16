@@ -32,6 +32,11 @@ public class Skeletons extends Movable implements Pathfinding{
 //        shootCounter=0;
 //        shootTick=0;
 //    }
+
+    /**
+     * @param x the x-axis that the entity will spawn into
+     * @param y the y-axis that the enitty will spawn into
+     */
     public Skeletons(float x, float y) {
         super(x, y,20,20,12,1,5, 2);
         agro = false;
@@ -129,6 +134,10 @@ public class Skeletons extends Movable implements Pathfinding{
             agroIdx++;
         }
 }
+
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
@@ -214,6 +223,9 @@ public class Skeletons extends Movable implements Pathfinding{
         }
     }
 
+    /**
+     * @param target if the bullet collision with the player/target
+     */
     public void bulletAtkCollision(Player target){
         int pointOnRectX = 0;
         int pointOnRectY = 0;

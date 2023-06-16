@@ -43,6 +43,11 @@ public class Zombies extends Movable implements Pathfinding{
 //        pathIdx=0;
 //    }
 
+    /**
+     *
+     * @param x x-axis that the entity will spawn in
+     * @param y y-axis that the entity will spawn in
+     */
     public Zombies(float x, float y) {
         super(x, y,20,20,18,1, 5, 3);
         agro = false;
@@ -147,6 +152,10 @@ public class Zombies extends Movable implements Pathfinding{
             agroIdx++;
         }
     }
+
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200){
             target = you;
@@ -232,6 +241,9 @@ public class Zombies extends Movable implements Pathfinding{
         return coords;
     }
 
+    /**
+     * @param target the entity that can be attacked by this entity
+     */
     public void atk(Movable target){
         int atkX = (int) getXFromCenter();
         int atkY = (int) getYFromCenter();
@@ -253,6 +265,13 @@ public class Zombies extends Movable implements Pathfinding{
         }
     }
 
+    /**
+     * @param atkX the x point that determine the radius of the attack
+     * @param atkY the y point that determine the radius of the attack
+     * @param radius the surface that indicate the attack
+     * @param musuh the target that will be attack if there is any
+     * @param direction the direction that follows the entity current facing's direction
+     */
     private void swingAtkCollision(int atkX, int atkY, int radius, Movable musuh, Direction direction){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
