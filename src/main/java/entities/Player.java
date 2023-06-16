@@ -33,8 +33,8 @@ public class Player extends Movable {
 //    }
 
     public Player(float x, float y, Map map){
-        super(x, y, 20, 20, 3, 3, 3, map);
-        baseHp = 3;
+        super(x, y, 20, 20, 5, 3, 3, map);
+        baseHp = getHealth();
         baseX = x;
         baseY = y;
         swordFactory = new SwordFactory();

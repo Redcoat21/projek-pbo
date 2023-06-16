@@ -36,7 +36,7 @@ public class Main extends PApplet{
         am = new ArcadeMode();
         em = new EndlessMode();
         rand = new Random();
-        mode = 4;
+        mode = 1;
         frameRate(60);
     }
 
