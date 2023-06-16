@@ -37,7 +37,7 @@ public class EliteZombies extends Movable implements Pathfinding{
      * @param y the y-axis that the entity will be spawned
      */
     public EliteZombies(float x, float y) {
-        super(x, y,30,30,22,2,4, 4);
+        super(x, y,90,90,22,2,4, 4);
         agro = false;
         agroIdx=0;
         tickMove=0;

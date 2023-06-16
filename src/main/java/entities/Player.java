@@ -34,6 +34,7 @@ public class Player extends Movable {
 
     public Player(float x, float y, Map map){
         super(x, y, 20, 20, 5, 3, 3, map);
+        loadImage();
         baseHp = getHealth();
         baseX = x;
         baseY = y;
@@ -53,11 +54,10 @@ public class Player extends Movable {
 
     @Override
     public void render() {
-        Main.processing.noStroke();
+//        Main.processing.noStroke();
+        this.play("walk", this.getAtkDirection());
 //        this.addSprites(Direction.NONE, "./assets/Tileset/tile004.png");
-        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
-//        Animation temp = this.getAnimationList().get(this.getDirection());
-//        temp.playAnimation(this);
+//        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
     }
 
     public void heal(){
@@ -515,5 +515,30 @@ public class Player extends Movable {
 
     public String getNextWeaponName() {
         return nextWeapon.getWeaponName();
+    }
+
+    private void loadImage() {
+        String root = "src/main/resources/assets/Sprites/Player/";
+        Direction[] temp = new Direction[4];
+
+        temp[0] = Direction.RIGHT;
+        temp[1] = Direction.LEFT;
+        temp[2] = Direction.UP;
+        temp[3] = Direction.DOWN;
+
+        for(Direction d : temp) {
+            for (int i = 0; i < 4; i++) {
+                String directionString = switch(d) {
+                    case UP -> "up";
+                    case DOWN -> "down";
+                    case RIGHT -> "right";
+                    case LEFT -> "left";
+                    default -> null;
+                };
+
+                PImage temp2 = Main.processing.loadImage(root + String.format("player_walk_%s%d.png", directionString, i + 1));
+                this.addSprites("walk", d, temp2, this.getSize());
+            }
+        }
     }
 }

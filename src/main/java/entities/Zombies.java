@@ -324,7 +324,5 @@ public class Zombies extends Movable implements Pathfinding{
                 this.addSprites("walk", d, temp2, this.getSize());
             }
         }
-
-
     }
 }
