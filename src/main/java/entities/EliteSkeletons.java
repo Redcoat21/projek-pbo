@@ -31,7 +31,7 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //    }
 
     public EliteSkeletons(float x, float y) {
-        super(x, y,30,30,4,3,3, 5);
+        super(x, y,30,30,4,3,3, 2);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -40,9 +40,14 @@ public class EliteSkeletons extends Movable implements Pathfinding{
         this.tiles = map.getMap();
         pathIdx=0;
         bullet = new Bullet();
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
@@ -99,8 +104,9 @@ public class EliteSkeletons extends Movable implements Pathfinding{
                             facingTo(Direction.DOWN);
                         }
 
-                        if(!bullet.isFired()){
+                        if(!bullet.isFired() && elapsedSecond > coolDown){
                             bullet.fired(getXFromCenter(), getYFromCenter(), 8, 1, getAtkDirection());
+                            startTime = System.currentTimeMillis();
                         }
                     }
                 }

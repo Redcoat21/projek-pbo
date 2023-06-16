@@ -49,7 +49,6 @@ public class Zombies extends Movable implements Pathfinding{
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-//        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
         eligible = false;
@@ -58,17 +57,16 @@ public class Zombies extends Movable implements Pathfinding{
         elapsedTime = 0;
         elapsedSecond = (int) (elapsedTime / 1000);
         alive = false;
-        rand = new Random();
     }
     @Override
     public void render() {
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
-        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.text("Attack : "+attack+" face: "+getAtkDirection(),getX(),getY()+160);
 
 //        j * 20, i * 20 + 80

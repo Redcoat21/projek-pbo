@@ -33,18 +33,22 @@ public class Skeletons extends Movable implements Pathfinding{
 //        shootTick=0;
 //    }
     public Skeletons(float x, float y) {
-        super(x, y,20,20,2,1,5, 3);
+        super(x, y,20,20,2,1,5, 2);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-//        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
         bullet = new Bullet();
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
@@ -101,8 +105,9 @@ public class Skeletons extends Movable implements Pathfinding{
                             facingTo(Direction.DOWN);
                         }
 
-                        if(!bullet.isFired()){
+                        if(!bullet.isFired() && elapsedSecond > coolDown){
                             bullet.fired(getXFromCenter(), getYFromCenter(), 4, 1, getAtkDirection());
+                            startTime = System.currentTimeMillis();
                         }
                     }
                 }
