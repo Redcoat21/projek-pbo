@@ -50,7 +50,6 @@ public class Skeletons extends Movable implements Pathfinding{
 //        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 //        j * 20, i * 20 + 80
             this.play("walk", this.getAtkDirection());
-        System.err.println(this.getDirection());
 //        Agro Mode
         if(agro){
             if(map==null){
@@ -248,7 +247,7 @@ public class Skeletons extends Movable implements Pathfinding{
     }
 
     private void loadImage() {
-        String root = "src/main/resources/assets/Sprites/Skeleton/";
+        String root = "src/main/resources/assets/Sprites/Skeleton_Archer/";
         Direction[] temp = new Direction[4];
 
         temp[0] = Direction.RIGHT;
@@ -266,17 +265,9 @@ public class Skeletons extends Movable implements Pathfinding{
                     default -> null;
                 };
 
-                PImage temp2 = Main.processing.loadImage(root + String.format("skeleton_idle_%s%d.png", directionString, i + 1));
-                PImage temp3 = Main.processing.loadImage(root + String.format("skeleton_walk_%s%d.png", directionString, i + 1));
-                PImage temp4 = Main.processing.loadImage(root + String.format("skeleton_idle_down%d.png", i + 1));
-                this.addSprites("idle", d, temp2, this.getSize());
-                this.addSprites("walk", d, temp3, this.getSize());
+                PImage temp2 = Main.processing.loadImage(root + String.format("walk%s%d.png", directionString, i + 1));
+                this.addSprites("walk", d, temp2, this.getSize());
             }
-
-            this.addSprites("walk", Direction.NONE, Main.processing.loadImage("src/main/resources/assets/Sprites/Skeleton/skeleton_idle_down1.png"), this.getSize());
-            this.addSprites("walk", Direction.NONE, Main.processing.loadImage("src/main/resources/assets/Sprites/Skeleton/skeleton_idle_down2.png"), this.getSize());
-            this.addSprites("walk", Direction.NONE, Main.processing.loadImage("src/main/resources/assets/Sprites/Skeleton/skeleton_idle_down3.png"), this.getSize());
-            this.addSprites("walk", Direction.NONE, Main.processing.loadImage("src/main/resources/assets/Sprites/Skeleton/skeleton_idle_down4.png"), this.getSize());
         }
     }
 }

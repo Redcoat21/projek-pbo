@@ -5,6 +5,7 @@ import entities.tiles.Wall;
 import main.Main;
 import main.Map;
 import processing.core.PConstants;
+import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +32,8 @@ public class Zombies extends Movable implements Pathfinding{
      * @param y y-axis that the entity will spawn in
      */
     public Zombies(float x, float y) {
-        super(x, y,20,20,18,1, 5, 3);
+        super(x, y,60,60,18,1, 5, 3);
+        loadImage();
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -50,9 +52,11 @@ public class Zombies extends Movable implements Pathfinding{
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
-        Main.processing.noStroke();
-        Main.processing.fill(0,255,127);
-        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+//        Main.processing.noStroke();
+//        Main.processing.fill(0,255,127);
+//        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+
+        this.play("walk", this.getAtkDirection());
 //        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
 //        Main.processing.text("Attack : "+attack+" face: "+getAtkDirection(),getX(),getY()+160);
 
@@ -295,5 +299,32 @@ public class Zombies extends Movable implements Pathfinding{
 
         }
 //        return false;
+    }
+
+    private void loadImage() {
+        String root = "src/main/resources/assets/Sprites/Skeleton_Warrior/";
+        Direction[] temp = new Direction[4];
+
+        temp[0] = Direction.RIGHT;
+        temp[1] = Direction.LEFT;
+        temp[2] = Direction.UP;
+        temp[3] = Direction.DOWN;
+
+        for(Direction d : temp) {
+            for (int i = 0; i < 4; i++) {
+                String directionString = switch(d) {
+                    case UP -> "up";
+                    case DOWN -> "down";
+                    case RIGHT -> "right";
+                    case LEFT -> "left";
+                    default -> null;
+                };
+
+                PImage temp2 = Main.processing.loadImage(root + String.format("warrior_walk_%s%d.png", directionString, i + 1));
+                this.addSprites("walk", d, temp2, this.getSize());
+            }
+        }
+
+
     }
 }

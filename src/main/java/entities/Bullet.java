@@ -3,21 +3,17 @@ package entities;
 import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
+import processing.core.PImage;
 
 public class Bullet extends Movable{
     private float baseX;
     private float baseY;
     private int damage;
     private boolean firing;
-    public Bullet(float x, float y, int radius, int health, int speed, int damage, Direction facing) {
-        super(x, y, radius, radius, health, speed, facing);
-        this.damage = damage;
-        firing = false;
-    }
-
     public Bullet(){
         //the x and y from bullet is already from center
-        super(-10, -10, 10, 1, 10, 1, Direction.RIGHT);
+        super(-10, -10, 60, 40, 10, 1, Direction.RIGHT);
+        // loadImage();
         this.baseX = -10;
         this.baseY = -10;
         this.damage = 1;
@@ -33,6 +29,7 @@ public class Bullet extends Movable{
         Main.processing.fill(255,0,0);
         Main.processing.circle(getX(), getY(), getWidth());
         Main.processing.fill(255);
+//        this.play("walk", this.getAtkDirection());
     }
 
     private void entitiesCollisionWall(){
@@ -87,4 +84,26 @@ public class Bullet extends Movable{
     public int getDamage(){
         return damage;
     }
+
+//    private void loadImage() {
+//        String root = "src/main/resources/assets/";
+//
+//        Direction[] arrOfDirection = { Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN };
+//
+//        for(Direction d : arrOfDirection) {
+//            String direction = switch(d) {
+//                case DOWN -> "down";
+//                case LEFT -> "left";
+//                case RIGHT -> "right";
+//                case UP -> "up";
+//                default -> null;
+//            };
+//
+//            PImage temp = Main.processing.loadImage(root + String.format("Sprites/Arrow/arrow_%s.png", direction));
+//            this.addSprites("walk", d, temp, this.getSize());
+//        }
+//
+////        PImage temp = Main.processing.loadImage(root + String.format("Sprites/Arrow/arrow_down.png"));
+////        this.addSprites("walk", Direction.RIGHT, temp, this.getSize());
+//    }
 }
