@@ -2,7 +2,10 @@ package main;
 
 import entities.Direction;
 import processing.core.PApplet;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.sound.sampled.*;
 import java.util.Random;
 
 public class Main extends PApplet{
@@ -15,6 +18,8 @@ public class Main extends PApplet{
         5 = exit
      */
     int mode;
+    boolean bgmplaying;
+    boolean[] isplaying = new boolean[3];
     public static PApplet processing;
     private LoadingScreen ls;
     private ChoosingMenu cm;
@@ -38,11 +43,17 @@ public class Main extends PApplet{
         rand = new Random();
         mode = 1;
         frameRate(60);
+        bgmplaying=false;
+        isplaying[0]=false;
+        isplaying[1]=false;
+        isplaying[2]=false;
     }
 
     @Override
     public void draw() {
+
         if(mode == 1) {
+
             background(0);
             ls.display();
             if(ls.isPressed()){
@@ -59,8 +70,85 @@ public class Main extends PApplet{
         else if(mode == 4){
             em.render();
         }
+        if(mode==2&&bgmplaying==true&&isplaying[0]!=true){
+            stopMusic();
+            playMusic(2);
+            isplaying[0]=true;
+            isplaying[1]=false;
+            isplaying[2]=false;
+        } else if (mode==3&&bgmplaying==true&&isplaying[1]!=true) {
+            stopMusic();
+            playMusic(3);
+            isplaying[0]=false;
+            isplaying[1]=true;
+            isplaying[2]=false;
+        } else if (mode==4&&bgmplaying==true&&isplaying[2]!=true) {
+            stopMusic();
+            playMusic(4);
+            isplaying[0]=false;
+            isplaying[1]=false;
+            isplaying[2]=true;
+        }else if(mode==2&&bgmplaying==false&&isplaying[0]!=true){
+            playMusic(2);
+            bgmplaying=true;
+            isplaying[0]=true;
+            isplaying[1]=false;
+            isplaying[2]=false;
+        } else if (mode==3&&bgmplaying==false&&isplaying[1]!=true) {
+            playMusic(3);
+            bgmplaying=true;
+            isplaying[0]=false;
+            isplaying[1]=true;
+            isplaying[2]=false;
+        } else if (mode==4&&bgmplaying==false&&isplaying[2]!=true) {
+            playMusic(4);
+            bgmplaying=true;
+            isplaying[0]=false;
+            isplaying[1]=false;
+            isplaying[2]=true;
+        }
+//        if(mode==1&&bgmplaying==false||mode==2&&bgmplaying==false){
+//            playMusic(1);
+//            bgmplaying=true;
+//        } else if (mode==3||mode==4) {
+//            if(mode==3){
+//                if(am.isEnemyDie()==true){
+//                    if(bgmplaying==false){
+//                        playMusic(1);
+//                        bgmplaying=true;
+//                    }else{
+//                        if(needchange==true)
+//                        stopMusic();
+//
+//                    }
+//                }if(am.isEnemyDie()==false){
+//                    if(bgmplaying==false){
+//                        playMusic(4);
+//                        bgmplaying=true;
+//                    }else{
+//                        if(needchange==true)
+//                            stopMusic();
+//
+//                    }
+//                }
+//            } else if (mode==4) {
+//                if(em.isEnemyDie()==true){
+//                    playMusic(1);
+//                    bgmplaying=true;
+//                }else{
+//                    playMusic(4);
+//                    bgmplaying=true;
+//                }
+//            }
+        }
+    bgm song = new bgm();
+    public void playMusic(int mode){
+        bgm.setFile(mode);
+        bgm.loop();
     }
-
+    public void stopMusic(){
+        bgm.stop();
+    }
     @Override
     public void keyPressed(){
         if(mode == 1){
