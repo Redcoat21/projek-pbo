@@ -44,7 +44,7 @@ public class Skeletons extends Movable implements Pathfinding{
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
-        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
+//        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
 //        Main.processing.noStroke();
 //        Main.processing.fill(0,255,127);
 //        Main.processing.rect(getX(), getY(), getWidth(), getHeight());

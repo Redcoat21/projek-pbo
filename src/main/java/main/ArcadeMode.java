@@ -357,6 +357,8 @@ public class ArcadeMode {
 //        for()
         battle = false;
         done = false;
+        reward = false;
+        choosing = false;
 //        System.out.println("masuk");
     }
     private boolean isEnemyDie(){
