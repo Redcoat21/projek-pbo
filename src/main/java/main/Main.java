@@ -16,7 +16,6 @@ public class Main extends PApplet{
      */
     int mode;
     public static PApplet processing;
-//    Player player;
     private LoadingScreen ls;
     private ChoosingMenu cm;
     private ArcadeMode am;
@@ -37,7 +36,7 @@ public class Main extends PApplet{
         am = new ArcadeMode();
         em = new EndlessMode();
         rand = new Random();
-        mode = 3;
+        mode = 4;
         frameRate(60);
     }
 
@@ -52,8 +51,6 @@ public class Main extends PApplet{
             }
         }
         else if(mode == 2){
-//            am = new ArcadeMode();
-//            em = new EndlessMode();
             cm.render();
         }
         else if(mode == 3){
@@ -189,7 +186,7 @@ public class Main extends PApplet{
                 am.choosed();
             }
             else if(click == 1){
-                am.getPlayer().getWeapon().setLevel(1);
+                am.getPlayer().getWeapon().increaseLevel(1);
                 am.choosed();
             }
             else if(click == 2){
@@ -199,6 +196,24 @@ public class Main extends PApplet{
         }
         else if(mode == 3 && am.win){
             mode = 2;
+        }
+        else if(mode == 4 && em.isChoosing()){
+            int click = em.buttonPressed();
+            if(click == 0){
+                em.getPlayer().heal();
+                em.choosed();
+                System.out.println("keheal");
+            }
+            else if(click == 1){
+                em.getPlayer().getWeapon().increaseLevel(1);
+                em.choosed();
+                System.out.println("level up");
+            }
+            else if(click == 2){
+                em.choosed();
+                em.getPlayer().switchWeapon();
+                System.out.println("ganti senjata");
+            }
         }
         else if(mode == 4 && !em.isAlive()) {
             mode = 2;

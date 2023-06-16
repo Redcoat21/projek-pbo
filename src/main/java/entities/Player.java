@@ -45,7 +45,7 @@ public class Player extends Movable {
         for(int i=0; i<bullets.length; i++){
             bullets[i] = new Bullet();
         }
-        weapon = swordFactory.createWeapon(SwordType.GREATSWORD, 0);
+        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
 //        weapon = rangedFactory.createWeapon(RangedType.IRON_BOW, 0);
         nextWeapon = null;

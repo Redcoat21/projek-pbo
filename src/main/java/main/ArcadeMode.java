@@ -186,7 +186,9 @@ public class ArcadeMode {
 //                System.out.println("masuk");
                 startTimeAtk = System.currentTimeMillis();
             }
+
             player.render();
+
             for (Movable a:enemy){
                 if(!a.isDead()) {
                     if (a instanceof Zombies) a.render();
@@ -363,11 +365,6 @@ public class ArcadeMode {
 //        System.out.println("masuk");
     }
     private boolean isEnemyDie(){
-//        if(entities.size()<1){
-//            return true;
-//        }
-//        return false;
-        
         for(int i=0; i<enemy.length; i++){
             if(!enemy[i].isDead()){
                 return false;
@@ -383,20 +380,8 @@ public class ArcadeMode {
 //        System.out.println("SUDAH SELESAI");
     }
     private void gantiWave(){
-//        System.out.println("masuk");
         wave++;
         if(wave < 4){
-//            entities.add(new Zombies(320,390));
-//            entities.add(new Skeletons(800,300));
-//            entities.add(new Skeletons(700,250));
-//            entities.add(new Skeletons(600,200));
-//            entities.add(new EliteZombies(100,150));
-//            entities.add(new EliteSkeletons(200, 150));
-//            entities.add(new EliteSkeletons(400,120));
-//            entities.add(new ChargedCreeper(150, 150));
-//            entities.add(new ChargedCreeper(170, 150));
-//            entities.add(new ChargedCreeper(190, 150));
-//            entities.add(new BigBoss(1000,300));
             int countZ = 0;
             int countS = 0;
             int countEZ = 0;
@@ -407,10 +392,10 @@ public class ArcadeMode {
                     countZ = 1;
                 }
                 else if(wave == 2){
-//                    countZ = 3;
+                    countZ = 3;
                 }
                 else{
-//                    countZ = 4;
+                    countZ = 4;
 //                    countES = 2;
                 }
             }

@@ -21,18 +21,6 @@ public class Skeletons extends Movable implements Pathfinding{
     private boolean gotPath;
     private Bullet bullet;
 
-//    public Skeletons(float x, float y) {
-//        super(x, y,20,20,2,1, 5);
-//        agro = false;
-//        agroIdx=0;
-//        tickMove=0;
-//        indexDelay=0;
-//        primed=false;
-////        Throwaway variable just for checking if delay is working
-//        shootCounter=0;
-//        shootTick=0;
-//    }
-
     /**
      * @param x the x-axis that the entity will spawn into
      * @param y the y-axis that the enitty will spawn into
@@ -55,7 +43,7 @@ public class Skeletons extends Movable implements Pathfinding{
         elapsedTime = System.currentTimeMillis() - startTime;
         elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
-        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
+//        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
@@ -90,7 +78,7 @@ public class Skeletons extends Movable implements Pathfinding{
                         if(pathIdx!=pathList.size()*20-2){
                             this.moveTo(pathList.get(pathIdx/20));
                         }
-                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx + "atk : " + getAtkDirection(),getX(),getY()+120);
+//                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx + "atk : " + getAtkDirection(),getX(),getY()+120);
                     }else{
                         this.moveTo(Direction.NONE);
                         this.stop();
@@ -178,7 +166,7 @@ public class Skeletons extends Movable implements Pathfinding{
                         return (int)(o1.getValue()-o2.getValue());
                     }
                 });
-                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
+//                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
                 System.out.println();
                 for (ValueTile a : moves){
                     if(!gotPath){
