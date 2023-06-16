@@ -29,9 +29,12 @@ public class EliteSkeletons extends Movable implements Pathfinding{
 //        indexDelay=0;
 //        gotPath=false;
 //    }
-
+    /**
+     * @param x the x-axis that the entity will spawn into
+     * @param y the y-axis that the enitty will spawn into
+     */
     public EliteSkeletons(float x, float y) {
-        super(x, y,30,30,4,3,3);
+        super(x, y,30,30,15,3,3, 2);
         agro = false;
         agroIdx=0;
         tickMove=0;
@@ -40,9 +43,14 @@ public class EliteSkeletons extends Movable implements Pathfinding{
         this.tiles = map.getMap();
         pathIdx=0;
         bullet = new Bullet();
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
@@ -99,8 +107,9 @@ public class EliteSkeletons extends Movable implements Pathfinding{
                             facingTo(Direction.DOWN);
                         }
 
-                        if(!bullet.isFired()){
+                        if(!bullet.isFired() && elapsedSecond > coolDown){
                             bullet.fired(getXFromCenter(), getYFromCenter(), 8, 1, getAtkDirection());
+                            startTime = System.currentTimeMillis();
                         }
                     }
                 }
@@ -128,6 +137,9 @@ public class EliteSkeletons extends Movable implements Pathfinding{
             agroIdx++;
         }
     }
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
@@ -212,7 +224,9 @@ public class EliteSkeletons extends Movable implements Pathfinding{
             bullet.render();
         }
     }
-
+    /**
+     * @param target if the bullet collision with the player/target
+     */
     public void bulletAtkCollision(Player target){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
@@ -228,18 +242,6 @@ public class EliteSkeletons extends Movable implements Pathfinding{
         if(dist < bullet.getWidth() && bullet.isFired()){
             target.subHP(bullet.getDamage());
             bullet.hit();
-        }
-    }
-
-    private int clamp(int min, int max, int value){
-        if(min > value){
-            return min;
-        }
-        else if(max < value){
-            return max;
-        }
-        else{
-            return value;
         }
     }
 }

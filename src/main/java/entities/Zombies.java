@@ -4,6 +4,8 @@ import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
 import main.Map;
+import processing.core.PConstants;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,17 +18,12 @@ public class Zombies extends Movable implements Pathfinding{
     private int tickMove;
     private int indexDelay;
     private Player target;
-    Obstacles[][] tiles;
+    private Obstacles[][] tiles;
     private ArrayList<Direction> pathList;
     private int pathIdx;
-    private boolean alive;
     private boolean gotPath;
     private boolean attack;
     private boolean eligible;
-    private long startTime;
-    private long elapsedTime;
-    private int elapsedSecond;
-    private int coolDown;
 
 //    public Zombies(float x, float y, int map) {
 //        super(x, y,20,20,2,1);
@@ -46,13 +43,17 @@ public class Zombies extends Movable implements Pathfinding{
 //        pathIdx=0;
 //    }
 
+    /**
+     *
+     * @param x x-axis that the entity will spawn in
+     * @param y y-axis that the entity will spawn in
+     */
     public Zombies(float x, float y) {
-        super(x, y,20,20,2,1, 5);
+        super(x, y,20,20,18,1, 5, 3);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-//        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
         eligible = false;
@@ -60,17 +61,17 @@ public class Zombies extends Movable implements Pathfinding{
         startTime = 0;
         elapsedTime = 0;
         elapsedSecond = (int) (elapsedTime / 1000);
-        coolDown = 3;
         alive = false;
-        rand = new Random();
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
-        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.text("Attack : "+attack+" face: "+getAtkDirection(),getX(),getY()+160);
 
 //        j * 20, i * 20 + 80
@@ -151,6 +152,10 @@ public class Zombies extends Movable implements Pathfinding{
             agroIdx++;
         }
     }
+
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=200&&Math.abs(getY()-you.getY())<=200){
             target = you;
@@ -234,5 +239,79 @@ public class Zombies extends Movable implements Pathfinding{
         coords[0] = (int) getX()/20;
         coords[1] = (int) ((getY()-80)/20);
         return coords;
+    }
+
+    /**
+     * @param target the entity that can be attacked by this entity
+     */
+    public void atk(Movable target){
+        int atkX = (int) getXFromCenter();
+        int atkY = (int) getYFromCenter();
+        int WHArc = 60;
+        Main.processing.noStroke();
+        Main.processing.fill(255,0,0);
+        if(elapsedSecond > coolDown && attack) {
+            swingAtkCollision(atkX, atkY, WHArc / 2, target, getAtkDirection());
+            if (getAtkDirection().equals(Direction.RIGHT)) {
+                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
+            } else if (getAtkDirection().equals(Direction.DOWN)) {
+                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);
+            } else if (getAtkDirection().equals(Direction.LEFT)) {
+                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI + PConstants.HALF_PI);
+            } else if (getAtkDirection().equals(Direction.UP)) {
+                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+            }
+            startTime = System.currentTimeMillis();
+        }
+    }
+
+    /**
+     * @param atkX the x point that determine the radius of the attack
+     * @param atkY the y point that determine the radius of the attack
+     * @param radius the surface that indicate the attack
+     * @param musuh the target that will be attack if there is any
+     * @param direction the direction that follows the entity current facing's direction
+     */
+    private void swingAtkCollision(int atkX, int atkY, int radius, Movable musuh, Direction direction){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+        pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), atkX);
+        pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), atkY);
+//            System.out.println(pointOnRectX + ", " + pointOnRectY);
+        XDistToRect = atkX - pointOnRectX;
+        YDistToRect = atkY - pointOnRectY;
+//            System.out.println(XDistToRect + ", " + YDistToRect);
+        dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+//            System.out.println("dist gak kena: " + dist);
+//            System.out.println("arcnya: " + radius);
+        if(dist < radius){
+            if(direction.equals(Direction.RIGHT) && XDistToRect<=0){
+//                    System.out.println("kena kanan");
+                musuh.subHP(1);
+//                    return true;
+            }
+            else if(direction.equals(Direction.LEFT) && XDistToRect>=0){
+//                    System.out.println("kena kiri");
+                musuh.subHP(1);
+//                    return true;
+            }
+            else if(direction.equals(Direction.UP) && YDistToRect>=0){
+//                    System.out.println("kena atas");
+                musuh.subHP(1);
+//                    return true;
+            }
+            else if(direction.equals(Direction.DOWN) && YDistToRect<=0){
+//                    System.out.println("kena bawah");
+//                    System.out.println("dist: " + dist);
+//                    System.out.println("arc: " + radius);
+                musuh.subHP(1);
+//                    return true;
+            }
+
+        }
+//        return false;
     }
 }

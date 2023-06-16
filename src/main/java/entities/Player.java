@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Player extends Movable {
     int baseHp;
     private Weapon weapon;
+    private Weapon nextWeapon;
     private SwordFactory swordFactory;
     private SpearFactory spearFactory;
     private RangedFactory rangedFactory;
@@ -47,6 +48,7 @@ public class Player extends Movable {
         weapon = swordFactory.createWeapon(SwordType.GREATSWORD, 0);
 //        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
 //        weapon = rangedFactory.createWeapon(RangedType.IRON_BOW, 0);
+        nextWeapon = null;
     }
 
     @Override
@@ -171,6 +173,9 @@ public class Player extends Movable {
 //        }
 //    }
 
+    /**
+     * @param enemy the enemy that the entity will attack
+     */
     public void atk(Movable[] enemy){
         int atkX = (int) getXFromCenter();
         int atkY = (int) getYFromCenter();
@@ -272,6 +277,9 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * @param enemy the target that the player targets
+     */
     public void bulletAtkCollision(ArrayList<Movable> enemy){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
@@ -296,6 +304,9 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * @param enemy if the bullet collision with the target
+     */
     public void bulletAtkCollision(Movable[] enemy){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
@@ -320,6 +331,14 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * @param atkX the x-point that indicate the center of the attack radius
+     * @param atkY the y-point that indicate the center of the attack radius
+     * @param width the width of the attack radius
+     * @param height the height of the attack radius
+     * @param enemy the enemy that's in the radius
+     * @param direction the direction that the attack is facing
+     */
     private void stabAtkCollision(int atkX, int atkY, int width, int height, Movable[] enemy, Direction direction){
         int Xcenter = atkX;
         int Ycenter = atkY;
@@ -359,6 +378,13 @@ public class Player extends Movable {
         }
     }
 
+    /**
+     * @param atkX the x-point that the swing centered upon
+     * @param atkY the y-point that the swing centered upon
+     * @param radius the radius of the swing
+     * @param enemy the enemy that collide with the swing
+     * @param direction the direction of the swing
+     */
     private void swingAtkCollision(int atkX, int atkY, int radius, Movable[] enemy, Direction direction){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
@@ -403,18 +429,6 @@ public class Player extends Movable {
 //        return false;
     }
 
-    private int clamp(int min, int max, int value){
-        if(min > value){
-            return min;
-        }
-        else if(max < value){
-            return max;
-        }
-        else{
-            return value;
-        }
-    }
-
     public Weapon getWeapon() {
         return weapon;
     }
@@ -440,5 +454,66 @@ public class Player extends Movable {
         for(int i=0; i< bullets.length; i++){
             bullets[i].hit();
         }
+    }
+
+    public void generateNextWeapon(int phase){
+        int type = rand.nextInt(3);
+        int rarity = rand.nextInt(30);
+
+        /*
+        if type = 1
+        rarity from 0-19 = common
+        rarity from 20-25 = epic
+        rarity from 26-29 = unique
+
+        if type = 2
+        rarity from 0-19 = common
+        rarity from 20-25 = epic
+        rarity from 26-29 = legendary
+
+        if type = 3
+        rarity from 0-25 = common
+        rarity from 26-29 = epic
+         */
+
+        if(type == 1){
+            if(rarity < 20){
+                nextWeapon = swordFactory.createWeapon(SwordType.IRON_SWORD, phase);
+            }
+            else if(rarity < 26){
+                nextWeapon = swordFactory.createWeapon(SwordType.GOLDEN_SWORD, phase);
+            }
+            else{
+                nextWeapon = swordFactory.createWeapon(SwordType.GREATSWORD, phase);
+            }
+        }
+        else if(type == 2){
+            if(rarity < 20){
+                nextWeapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, phase);
+            }
+            else if(rarity < 26){
+                nextWeapon = spearFactory.createWeapon(SpearType.GLAIVE, phase);
+            }
+            else{
+                nextWeapon = spearFactory.createWeapon(SpearType.SPEAR_OF_THE_LORD, phase);
+            }
+        }
+        else{
+            if(rarity < 26){
+                nextWeapon = rangedFactory.createWeapon(RangedType.WOOD_BOW, phase);
+            }
+            else{
+                nextWeapon = rangedFactory.createWeapon(RangedType.IRON_BOW, phase);
+            }
+        }
+    }
+
+    public void switchWeapon(){
+        weapon = nextWeapon;
+        nextWeapon = null;
+    }
+
+    public String getNextWeaponName() {
+        return nextWeapon.getWeaponName();
     }
 }

@@ -50,7 +50,7 @@ public class ArcadeMode {
         elapsedTimeAtk = 0;
         elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);
         alive = true;
-        floor = 5;
+        floor =1;
         wave = 0;
         map = new Map(floor);
         battle = false;
@@ -85,20 +85,7 @@ public class ArcadeMode {
         }
         enemy[90] = new BigBoss(-100,-100);
     }
-//    public void removeDead(){
-////        for (int i=0;i< entities.size();i++){
-////            Movable a = entities.get(i);
-////            if(a.getHealth()<=0){
-////                entities.remove(i);
-////            }
-////        }
-//
-////        for(int i=0; i < enemy.length; i++){
-////            if(enemy[i].getHealth()<=0){
-////                enemy[i].
-////            }
-////        }
-//    }
+
     public void render() {
         if(alive && !battle && !done && !win){
 //            System.out.println("AWAL AWAL");
@@ -121,11 +108,6 @@ public class ArcadeMode {
             Main.processing.text("Heart " + player.getHealth(), 10, 14);
 
             //timer section
-//            elapsedTime = System.currentTimeMillis() - startTime;
-//            elapsedSeconds = (int) (elapsedTime / 1000);
-//            secondsDisplay = elapsedSeconds % 60;
-//            elapsedMinutes = elapsedSeconds / 60;
-//            minutesDisplay = elapsedMinutes % 60;
             Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
             Main.processing.textSize(40);
             Main.processing.fill(0);
@@ -142,14 +124,11 @@ public class ArcadeMode {
 
             startBattle();
             if(battle) {
-//                System.out.println("masuk battle");
                 gantiWave();
                 startTimeAtk = System.currentTimeMillis();
-//                System.out.println("selesai battle");
             }
         }
         else if(alive && battle) {
-//            System.out.println("masuk suasana battle");
             Main.processing.background(204,102,0);
             Main.processing.noStroke();
 
@@ -190,10 +169,10 @@ public class ArcadeMode {
             if(elapsedSecondsText<3){
                 printWave();
             }
-
-            map.printMap();
-            player.render();
             player.move();
+            map.printMap();
+
+
 
             player.bulletAtkCollision(enemy);
 
@@ -207,7 +186,7 @@ public class ArcadeMode {
 //                System.out.println("masuk");
                 startTimeAtk = System.currentTimeMillis();
             }
-
+            player.render();
             for (Movable a:enemy){
                 if(!a.isDead()) {
                     if (a instanceof Zombies) a.render();
@@ -224,6 +203,7 @@ public class ArcadeMode {
                     if (a instanceof Zombies) {
                         ((Zombies) a).checkAgro(player);
                         a.move();
+                        ((Zombies) a).atk(player);
                     } else if (a instanceof Skeletons) {
                         ((Skeletons) a).checkAgro(player);
                         a.move();
@@ -231,6 +211,7 @@ public class ArcadeMode {
                     } else if (a instanceof EliteZombies) {
                         ((EliteZombies) a).checkAgro(player);
                         a.move();
+                        ((EliteZombies) a).atk(player);
                     } else if (a instanceof EliteSkeletons) {
                         ((EliteSkeletons) a).checkAgro(player);
                         a.move();
@@ -241,49 +222,10 @@ public class ArcadeMode {
                     } else if (a instanceof BigBoss) {
                         ((BigBoss) a).checkAgro(player);
                         a.move();
+                        ((BigBoss) a).atk(player);
                     }
                 }
             }
-
-//            for (Movable a:entities){
-//                if(a instanceof Zombies)a.render();
-//                else if(a instanceof Skeletons)a.render();
-//                else if(a instanceof EliteZombies)a.render();
-//                else if(a instanceof EliteSkeletons)a.render();
-//                else if(a instanceof ChargedCreeper)a.render();
-//                else if(a instanceof BigBoss)a.render();
-//            }
-
-//            for (Movable a:entities){
-//                if(a instanceof Zombies){
-//                    ((Zombies) a).checkAgro(player);
-//                    a.move();
-//                }else if(a instanceof Skeletons){
-//                    ((Skeletons) a).checkAgro(player);
-//                    a.move();
-//                    ((Skeletons) a).bulletAtkCollision(player);
-//                }else if(a instanceof  EliteZombies) {
-//                    ((EliteZombies) a).checkAgro(player);
-//                    a.move();
-//                }else if(a instanceof EliteSkeletons){
-//                    ((EliteSkeletons) a).checkAgro(player);
-//                    a.move();
-//                    ((EliteSkeletons) a).bulletAtkCollision(player);
-//                }else if(a instanceof ChargedCreeper){
-//                    ((ChargedCreeper)a).checkAgro(player);
-//                    a.move();
-//                }else if(a instanceof BigBoss){
-//                    ((BigBoss)a).checkAgro(player);
-//                    a.move();
-//                }
-//            }
-//            removeDead();
-
-            //bagian bullet
-//            for(Bullet b: bullet){
-//                b.render();
-//                b.move();
-//            }
 
             if(wave<3 && isEnemyDie()){
                 gantiWave();
@@ -333,8 +275,9 @@ public class ArcadeMode {
             Main.processing.textSize(24);
             Main.processing.text("FLOOR " + floor, Main.processing.width / 2, 0);
 
-            if(player.getX() >= 57*20 && !reward){
+            if(player.getX() >= 57*20 && !reward && !choosing){
                 choosing = true;
+                player.generateNextWeapon(floor);
             }
             if(choosing){
                 Main.processing.background(0);
@@ -365,6 +308,7 @@ public class ArcadeMode {
                 Main.processing.textSize(20);
                 Main.processing.fill(255);
                 Main.processing.text("change weapon", x[2]  + r[2]/2, y[2] + 60);
+                Main.processing.text(player.getNextWeaponName(), x[2] + r[2]/2, y[2] + 80);
             }
             else {
                 map.printMap();
@@ -460,19 +404,20 @@ public class ArcadeMode {
             int countBB = 0;
             if(floor == 1){
                 if(wave == 1){
-                    countZ = 5;
+                    countZ = 1;
                 }
                 else if(wave == 2){
-                    countZ = 7;
+//                    countZ = 3;
                 }
                 else{
-                    countZ = 10;
+//                    countZ = 4;
+//                    countES = 2;
                 }
             }
             else if(floor == 2){
                 if(wave == 1){
                     countZ = 2;
-                    countS = 5;
+                    countS = 3;
                 }
                 else if(wave == 2){
                     countZ = 3;
@@ -520,22 +465,22 @@ public class ArcadeMode {
             countEZ+=70;
             countES+=80;
             for(int i=0; i<countZ; i++){
-                enemy[i].summoned();
+                enemy[i].summoned(floor);
             }
 
             for(int i=35; i<countS; i++){
-                enemy[i].summoned();
+                enemy[i].summoned(floor);
             }
 
             for(int i=70; i<countEZ; i++){
-                enemy[i].summoned();
+                enemy[i].summoned(floor);
             }
 
             for(int i=80; i<countES; i++){
-                enemy[i].summoned();
+                enemy[i].summoned(floor);
             }
             if(countBB > 0){
-                enemy[90].summoned();
+                enemy[90].summoned(30, 15, floor);
             }
         }
         player.updateMap(map);
@@ -584,5 +529,20 @@ public class ArcadeMode {
 
     public boolean isChoosing() {
         return choosing;
+    }
+
+    public int buttonPressed(){
+        for(int i = 0; i<x.length; i++){
+            if(Main.processing.mouseX > x[i] && Main.processing.mouseX < x[i]+r[i] &&
+                    Main.processing.mouseY > y[i] && Main.processing.mouseY < y[i]+r[i]){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void choosed(){
+        choosing = false;
+        reward = true;
     }
 }

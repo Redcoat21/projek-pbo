@@ -2,6 +2,9 @@ package main;
 
 import entities.Direction;
 import processing.core.PApplet;
+
+import java.util.Random;
+
 public class Main extends PApplet{
     /*
         this variable mode is used for marking the condition of the game
@@ -18,6 +21,7 @@ public class Main extends PApplet{
     private ChoosingMenu cm;
     private ArcadeMode am;
     private EndlessMode em;
+    private Random rand;
     @Override
     public void settings() {
         size(1280, 720);
@@ -32,6 +36,7 @@ public class Main extends PApplet{
         cm = new ChoosingMenu();
         am = new ArcadeMode();
         em = new EndlessMode();
+        rand = new Random();
         mode = 3;
         frameRate(60);
     }
@@ -176,6 +181,21 @@ public class Main extends PApplet{
         else if(mode == 3 && !am.isAlive()) {
             mode = 2;
             am = new ArcadeMode();
+        }
+        else if(mode == 3 && am.isChoosing()){
+            int click = am.buttonPressed();
+            if(click == 0){
+                am.getPlayer().heal();
+                am.choosed();
+            }
+            else if(click == 1){
+                am.getPlayer().getWeapon().setLevel(1);
+                am.choosed();
+            }
+            else if(click == 2){
+                am.choosed();
+                am.getPlayer().switchWeapon();
+            }
         }
         else if(mode == 3 && am.win){
             mode = 2;

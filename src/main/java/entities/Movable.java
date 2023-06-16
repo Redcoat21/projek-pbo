@@ -35,6 +35,10 @@ public class Movable extends Entities{
     protected float atkSpeed;
     protected boolean alive;
     protected Random rand;
+    protected long startTime;
+    protected long elapsedTime;
+    protected int elapsedSecond;
+    protected int coolDown;
 
     public Map getMap() {
         return map;
@@ -66,7 +70,7 @@ public class Movable extends Entities{
     }
 
     //constructor for other movable except player
-    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed) {
+    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, int coolDown) {
         super(x, y, width, height);
         this.baseHealth = health;
         this.health = -1;
@@ -75,6 +79,10 @@ public class Movable extends Entities{
         this.atkSpeed = atkSpeed;
         savingDirection = new ArrayList<>();
         rand = new Random();
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) elapsedTime/1000;
+        this.coolDown = coolDown;
     }
 
     //constructor only for bullet
@@ -391,7 +399,7 @@ public class Movable extends Entities{
         return false;
     }
 
-    public void summoned(){
+    public void summoned(int phase){
         boolean clash = true;
         while(clash) {
             int xTemp = rand.nextInt(1, 55);
@@ -401,12 +409,46 @@ public class Movable extends Entities{
                 clash = false;
             }
         }
-        health = baseHealth;
+        startTime = System.currentTimeMillis();
+        elapsedTime = System.currentTimeMillis()-startTime;
+        elapsedSecond = (int) elapsedTime/1000;
+        health = baseHealth*phase;
+        System.out.println(health);
+    }
+
+    public void summoned(int x, int y, int phase){
+        boolean clash = true;
+        while(clash) {
+            int xTemp = x;
+            int yTemp = y;
+            setTo(xTemp*20, yTemp*20+80);
+            if(!isEntitiesCollisionWall()){
+                clash = false;
+            }
+            xTemp = rand.nextInt(1, 55);
+            yTemp = rand.nextInt(1, 30);
+        }
+        startTime = System.currentTimeMillis();
+        elapsedTime = System.currentTimeMillis()-startTime;
+        elapsedSecond = (int) elapsedTime/1000;
+        health = baseHealth*phase;
         System.out.println(health);
     }
 
     public void killed(){
         setTo(-50, -50);
+    }
+
+    protected int clamp(int min, int max, int value){
+        if(min > value){
+            return min;
+        }
+        else if(max < value){
+            return max;
+        }
+        else{
+            return value;
+        }
     }
 
 }

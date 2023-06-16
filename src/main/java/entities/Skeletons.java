@@ -33,20 +33,28 @@ public class Skeletons extends Movable implements Pathfinding{
 //        shootCounter=0;
 //        shootTick=0;
 //    }
+
+    /**
+     * @param x the x-axis that the entity will spawn into
+     * @param y the y-axis that the enitty will spawn into
+     */
     public Skeletons(float x, float y) {
-        super(x, y,20,20,2,1,5);
-        loadImage();
+        super(x, y,20,20,12,1,5, 2);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
-//        this.map=map;
         this.tiles = map.getMap();
         pathIdx=0;
         bullet = new Bullet();
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
         Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
         Main.processing.noStroke();
@@ -103,8 +111,9 @@ public class Skeletons extends Movable implements Pathfinding{
                             facingTo(Direction.DOWN);
                         }
 
-                        if(!bullet.isFired()){
+                        if(!bullet.isFired() && elapsedSecond > coolDown){
                             bullet.fired(getXFromCenter(), getYFromCenter(), 4, 1, getAtkDirection());
+                            startTime = System.currentTimeMillis();
                         }
                     }
                 }
@@ -126,6 +135,10 @@ public class Skeletons extends Movable implements Pathfinding{
             agroIdx++;
         }
 }
+
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
         if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
             target = you;
@@ -209,6 +222,9 @@ public class Skeletons extends Movable implements Pathfinding{
         }
     }
 
+    /**
+     * @param target if the bullet collision with the player/target
+     */
     public void bulletAtkCollision(Player target){
         int pointOnRectX = 0;
         int pointOnRectY = 0;
@@ -227,6 +243,7 @@ public class Skeletons extends Movable implements Pathfinding{
         }
     }
 
+<<<<<<< HEAD
     private int clamp(int min, int max, int value){
         if(min > value){
             return min;
@@ -251,4 +268,7 @@ public class Skeletons extends Movable implements Pathfinding{
             System.out.println(this.getSprites().getSpritesList(Direction.NONE));
         }
     }
+=======
+
+>>>>>>> ee7b9e3f83bef35e76d9946e4027817a61277859
 }

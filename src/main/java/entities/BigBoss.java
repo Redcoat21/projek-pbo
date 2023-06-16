@@ -4,101 +4,99 @@ import entities.tiles.Obstacles;
 import entities.tiles.Wall;
 import main.Main;
 import main.Map;
+import processing.core.PConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class BigBoss extends Movable implements Pathfinding{
+public class BigBoss extends Movable{
     private boolean agro;
     private int agroIdx;
     private int tickMove;
     private int indexDelay;
     private Player target;
     Obstacles[][] tiles;
-    private ArrayList<Direction> pathList;
-    private int pathIdx;
-    private boolean gotPath;
+    private boolean attack;
+    private int attack_Idx_Counter;
+    private long startTimeCharging;
+    private long elapsedTimeCharging;
+    private int elapsedSecondCharging;
+    private int chargingTime;
+    private boolean charged;
+    private int chargingX;
+    private int chargingY;
+    private int chargingArc;
 
-//    public BigBoss(float x, float y) {
-//        super(x, y,30,30,4,3, 3);
-//        agro = false;
-//        agroIdx=0;
-//        tickMove=0;
-//        indexDelay=0;
-//        gotPath=false;
-//    }
-
-    public BigBoss(float x, float y, Map map) {
-        super(x, y,50,50,10,2,5);
-        agro = false;
-        agroIdx=0;
-        tickMove=0;
-        indexDelay=0;
-        this.map=map;
-        this.tiles = map.getMap();
-        pathIdx=0;
-    }
-
+    /**
+     *
+     * @param x x-axis that the entity will spawn in
+     * @param y y-axis that the entity will spawn in
+     */
     public BigBoss(float x, float y) {
-        super(x, y,50,50,10,2,5);
+        super(x, y,50,50,200,2,5, 3);
         agro = false;
         agroIdx=0;
         tickMove=0;
         indexDelay=0;
 //        this.map=map;
         this.tiles = map.getMap();
-        pathIdx=0;
+        attack=false;
+        attack_Idx_Counter=0;
+        startTime = 0;
+        elapsedTime = 0;
+        elapsedSecond = (int) (elapsedTime / 1000);
+        startTimeCharging = 0;
+        elapsedTimeCharging = 0;
+        elapsedSecondCharging = (int) (elapsedTime / 1000);
+        chargingTime = 2;
+        charged = false;
+        chargingArc = 140;
     }
     @Override
     public void render() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedSecond = (int) elapsedTime/1000;
         tickMove++;
-        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro,getX(),getY()+60);
+        Main.processing.text("HP "+getHealth() + "   X: "+getX()+"   Y: "+getY() + " Agro:   "+agroIdx+ " Status: "+agro+" Attack : "+attack,getX(),getY()+60);
         Main.processing.noStroke();
         Main.processing.fill(0,255,127);
         Main.processing.rect(getX(), getY(), getWidth(), getHeight());
 //        j * 20, i * 20 + 80
 //        Agro Mode
         if(agro){
-            if(map==null){
                 if(indexDelay<4)this.stop();
                 this.stop();
-                if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
+                if(Math.abs(getXFromCenter()-target.getXFromCenter())<=280&&Math.abs(getYFromCenter()-target.getYFromCenter())<=280){
+                    this.stop();
+                    attack_Idx_Counter++;
+                        attack=true;
+                    if(attack_Idx_Counter>300) {
+                        if (attack_Idx_Counter > 350) {
+                            attack_Idx_Counter = 0;
+                        }
+                    }
+
+                }else if(Math.abs(getX()-target.getX())>Math.abs(getY()- target.getY())&&!entitiesCollisionChecker()){
                     if(getX()> target.getX())this.moveTo(Direction.LEFT);
                     else this.moveTo(Direction.RIGHT);
+                    attack=false;
                 }else if(Math.abs(getX()-target.getX())>0){
                     if(getY()> target.getY())this.moveTo(Direction.UP);
                     else this.moveTo(Direction.DOWN);
+                    attack=false;
                 }else{
                     if(getX()> target.getX())this.moveTo(Direction.LEFT);
                     else this.moveTo(Direction.RIGHT);
+                    attack=false;
                 }
+
                 Obstacles[][] init = new Obstacles[64][32];
                 for(int i=0 ; i<32; i++){
                     for(int j=0; j<64; j++){
                         init[j][i] = null;
                     }
                 }
-            }else{
-                if(pathList==null){
-                    pathList=getNextDirection(new ArrayList<Direction>(),getObjectCoords()[0],getObjectCoords()[1],new Obstacles[64][32]);
-                }else{
-                    pathIdx+=getSpeed();
-                    if(pathIdx<(pathList.size()*20)-1){
-                        if(pathIdx!=(pathList.size()*20)-1){
-                            this.moveTo(pathList.get(pathIdx/20));
-                        }
-                        Main.processing.text("Direction : "+pathList.get(pathIdx/20)+" Idx : "+pathIdx,getX(),getY()+120);
-                    }else{
-                        this.moveTo(Direction.NONE);
-                        this.stop();
-                        pathIdx=0;
-                        pathList=null;
-                        gotPath=false;
-                    }
-                }
-
-            }
 
         }
 
@@ -112,17 +110,18 @@ public class BigBoss extends Movable implements Pathfinding{
             indexDelay=0;
         }
         if(!agro&&tickMove>35){
-            pathList=null;
-            gotPath=false;
-            pathIdx=0;
             indexDelay++;
             tickMove=0;
             idle();
             agroIdx++;
         }
     }
+
+    /**
+     * @param you it points to the player that the entity has agro-ed into
+     */
     public void checkAgro(Player you){
-        if(Math.abs(getX()-you.getX())<=300&&Math.abs(getY()-you.getY())<=300){
+        if(Math.abs(getX()-you.getX())<=800&&Math.abs(getY()-you.getY())<=800){
             target = you;
             this.agro=true;
         }else{
@@ -142,62 +141,65 @@ public class BigBoss extends Movable implements Pathfinding{
     }
 
     @Override
-    public ArrayList<Direction> getNextDirection(ArrayList<Direction> dlist, int x, int y, Obstacles[][] moved) {
-        if(Math.abs(x-getTargetCoords()[0])<=3&&Math.abs(y-getTargetCoords()[1])<=3){
-            dlist.add(Direction.NONE);
-            gotPath=true;
-            System.out.println("LELE");
-            return dlist;
-        } else{
-            ArrayList<ValueTile> moves = new ArrayList<>();
-            if(x-1>=0 && Math.abs((x-1)-getTargetCoords()[0])<=15 && !gotPath && Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));
-            if(x+1<64 && Math.abs((x+1)-getTargetCoords()[0])<=15 && !gotPath && Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));
-            if(y-1>=0 && Math.abs((y-1)-getTargetCoords()[1])<=15 && !gotPath && Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));
-            if(y+1<32 && Math.abs((y+1)-getTargetCoords()[1])<=15 && !gotPath && Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));
-            if(moves!=null){
-                Collections.sort(moves, new Comparator<ValueTile>() {
-                    @Override
-                    public int compare(ValueTile o1, ValueTile o2) {
-                        return (int)(o1.getValue()-o2.getValue());
-                    }
-                });
-                for (ValueTile a:moves) System.out.print(a.getValue()+"  Direction : "+a.getMoved()+" ");
-                System.out.println();
-                for (ValueTile a : moves){
-                    if(!gotPath){
-                        if(tiles[a.getX()][a.getY()] instanceof Wall);
-                        else if(moved[a.getX()][a.getY()]==null){
-                            dlist.add(a.getMoved());
-                            moved[a.getX()][a.getY()] = new Obstacles(a.getX(),a.getY());
-                            getNextDirection(dlist,a.getX(),a.getY(),moved);
-                        }
-                    }
-                }
-            }
-        }
-        System.out.println("LALA");
-        return dlist;
-
-    }
-
-    @Override
-    public int[] getTargetCoords() {
-        int[] coords = new int[2];
-        coords[0] = (int) target.getX()/20;
-        coords[1] = (int) ((target.getY()-80)/20);
-        return coords;
-    }
-
-    @Override
-    public int[] getObjectCoords() {
-        int[] coords = new int[2];
-        coords[0] = (int) getX()/20;
-        coords[1] = (int) ((getY()-80)/20);
-        return coords;
-    }
-
-    @Override
     protected boolean entitiesIntersectHole(Obstacles e1) {
         return false;
+    }
+
+    private void charging(){
+        Main.processing.fill(255,0,0,100);
+        Main.processing.circle(chargingX, chargingY, chargingArc);
+        Main.processing.fill(255,0,0);
+        elapsedTimeCharging = System.currentTimeMillis() - startTimeCharging;
+        elapsedSecondCharging = (int) elapsedTimeCharging/1000;
+    }
+
+    /**
+     * @param target the entity that can be attacked by this entity
+     */
+    public void atk(Movable target){
+        Main.processing.noStroke();
+        Main.processing.fill(255,0,0);
+        if(elapsedSecond > coolDown && attack && !charged) {
+            charged = true;
+            chargingX = (int) target.getXFromCenter();
+            chargingY = (int) target.getYFromCenter();
+            startTime = System.currentTimeMillis();
+            startTimeCharging = System.currentTimeMillis();
+            elapsedTimeCharging = System.currentTimeMillis() - startTimeCharging;
+            elapsedSecondCharging = (int) elapsedTimeCharging;
+        }
+        else if(charged){
+            charging();
+        }
+
+        if(elapsedSecondCharging > chargingTime && charged){
+            thunderCollision(chargingX, chargingY, chargingArc/2, target);
+            Main.processing.circle(chargingX, chargingY, chargingArc);
+            System.out.println("dor");
+            charged = false;
+        }
+    }
+
+    /**
+     * @param atkX the x point that determine the radius of the attack
+     * @param atkY the y point that determine the radius of the attack
+     * @param radius the surface that indicate the attack
+     * @param musuh the target that will be attack if there is any
+     */
+    private void thunderCollision(int atkX, int atkY, int radius, Movable musuh){
+        int pointOnRectX = 0;
+        int pointOnRectY = 0;
+        int XDistToRect = 0;
+        int YDistToRect = 0;
+        float dist = 0;
+        pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), atkX);
+        pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), atkY);
+        XDistToRect = atkX - pointOnRectX;
+        YDistToRect = atkY - pointOnRectY;
+
+        dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));
+        if(dist < radius){
+            musuh.subHP(1);
+        }
     }
 }
