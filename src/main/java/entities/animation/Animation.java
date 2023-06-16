@@ -45,7 +45,6 @@ public class Animation {
 
         // Meaning that the current direction for the sprites list is null, then assign a new list to it.
         this.sprites.computeIfAbsent(animationFor, k -> new ArrayList<>());
-<<<<<<< HEAD:src/main/java/entities/animation/Animation.java
         this.sprites.get(animationFor).add(temp);
     }
 
@@ -58,9 +57,6 @@ public class Animation {
         PImage temp = image;
         // Meaning that the current direction for the sprites list is null, then assign a new list to it.
         this.sprites.computeIfAbsent(animationFor, k -> new ArrayList<>());
-=======
->>>>>>> main-development:src/main/java/entities/Animation.java
-        this.sprites.get(animationFor).add(temp);
     }
 
     /**
@@ -71,18 +67,4 @@ public class Animation {
     public ArrayList<PImage> getSpritesList(Direction animationFor) {
         return this.sprites.get(animationFor);
     }
-
-<<<<<<< HEAD:src/main/java/entities/animation/Animation.java
-=======
-    /**
-     * Load the image(s) onto the screen.
-     * @param animationFor Which animation should it played.
-     * @param entities The current entities that the sprite is displayed onto.
-     */
-    public void play(Direction animationFor, Entities entities) {
-        int frameIndex = Main.processing.frameCount / this.frameDuration;
-        currentSpriteIndex = frameIndex % sprites.get(animationFor).size();
-        Main.processing.image(this.sprites.get(animationFor).get(currentSpriteIndex), entities.getX(), entities.getY());
-    }
->>>>>>> main-development:src/main/java/entities/Animation.java
 }

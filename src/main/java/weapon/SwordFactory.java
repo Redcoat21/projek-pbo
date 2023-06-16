@@ -1,4 +1,19 @@
 package weapon;
+
+/**
+ * Strong weapon that attack in crescent motion.
+ */
+class Sword extends Weapon {
+    public Sword(Rarity weaponRarity, String weaponName, int damage, int phase, float weight) {
+        super(weaponRarity, weaponName, damage, phase, weight);
+    }
+
+    @Override
+    public int calculateDamageDealt() {
+        return getDamage() + (getLevel()*3) + (2*getPhase()) + (getBonus()*2+1) ;
+    }
+}
+
 /**
  * Class with the factory pattern to create a new sword object.
  */

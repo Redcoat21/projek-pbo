@@ -1,5 +1,25 @@
 package weapon;
 
+class Ranged extends Weapon {
+    private int speed;
+    public Ranged(Rarity weaponRarity, String weaponName, int damage, int phase, float weight, int speed) {
+        super(weaponRarity, weaponName, damage, phase, weight);
+        this.speed = speed;
+    }
+
+    @Override
+    public int calculateDamageDealt() {
+        return getDamage() + (getLevel()*2) + (2*getPhase()) + getBonus();
+    }
+
+    public int getSpeed(){
+        return speed;
+    }
+}
+
+/**
+ * Class with the factory pattern to create a new sword object.
+ */
 public class RangedFactory implements WeaponFactory<RangedType>{
     @Override
     public Weapon createWeapon(RangedType type, int phase) {

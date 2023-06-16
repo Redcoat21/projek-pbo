@@ -8,7 +8,7 @@ import processing.core.PVector;
  * Base class for any object that : Have sprites, can attack and can move.
  */
 public abstract class Entity implements Animatable, Combatant, Moveable {
-    private Animation sprites;
+    private final Animation sprites;
     private PVector position;
     private final PVector size;
     private Direction facingToward;
@@ -70,7 +70,7 @@ public abstract class Entity implements Animatable, Combatant, Moveable {
      * @param position The new (x,y) value of the entity.
      */
     public void setTo(PVector position) {
-        this.position = position;
+        this.position.set(position.x, position.y);
     }
 
     /**
@@ -85,8 +85,8 @@ public abstract class Entity implements Animatable, Combatant, Moveable {
      * Get the current direction that the entity is facing to.
      * @return The direction that the entity is facing to.
      */
-    public Direction getFacingToward() {
-        return facingToward;
+    public Direction getFacingDirection() {
+        return this.facingToward;
     }
 
     /**

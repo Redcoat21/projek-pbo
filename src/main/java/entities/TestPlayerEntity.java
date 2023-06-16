@@ -28,4 +28,6 @@ public class TestPlayerEntity extends Entity {
         };
         super.move(movingToward);
     }
+
+
 }
