@@ -21,7 +21,14 @@ public class Player extends Movable {
     float baseX;
     float baseY;
 
-//    public Player(float x, float y, int map){
+    public Player(float x, float y, int width, int height) {
+        super(x, y, width, height, 110, 120, 120, null);
+        swordFactory = new SwordFactory();
+        spearFactory = new SpearFactory();
+        rangedFactory = new RangedFactory();
+    }
+
+    //    public Player(float x, float y, int map){
 //        super(x, y, 20, 20, 3, 3, 4, new Map(map));
 //        baseHp = 3;
 //        baseX = x;
@@ -31,10 +38,11 @@ public class Player extends Movable {
 //        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
 ////        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
 //    }
-
     public Player(float x, float y, Map map){
         super(x, y, 20, 20, 5, 3, 3, map);
-        loadImage();
+        if(map != null) {
+            loadImage();
+        }
         baseHp = getHealth();
         baseX = x;
         baseY = y;
@@ -516,6 +524,33 @@ public class Player extends Movable {
     public String getNextWeaponName() {
         return nextWeapon.getWeaponName();
     }
+
+    public Weapon createWeapon(String weaponType, Enum weaponName, int phase) {
+        if(weaponType.equalsIgnoreCase("sword")) {
+            if(weaponName instanceof SwordType) {
+                return swordFactory.createWeapon((SwordType) weaponName, phase);
+            }
+            throw new IllegalArgumentException("Invalid weapon name! Weapon type should be Sword!");
+        } else if(weaponType.equalsIgnoreCase("spear")) {
+            if(weaponName instanceof SpearType) {
+                return spearFactory.createWeapon((SpearType) weaponName, phase);
+            }
+            throw new IllegalArgumentException("Invalid weapon name! Weapon type should be Spear!");
+        } else if(weaponType.equalsIgnoreCase("ranged")) {
+            if(weaponName instanceof RangedType) {
+                return rangedFactory.createWeapon((RangedType) weaponName, phase);
+            }
+            throw new IllegalArgumentException("Invalid weapon type! Weapon type should be Ranged!");
+        } else {
+            throw new IllegalArgumentException("Invalid weapon type!");
+        }
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+
 
     private void loadImage() {
         String root = "src/main/resources/assets/Sprites/Player/";

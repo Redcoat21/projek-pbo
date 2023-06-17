@@ -131,6 +131,11 @@ public abstract class Weapon {
         this.weight = weight;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.weaponName.equals(((Weapon) obj).weaponName) && this.phase == ((Weapon) obj).phase;
+    }
+
     //    public float getAttackSpeed() {
 //        return attackSpeed;
 //    }
