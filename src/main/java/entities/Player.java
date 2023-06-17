@@ -72,4 +72,17 @@ public class Player extends Entity {
     public void attack(Entity target) {
         System.out.println("Attacking!");
     }
+
+    public void changeWeapon(String weaponType, Enum<?> changeInto, int phase) {
+
+        if(weaponType.equalsIgnoreCase("sword")) {
+            this.playerWeapon = swordFactory.createWeapon((SwordType) changeInto, phase);
+        } else if(weaponType.equalsIgnoreCase("spear")) {
+            this.playerWeapon = spearFactory.createWeapon((SpearType) changeInto, phase);
+        } else if(weaponType.equalsIgnoreCase("ranged")) {
+            this.playerWeapon = rangedFactory.createWeapon((RangedType) changeInto, phase);
+        } else {
+            throw new IllegalArgumentException("Invalid weapon type!");
+        }
+    }
 }

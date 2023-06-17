@@ -1,5 +1,6 @@
 package main.map;
 
+import interface_package.Renderable;
 import tiles.Tiles;
 import processing.core.PVector;
 
@@ -15,7 +16,7 @@ class MapGenerator {
 /**
  * Represent the battle map of the game.
  */
-public class Map {
+public class Map implements Renderable {
     private Tiles[][] tileMap;
     public Map(int row, int column) {
         this.tileMap = new Tiles[row][column];
@@ -38,5 +39,10 @@ public class Map {
      */
     public void assignTiles(int x, int y, Tiles tiles) {
 
+    }
+
+    @Override
+    public void render() {
+        ;
     }
 }

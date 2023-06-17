@@ -4,6 +4,7 @@ import interface_package.Animatable;
 import animation.Animation;
 import entities.Direction;
 import animation.AnimationPlayer;
+import interface_package.Renderable;
 import processing.core.PImage;
 import processing.core.PVector;
 

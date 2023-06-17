@@ -4,15 +4,14 @@ import animation.Animation;
 import interface_package.Animatable;
 import interface_package.Combatant;
 import interface_package.Moveable;
+import interface_package.Renderable;
 import processing.core.PImage;
 import processing.core.PVector;
-
-import java.util.Hashtable;
 
 /**
  * Base class for any object that : Have sprites, can attack and can move.
  */
-public abstract class Entity implements Animatable, Combatant, Moveable {
+public abstract class Entity implements Animatable, Combatant, Moveable, Renderable {
     private float movingSpeed;
     private float attackSpeed;
     private final Animation walkingSprites;
@@ -140,18 +139,13 @@ public abstract class Entity implements Animatable, Combatant, Moveable {
      */
     public abstract boolean isAttacking();
 
-    /**
-     * Render the entity in the map.
-     */
-    public abstract void render();
-
     @Override
     public void addSprite(String forWhichAnimation, Direction animationFor, PImage sprite) {
-        if(forWhichAnimation.equals("walk")) {
+        if(forWhichAnimation.equalsIgnoreCase("walk")) {
             this.walkingSprites.addSprite(animationFor, sprite, this.size);
-        } else if(forWhichAnimation.equals("idle")) {
+        } else if(forWhichAnimation.equalsIgnoreCase("idle")) {
             this.idleSprites.addSprite(animationFor, sprite, this.size);
-        } else if(forWhichAnimation.equals("attack")) {
+        } else if(forWhichAnimation.equalsIgnoreCase("attack")) {
             this.attackingSprites.addSprite(animationFor, sprite, this.size);
         } else {
             throw new IllegalArgumentException("Invalid animation type");

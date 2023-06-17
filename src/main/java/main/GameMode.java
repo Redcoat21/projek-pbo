@@ -17,4 +17,5 @@ public abstract class GameMode {
     public Player getPlayer() {
         return (Player) this.player;
     }
+
 }
