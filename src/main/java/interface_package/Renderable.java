@@ -5,5 +5,8 @@ package interface_package;
  */
 @FunctionalInterface
 public interface Renderable {
+    /**
+     * Display the object onto the screen.
+     */
     void render();
 }

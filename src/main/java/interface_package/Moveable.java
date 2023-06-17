@@ -5,6 +5,7 @@ import entities.Direction;
 /**
  * Represent any object that can be moved.
  */
+@FunctionalInterface
 public interface Moveable {
     /**
      * Move method for every movable object.

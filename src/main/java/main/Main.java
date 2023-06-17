@@ -2,11 +2,13 @@ package main;
 
 import entities.Player;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 /**
  * Main entry to the program.
  */
 public class Main extends PApplet {
+    private PGraphics temp;
     enum Mode {
         ARCADE,
         ENDLESS
@@ -20,7 +22,16 @@ public class Main extends PApplet {
     }
     @Override
     public void setup() {
-        background(100);
+        temp = this.createGraphics(this.displayWidth, this.displayHeight);
+        temp.beginDraw();
+        temp.noFill();
+        temp.stroke(0, 0, 255);
+        temp.ellipse(100, 100, 180, 180);
+        temp.ellipse(70, 70, 10, 10);
+        temp.ellipse(130, 70, 10, 10);
+        temp.ellipse(100, 100, 10, 10);
+        temp.line(70, 130, 130, 130);
+        temp.endDraw();
         processing = this;
         this.frameRate(60);
         this.player = new Player(100, 100, 100, 100);
@@ -28,6 +39,7 @@ public class Main extends PApplet {
 
     @Override
     public void draw() {
+        background(100);
         this.player.render();
     }
 

@@ -33,9 +33,10 @@ public class AnimationPlayer {
             this.play(movingDirection, entity.getSprites("walk"), size);
         } else if(entity.isAttacking()) {
             this.play(facingDirection, entity.getSprites("attack"), size);
-        } else if(entity.isIdling()) {
+        } /* else if(entity.isIdling()) {
             this.play(facingDirection, entity.getSprites("idle"), size);
         }
+        */
     }
 
     /**

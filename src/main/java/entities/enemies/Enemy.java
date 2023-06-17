@@ -23,4 +23,8 @@ public abstract class Enemy extends Entity {
     public boolean isState(State state) {
         return this.state == state;
     }
+
+    public void action() {
+
+    }
 }

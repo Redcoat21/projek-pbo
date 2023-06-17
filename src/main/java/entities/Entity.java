@@ -1,17 +1,14 @@
 package entities;
 
 import animation.Animation;
-import interface_package.Animatable;
-import interface_package.Combatant;
-import interface_package.Moveable;
-import interface_package.Renderable;
+import interface_package.*;
 import processing.core.PImage;
 import processing.core.PVector;
 
 /**
  * Base class for any object that : Have sprites, can attack and can move.
  */
-public abstract class Entity implements Animatable, Combatant, Moveable, Renderable {
+public abstract class Entity implements Animatable, Combatant, Moveable, Renderable, Observer {
     private float movingSpeed;
     private float attackSpeed;
     private final Animation walkingSprites;
