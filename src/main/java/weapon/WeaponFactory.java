@@ -4,6 +4,7 @@ package weapon;
  * Interface for all the factory method.
  * @param <T> The type of the factory, e.g. Sword, Spear, Ranged.
  */
+@FunctionalInterface
 public interface WeaponFactory<T extends Enum<T>> {
 
     /**

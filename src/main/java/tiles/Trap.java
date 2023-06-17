@@ -1,7 +1,7 @@
 package tiles;
 
-import entities.Collideable;
-import entities.CollisionObserver;
+import interface_package.Collideable;
+import interface_package.CollisionObserver;
 import entities.Entity;
 
 /**
@@ -19,5 +19,8 @@ public class Trap extends Floor implements CollisionObserver<Entity>, Collideabl
 
     }
 
-
+    @Override
+    public boolean isColliding(Collideable other) {
+        return false;
+    }
 }

@@ -2,6 +2,7 @@ package animation;
 
 import entities.Direction;
 import entities.Entity;
+import entities.enemies.Enemy;
 import tiles.Tiles;
 
 import main.Main;
@@ -23,10 +24,30 @@ public class AnimationPlayer {
      * @param entity The current entities that the animation will be played on.
      */
     public void play(Direction animationFor, Entity entity) {
-        this.playAnimation(animationFor, entity.getSprites(), entity.getPosition());
+        PVector size = entity.getSize();
+        Direction movingDirection = entity.getDirection();
+        Direction facingDirection = entity.getFacingDirection();
+
+        System.out.println(entity.isMoving());
+        if(entity.isMoving()) {
+            this.play(movingDirection, entity.getSprites("walk"), size);
+        } else if(entity.isAttacking()) {
+            this.play(facingDirection, entity.getSprites("attack"), size);
+        } else if(entity.isIdling()) {
+            this.play(facingDirection, entity.getSprites("idle"), size);
+        }
     }
 
-    private void playAnimation(Direction directionFor, Animation sprites, PVector position) {
+    /**
+     * Play animation, note that {@link Tiles} object always only have 1 direction, so {@link  Direction} parameter is unnecessary.
+     * @param tiles The tiles that the animation will be played on.
+     */
+    public void play(Tiles tiles) {
+        ArrayList<PImage> spriteAnimation = tiles.getSprites().getSpritesList(Direction.NONE);
+        this.play(Direction.NONE, tiles.getSprites(), tiles.getPosition());
+    }
+
+    private void play(Direction directionFor, Animation sprites, PVector position) {
         PApplet mainProgram = Main.getMainProgram();
         ArrayList<PImage> spriteAnimation = sprites.getSpritesList(directionFor);
         int frameDuration = sprites.getFrameDuration();
@@ -39,15 +60,5 @@ public class AnimationPlayer {
         currentSpriteIndex = frameIndex % spriteAnimation.size();
 
         mainProgram.image(spriteAnimation.get(currentSpriteIndex), position.x, position.y);
-    }
-
-    /**
-     * Play animation, note that {@link Tiles} object always only have 1 direction, so {@link  Direction} parameter is unnecessary.
-     * @param tiles The tiles that the animation will be played on.
-     */
-
-    public void play(Tiles tiles) {
-        ArrayList<PImage> spriteAnimation = tiles.getSprites().getSpritesList(Direction.NONE);
-        this.playAnimation(Direction.NONE, tiles.getSprites(), tiles.getPosition());
     }
 }

@@ -8,6 +8,7 @@ class MapGenerator {
     private static final float WALL_THRESHOLD = 0.4f;
     public static Map generateMap(int row, int column) {
         Map generatedMap = new Map(row, column);
+        return null;
     }
 }
 

@@ -1,6 +1,6 @@
 package tiles;
 
-import entities.Animatable;
+import interface_package.Animatable;
 import animation.Animation;
 import entities.Direction;
 import animation.AnimationPlayer;
@@ -69,7 +69,7 @@ public abstract class Tiles implements Animatable {
      * @param sprite The image / sprite that will be loaded.
      */
     @Override
-    public void addSprite(Direction animationFor, PImage sprite) {
+    public void addSprite(String forWhichAnimation, Direction animationFor, PImage sprite) {
         this.sprites.addSprite(animationFor, sprite, this.size);
     }
 

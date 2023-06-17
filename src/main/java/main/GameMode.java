@@ -1,20 +1,20 @@
 package main;
 
 import entities.Entity;
-import entities.TestPlayerEntity;
+import entities.Player;
 
 public abstract class GameMode {
     private Entity player;
 
     public GameMode() {
-        this.player = new TestPlayerEntity(100, 100, 20, 20);
+        this.player = new Player(100, 100, 20, 20);
     }
 
     /**
      * Get the references to the player on this game mode.
-     * @return The referecnes to the player.
+     * @return The references to the player.
      */
-    public TestPlayerEntity getPlayer() {
-        return (TestPlayerEntity) this.player;
+    public Player getPlayer() {
+        return (Player) this.player;
     }
 }

@@ -1,7 +1,6 @@
 package main;
 
-import entities.Entity;
-import entities.TestPlayerEntity;
+import entities.Player;
 import processing.core.PApplet;
 
 /**
@@ -14,7 +13,7 @@ public class Main extends PApplet {
     }
     private GameMode gameMode;
     private static PApplet processing;
-    private TestPlayerEntity player;
+    private Player player;
     @Override
     public void settings() {
         size(1280, 720);
@@ -24,7 +23,7 @@ public class Main extends PApplet {
         background(100);
         processing = this;
         this.frameRate(60);
-        this.player = new TestPlayerEntity(100, 100, 100, 100);
+        this.player = new Player(100, 100, 100, 100);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package entities;
+package interface_package;
 
 /**
  * Represents anything that can be collided and interacted with.

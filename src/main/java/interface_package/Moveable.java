@@ -1,4 +1,6 @@
-package entities;
+package interface_package;
+
+import entities.Direction;
 
 /**
  * Represent any object that can be moved.

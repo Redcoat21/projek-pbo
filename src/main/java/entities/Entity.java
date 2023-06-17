@@ -1,14 +1,23 @@
 package entities;
 
 import animation.Animation;
+import interface_package.Animatable;
+import interface_package.Combatant;
+import interface_package.Moveable;
 import processing.core.PImage;
 import processing.core.PVector;
+
+import java.util.Hashtable;
 
 /**
  * Base class for any object that : Have sprites, can attack and can move.
  */
 public abstract class Entity implements Animatable, Combatant, Moveable {
-    private final Animation sprites;
+    private float movingSpeed;
+    private float attackSpeed;
+    private final Animation walkingSprites;
+    private final Animation idleSprites;
+    private final Animation attackingSprites;
     private PVector position;
     private final PVector size;
     private Direction facingToward;
@@ -25,7 +34,9 @@ public abstract class Entity implements Animatable, Combatant, Moveable {
     public Entity(float x, float y, int width, int height) {
         this.position = new PVector(x, y);
         this.size = new PVector(width, height);
-        this.sprites = new Animation(30);
+        this.attackingSprites = this.idleSprites = this.walkingSprites = new Animation(30);
+        this.direction = Direction.NONE;
+        this.facingToward = Direction.RIGHT;
     }
     /**
      * Get the current position (x,y) of the entity in PVector.
@@ -47,14 +58,16 @@ public abstract class Entity implements Animatable, Combatant, Moveable {
      * Get the sprites list of the entity.
      * @return Spriteslist in {@link Animation}.
      */
-    public Animation getSprites() {
-        return sprites;
+    public Animation getSprites(String forWhich) {
+        if(forWhich.equalsIgnoreCase("walk")) {
+            return this.walkingSprites;
+        } else if(forWhich.equalsIgnoreCase("idle")) {
+            return this.idleSprites;
+        } else if(forWhich.equalsIgnoreCase("attack")) {
+            return this.attackingSprites;
+        }
+        throw new IllegalArgumentException("Invalid animation types!");
     }
-
-    /**
-     * Render the entity in the map.
-     */
-    public abstract void render();
 
     /**
      * Set the entity's position on the given (x,y) value.
@@ -89,14 +102,60 @@ public abstract class Entity implements Animatable, Combatant, Moveable {
         return this.facingToward;
     }
 
-    @Override
-    public void addSprite(Direction animationFor, PImage sprite) {
-        this.sprites.addSprite(animationFor, sprite, this.size);
+    /**
+     * Determine whether the entity is moving or not.
+     * @return True if the entity is moving, false otherwise.
+     */
+    public boolean isMoving() {
+        return this.direction != Direction.NONE;
     }
 
+    /**
+     * Determine whether the entity is idling or not.
+     * @return True if the entity is idling, false otherwise.
+     */
+    public boolean isIdling() {
+        return this.direction == Direction.NONE;
+    }
+
+    /**
+     * Get the entity's moving speed.
+     * @return The entity's moving speed.
+     */
+    public float getMovingSpeed() {
+        return movingSpeed;
+    }
+
+    /**
+     * Get the entity's attack speed.
+     * @return The entity's attack speed.
+     */
+    public float getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    /**
+     * Determine whether the entity is attacking or not.
+     * @return True if the entity is attacking, false otherwise.
+     */
+    public abstract boolean isAttacking();
+
+    /**
+     * Render the entity in the map.
+     */
+    public abstract void render();
+
     @Override
-    public void attack(Entity target) {
-        System.out.println("Attacking!");
+    public void addSprite(String forWhichAnimation, Direction animationFor, PImage sprite) {
+        if(forWhichAnimation.equals("walk")) {
+            this.walkingSprites.addSprite(animationFor, sprite, this.size);
+        } else if(forWhichAnimation.equals("idle")) {
+            this.idleSprites.addSprite(animationFor, sprite, this.size);
+        } else if(forWhichAnimation.equals("attack")) {
+            this.attackingSprites.addSprite(animationFor, sprite, this.size);
+        } else {
+            throw new IllegalArgumentException("Invalid animation type");
+        }
     }
 
     @Override
