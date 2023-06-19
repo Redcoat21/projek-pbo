@@ -49,7 +49,7 @@ class PlayerTest {
             if(i<80)current = dirs[i/20];
             else current = dirs[i/20-1];
             if(i/20==0){
-                    you.moveTo(current);
+                you.moveTo(current);
             }else if(i/20==1){
                 if(i%20 ==0){
                     /**
@@ -76,7 +76,7 @@ class PlayerTest {
                     you.stop();
                     assertEquals(140.0f,you.getX());
                 }
-                 else you.moveTo(current);
+                else you.moveTo(current);
             }
             you.moveFreely();
         }
