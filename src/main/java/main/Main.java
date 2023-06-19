@@ -2,6 +2,8 @@ package main;
 
 import entities.Direction;
 import processing.core.PApplet;
+import processing.core.PImage;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -27,6 +29,8 @@ public class Main extends PApplet{
     private EndlessMode em;
     private Random rand;
     private Bgm song;
+    private PImage loading;
+    private PImage menu;
     @Override
     public void settings() {
         size(1280, 720);
@@ -46,6 +50,8 @@ public class Main extends PApplet{
         isplaying = new boolean[3];
         mode = 1;
         frameRate(60);
+        loading = loadImage("../assets/Background/loadingScreen.png");
+        menu = loadImage("../assets/Background/ChoosingMenu.png");
         bgmplaying=false;
         isplaying[0]=false;
         isplaying[1]=false;
@@ -56,16 +62,14 @@ public class Main extends PApplet{
     public void draw() {
 
         if(mode == 1) {
-
-            background(0);
-            ls.display();
+            background(loading);
             if(ls.isPressed()){
                 ls.pressed();
                 mode = 2;
             }
         }
         else if(mode == 2){
-            cm.render();
+            background(menu);
         }
         else if(mode == 3){
             am.render();
