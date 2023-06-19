@@ -29,8 +29,6 @@ public class Main extends PApplet{
     private EndlessMode em;
     private Random rand;
     private Bgm song;
-    private PImage loading;
-    private PImage menu;
     @Override
     public void settings() {
         size(1280, 720);
@@ -39,7 +37,6 @@ public class Main extends PApplet{
     @Override
     public void setup() {
         background(100);
-//        player = new Player(width/10, height/2);
         processing = this;
         ls = new LoadingScreen();
         cm = new ChoosingMenu();
@@ -50,8 +47,6 @@ public class Main extends PApplet{
         isplaying = new boolean[3];
         mode = 1;
         frameRate(60);
-        loading = loadImage("../assets/Background/loadingScreen.png");
-        menu = loadImage("../assets/Background/ChoosingMenu.png");
         bgmplaying=false;
         isplaying[0]=false;
         isplaying[1]=false;
@@ -62,14 +57,14 @@ public class Main extends PApplet{
     public void draw() {
 
         if(mode == 1) {
-            background(loading);
+            ls.render();
             if(ls.isPressed()){
                 ls.pressed();
                 mode = 2;
             }
         }
         else if(mode == 2){
-            background(menu);
+            cm.render();
         }
         else if(mode == 3){
             am.render();

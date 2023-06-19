@@ -2,11 +2,13 @@ package main;
 
 import processing.core.PConstants;
 import processing.core.PFont;
+import processing.core.PImage;
 
 import java.util.ArrayList;
 
 public class ChoosingMenu {
     private int mode;
+    private PImage background;
     private int[] x;
     private int[] y;
     private int[] w;
@@ -14,6 +16,7 @@ public class ChoosingMenu {
 
     public ChoosingMenu(){
         mode = 2;
+        background = Main.processing.loadImage("../assets/Background/ChoosingMenu.png");
         x = new int[3];
         y = new int[3];
         w = new int[3];
@@ -32,6 +35,9 @@ public class ChoosingMenu {
         h[2] = 120;
     }
 
+    public void render(){
+        Main.processing.background(background);
+    }
 //    public void render(){
 ////        Main.processing.background(0);
 //        Main.processing.textAlign(PConstants.CENTER, PConstants.TOP);
