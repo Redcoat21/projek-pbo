@@ -285,7 +285,7 @@ public class EndlessMode {
         }
     }
 
-    private boolean isEnemyDie(){
+    protected boolean isEnemyDie(){
         for(int i=0; i<enemy.length; i++){
             if(!enemy[i].isDead()){
                 return false;
