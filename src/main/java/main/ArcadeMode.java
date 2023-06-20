@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class ArcadeMode {
     Player player;
+    Zombies zombies;
+    Skeletons skeletons;
     int floor;
     long startTime;
     long elapsedTime;
@@ -532,5 +534,17 @@ public class ArcadeMode {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+    public void setZombies(Zombies zombies) {
+        this.zombies = zombies;
+    }
+    public Zombies getZombies() {
+        return zombies;
+    }
+    public void setSkeletons(Skeletons skeletons) {
+        this.skeletons = skeletons;
+    }
+    public Skeletons getSkeletons() {
+        return skeletons;
     }
 }
