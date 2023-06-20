@@ -231,8 +231,8 @@ public class Main extends PApplet{
             }
         }
         else if(mode == 3 && !am.isAlive()) {
-            mode = 2;
             am = new ArcadeMode();
+            mode = 2;
         }
         else if(mode == 3 && am.isChoosing()){
             int click = am.buttonPressed();
@@ -271,8 +271,8 @@ public class Main extends PApplet{
             }
         }
         else if(mode == 4 && !em.isAlive()) {
-            mode = 2;
             em = new EndlessMode();
+            mode = 2;
         }
     }
     public static void main(String[] args) {
