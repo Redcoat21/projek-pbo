@@ -9,7 +9,7 @@ public class SkeletonsTest {
     private Entities skeleton;
     private Main a = new Main();
     @BeforeEach
-    public void createPlayer() {
+    public void createSkeletons() {
         Main app = new Main();
         app.initMain();
         ArcadeMode am = app.getAm();

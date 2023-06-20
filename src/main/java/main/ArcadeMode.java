@@ -9,6 +9,8 @@ public class ArcadeMode {
     Player player;
     Zombies zombies;
     Skeletons skeletons;
+    EliteSkeletons eliteSkeletons;
+    EliteZombies eliteZombies;
     int floor;
     long startTime;
     long elapsedTime;
@@ -546,5 +548,17 @@ public class ArcadeMode {
     }
     public Skeletons getSkeletons() {
         return skeletons;
+    }
+    public void setEliteZombies(EliteZombies eliteZombies) {
+        this.eliteZombies = eliteZombies;
+    }
+    public EliteZombies getEliteZombies() {
+        return eliteZombies;
+    }
+    public void setEliteSkeletons(EliteSkeletons eliteSkeletons) {
+        this.eliteSkeletons = eliteSkeletons;
+    }
+    public EliteSkeletons getEliteSkeletons() {
+        return eliteSkeletons;
     }
 }

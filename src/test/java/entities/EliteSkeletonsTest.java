@@ -5,25 +5,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ZombiesTest {
-    private Entities zombies;
+public class EliteSkeletonsTest {
+    private Entities eliteSkeletons;
     private Main a = new Main();
     @BeforeEach
-    public void createZombies() {
+    public void createEliteSkeletons() {
         Main app = new Main();
         app.initMain();
         ArcadeMode am = app.getAm();
-        am.setZombies(new Zombies(20,20));
-        zombies = am.getZombies();
+        am.setEliteSkeletons(new EliteSkeletons(20,20));
+        eliteSkeletons = am.getEliteSkeletons();
     }
     @AfterEach
     public void cleanUp() {
-        zombies = null;
+        eliteSkeletons = null;
     }
     @Test
     void PositionShouldBeTwentyAndTwentyTest() {
-        assertEquals(20.0f, zombies.getX());
-        assertEquals(20.0f, zombies.getY());
+        assertEquals(20.0f, eliteSkeletons.getX());
+        assertEquals(20.0f, eliteSkeletons.getY());
     }
 
 }
