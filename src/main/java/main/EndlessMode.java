@@ -35,8 +35,11 @@ public class EndlessMode {
     private Random rand;
 
     public EndlessMode(int hp){
-        enemy = new Movable[1];
+        enemy = new Movable[4];
         enemy[0] = new Zombies();
+        enemy[1] = new Skeletons();
+        enemy[2] = new EliteZombies();
+        enemy[3] = new EliteSkeletons();
     }
     public EndlessMode(){
         floor = 4;

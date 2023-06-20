@@ -1,17 +1,24 @@
 package main;
 import static org.junit.jupiter.api.Assertions.*;
-import entities.Zombies;
-import entities.Movable;
+
+import entities.*;
 import org.junit.Test;
 public class EndlessModeTest {
 
     @Test
     public void testIsEnemyDie_NoEnemiesAlive_ReturnsTrue(){
-        EndlessMode em = new EndlessMode(1);
+        EndlessMode yourClass = new EndlessMode(1);
         Movable[] enemy = new Movable[100];
         enemy[0] = new Zombies();
-        assertTrue(enemy[0].isDead());
-        boolean hsl = em.isEnemyDie();
-        assertTrue(hsl);
+        enemy[1] = new Skeletons();
+        enemy[2] = new EliteZombies();
+        enemy[3] = new EliteSkeletons();
+        for (int i = 0; i < 4; i++) {
+            assertTrue(enemy[i].isDead());
+        }
+
+
+        boolean result = yourClass.isEnemyDie();
+        assertTrue(result);
     }
 }
