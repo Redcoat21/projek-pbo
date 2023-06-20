@@ -26,6 +26,10 @@ public class Zombies extends Movable implements Pathfinding{
     private boolean attack;
     private boolean eligible;
 
+
+    public Zombies(){
+        super(0, 0, 20, 20, 0, 3, 3);
+    }
     /**
      *
      * @param x x-axis that the entity will spawn in

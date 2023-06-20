@@ -34,6 +34,10 @@ public class EndlessMode {
     boolean reward;
     private Random rand;
 
+    public EndlessMode(int hp){
+        enemy = new Movable[1];
+        enemy[0] = new Zombies();
+    }
     public EndlessMode(){
         floor = 4;
         startTime = System.currentTimeMillis();
@@ -69,7 +73,6 @@ public class EndlessMode {
         r[1] = 50;
         r[2] = 50;
         rand = new Random();
-        enemy = new Movable[100];
         for(int i=0; i<40; i++){
             enemy[i] = new Zombies(-100, -100);
         }
