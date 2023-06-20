@@ -10,6 +10,7 @@ public class ArcadeMode {
     EliteSkeletons eliteSkeletons;
     EliteZombies eliteZombies;
     ChargedCreeper chargedCreeper;
+    BigBoss bigBoss;
     int floor;
     long startTime;
     long elapsedTime;
@@ -565,5 +566,11 @@ public class ArcadeMode {
     }
     public void setChargedCreeper(ChargedCreeper chargedCreeper){
         this.chargedCreeper = chargedCreeper;
+    }
+    public BigBoss getBigBoss(){
+        return bigBoss;
+    }
+    public void setBigBoss(BigBoss bigBoss){
+        this.bigBoss = bigBoss;
     }
 }
