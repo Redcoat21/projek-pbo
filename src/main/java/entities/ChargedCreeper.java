@@ -31,6 +31,12 @@ public class ChargedCreeper extends Movable implements Pathfinding{
 //        indexDelay=0;
 //        gotPath=false;
 //    }
+    public ChargedCreeper(){
+        super(0, 0, 20, 20, 0, 3, 3);
+    }
+    public ChargedCreeper(int x,int y){
+        super(x, y, 20, 20, 0, 3, 3);
+    }
     /**
      * @param x x-axis that the entity will spawn in
      * @param y y-axis that the entity will spawn in

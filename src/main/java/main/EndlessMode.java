@@ -34,6 +34,14 @@ public class EndlessMode {
     boolean reward;
     private Random rand;
 
+    public EndlessMode(int hp){
+        enemy = new Movable[5];
+        enemy[0] = new Zombies();
+        enemy[1] = new Skeletons();
+        enemy[2] = new EliteZombies();
+        enemy[3] = new EliteSkeletons();
+        enemy[4] = new ChargedCreeper();
+    }
     public EndlessMode(){
         floor = 4;
         startTime = System.currentTimeMillis();
@@ -69,7 +77,6 @@ public class EndlessMode {
         r[1] = 50;
         r[2] = 50;
         rand = new Random();
-        enemy = new Movable[100];
         for(int i=0; i<40; i++){
             enemy[i] = new Zombies(-100, -100);
         }
@@ -285,7 +292,7 @@ public class EndlessMode {
         }
     }
 
-    private boolean isEnemyDie(){
+    protected boolean isEnemyDie(){
         for(int i=0; i<enemy.length; i++){
             if(!enemy[i].isDead()){
                 return false;

@@ -28,6 +28,12 @@ public class BigBoss extends Movable{
     private int chargingY;
     private int chargingArc;
 
+    public BigBoss(){
+        super(0, 0, 20, 20, 0, 3, 3);
+    }
+    public BigBoss(int x,int y){
+        super(x, y, 20, 20, 0, 3, 3);
+    }
     /**
      *
      * @param x x-axis that the entity will spawn in

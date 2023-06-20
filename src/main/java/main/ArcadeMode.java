@@ -3,10 +3,14 @@ package main;
 import entities.*;
 import processing.core.PConstants;
 
-import java.util.ArrayList;
-
 public class ArcadeMode {
     Player player;
+    Zombies zombies;
+    Skeletons skeletons;
+    EliteSkeletons eliteSkeletons;
+    EliteZombies eliteZombies;
+    ChargedCreeper chargedCreeper;
+    BigBoss bigBoss;
     int floor;
     long startTime;
     long elapsedTime;
@@ -532,5 +536,41 @@ public class ArcadeMode {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+    public void setZombies(Zombies zombies) {
+        this.zombies = zombies;
+    }
+    public Zombies getZombies() {
+        return zombies;
+    }
+    public void setSkeletons(Skeletons skeletons) {
+        this.skeletons = skeletons;
+    }
+    public Skeletons getSkeletons() {
+        return skeletons;
+    }
+    public void setEliteZombies(EliteZombies eliteZombies) {
+        this.eliteZombies = eliteZombies;
+    }
+    public EliteZombies getEliteZombies() {
+        return eliteZombies;
+    }
+    public void setEliteSkeletons(EliteSkeletons eliteSkeletons) {
+        this.eliteSkeletons = eliteSkeletons;
+    }
+    public EliteSkeletons getEliteSkeletons() {
+        return eliteSkeletons;
+    }
+    public ChargedCreeper getChargedCreeper(){
+        return chargedCreeper;
+    }
+    public void setChargedCreeper(ChargedCreeper chargedCreeper){
+        this.chargedCreeper = chargedCreeper;
+    }
+    public BigBoss getBigBoss(){
+        return bigBoss;
+    }
+    public void setBigBoss(BigBoss bigBoss){
+        this.bigBoss = bigBoss;
     }
 }
