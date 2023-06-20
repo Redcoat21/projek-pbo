@@ -38,6 +38,28 @@ public class Player extends Movable {
 //        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
 ////        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
 //    }
+    /**
+     * Default frame of an Entity called Player
+     */
+    public Player(){
+        super(0, 0, 20, 20, 5, 3, 3);
+    }
+
+    /**
+     * Player with targeted placement
+     * @param x indicates the x-axis of the Player
+     * @param y indicates the y-axis of the Player
+     */
+    public Player(float x,float y){
+        super(x, y, 20, 20, 5, 3, 3);
+    }
+
+    /**
+     * Player with designated Map
+     * @param x indicates the x-axis of the Player
+     * @param y indicates the y-axis of the Player
+     * @param map the Map that the Player are currently in
+     */
     public Player(float x, float y, Map map){
         super(x, y, 20, 20, 5, 3, 3, map);
         if(map != null) {
@@ -449,6 +471,7 @@ public class Player extends Movable {
     @Override
     public void move() {
         super.move();
+        if(bullets!=null)
         for(int i=0; i < bullets.length; i++){
             if(bullets[i].isFired()) {
 //                System.out.println("bullet " + i + " gerak");

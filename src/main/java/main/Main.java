@@ -1,6 +1,7 @@
 package main;
 
 import entities.Direction;
+import entities.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -109,6 +110,9 @@ public class Main extends PApplet{
             isplaying[1]=false;
             isplaying[2]=true;
         }
+    }
+    public void initMain(){
+        am = new ArcadeMode(new Player());
     }
 
     public void playMusic(int mode){
@@ -277,6 +281,10 @@ public class Main extends PApplet{
     }
     public static void main(String[] args) {
         PApplet.main("main.Main");
+    }
+
+    public ArcadeMode getAm() {
+        return am;
     }
 }
 

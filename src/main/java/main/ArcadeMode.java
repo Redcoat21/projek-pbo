@@ -33,7 +33,9 @@ public class ArcadeMode {
     private int[] r;
     private Movable[] enemy;
 
-
+    public ArcadeMode(Player o){
+        player = o;
+    }
     public ArcadeMode(){
         floor = 4;
         player = new Player(0,15.5f*20+80, new Map(floor));
@@ -526,5 +528,9 @@ public class ArcadeMode {
     public void choosed(){
         choosing = false;
         reward = true;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
