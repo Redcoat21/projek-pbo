@@ -1,7 +1,6 @@
 package entities;
 
-import main.Main;
-import main.Map;
+import main.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,11 @@ class PlayerTest {
     private Main a = new Main();
     @BeforeEach
     public void createPlayer() {
-        player = new Player(20.0f, 20.0f, null);
+        Main app = new Main();
+        app.initMain();
+        ArcadeMode am = app.getAm();
+        am.setPlayer(new Player(20,20));
+        player = am.getPlayer();
     }
 
     @AfterEach
@@ -38,4 +41,67 @@ class PlayerTest {
         assertThrows(IllegalArgumentException.class, () -> temp.createWeapon("spear", RangedType.WOOD_BOW, 1));
     }
 
+    void PositionShouldBeTwentyAndTwentyTest() {
+        assertEquals(20.0f, player.getX());
+        assertEquals(20.0f, player.getY());
+    }
+
+    @Test
+    void PlayerOutOfBoundTest(){
+        Player you = (Player)player;
+        assertEquals(20.0f,you.getY());
+        you.moveTo(Direction.UP);
+        you.moveFreely();
+        assertEquals(80.0f,you.getY());
+    }
+    @Test
+    void PlayerDirectionTest(){
+        Player you = (Player)player;
+        /**
+         * initial point is 200,200
+         */
+        you.setTo(200.0f,200.0f);
+        Direction[] dirs = {Direction.UP,Direction.DOWN,Direction.LEFT,Direction.RIGHT};
+        for(int i=0;i<=80;i++){
+            Direction current=Direction.NONE;
+            if(i<80)current = dirs[i/20];
+            else current = dirs[i/20-1];
+            if(i/20==0){
+                you.moveTo(current);
+            }else if(i/20==1){
+                if(i%20 ==0){
+                    /**
+                     * After player moves UP for 20 ticks (20*3)<- 3 is the player speed - 200 (starting position) = 140
+                     */
+                    you.stop();
+                    assertEquals(140.0f,you.getY());
+                }
+                you.moveTo(current);
+            }else if(i/20 == 2){
+                if(i%20 ==0){
+                    /**
+                     * After player moves DOWN for 20 ticks (20*3)<- 3 is the player speed + 140 (starting position) = 200
+                     */
+                    you.stop();
+                    assertEquals(200.0f,you.getY());
+                }
+                you.moveTo(current);
+            }else if(i/20 == 3) {
+                /**
+                 * After player moves LEFT for 20 ticks (20*3)<- 3 is the player speed - 200 (starting position) = 140
+                 */
+                if(i%20 ==0){
+                    you.stop();
+                    assertEquals(140.0f,you.getX());
+                }
+                else you.moveTo(current);
+            }
+            you.moveFreely();
+        }
+        /**
+         * End point, Player should be back to where it's original Place
+         */
+        you.stop();
+        assertEquals(200.0f, you.getX());
+    }
 }

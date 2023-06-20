@@ -53,7 +53,18 @@ public class Movable extends Entities{
      * @param health The health that the entity have.
      * @param speed The speed that the entity is moving on.
      */
-
+    public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed){
+        super(x, y, width, height);
+        this.baseHealth = health;
+        this.health = health;
+        direction = Direction.NONE;
+        this.speed = speed;
+        savingDirection = new ArrayList<>();
+        atkDirection = Direction.RIGHT;
+        this.atkSpeed = atkSpeed;
+        alive = true;
+        rand = new Random();
+    }
     //constuctor only for player
     public Movable(float x, float y, int width, int height, int health, int speed, int atkSpeed, Map map) {
         super(x, y, width, height);
@@ -324,6 +335,35 @@ public class Movable extends Entities{
         entitiesCollisionWall();
         entitiesCollisionHole();
         facing();
+    }
+    public void moveFreely(){
+        switch(direction) {
+            case UP -> getPosition().add(0.0f, -(this.speed));
+            case RIGHT -> getPosition().add(this.speed, 0.0f);
+            case DOWN -> getPosition().add(0.0f, this.speed);
+            case LEFT -> getPosition().add(-(this.speed), 0.0f);
+        }
+
+        boolean outOfBoundUp = getPosition().y < 80.0f;
+        boolean outOfBoundRight = getPosition().x > 1280.0f - getSize().x;
+        boolean outOfBoundDown = getPosition().y > 720.0f - getSize().y;
+        boolean outOfBoundLeft = getPosition().x < 0.0f;
+
+        if(outOfBoundUp) {
+            getPosition().set(getPosition().x, 80.0f);
+        }
+
+        if(outOfBoundRight) {
+            getPosition().set(1280.0f - getSize().x, getPosition().y);
+        }
+
+        if(outOfBoundDown) {
+            getPosition().set(getPosition().x, 720.0f - getSize().y);
+        }
+
+        if(outOfBoundLeft) {
+            getPosition().set(0.0f, getPosition().y);
+        }
     }
 
     /**
