@@ -13,8 +13,8 @@ public class SkeletonsTest {
         Main app = new Main();
         app.initMain();
         ArcadeMode am = app.getAm();
-        am.setZombies(new Zombies(20,20));
-        skeleton = am.getZombies();
+        am.setSkeletons(new Skeletons(20,20));
+        skeleton = am.getSkeletons();
     }
     @AfterEach
     public void cleanUp() {

@@ -9,7 +9,7 @@ public class ZombiesTest {
     private Entities zombies;
     private Main a = new Main();
     @BeforeEach
-    public void createZombies() {
+    public void createPlayer() {
         Main app = new Main();
         app.initMain();
         ArcadeMode am = app.getAm();

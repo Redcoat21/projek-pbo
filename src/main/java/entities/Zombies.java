@@ -30,6 +30,9 @@ public class Zombies extends Movable implements Pathfinding{
     public Zombies(){
         super(0, 0, 20, 20, 0, 3, 3);
     }
+    public Zombies(int x,int y){
+        super(x, y, 20, 20, 0, 3, 3);
+    }
 
     /**
      *
