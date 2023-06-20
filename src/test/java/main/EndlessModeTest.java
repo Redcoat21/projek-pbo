@@ -13,11 +13,10 @@ public class EndlessModeTest {
         enemy[1] = new Skeletons();
         enemy[2] = new EliteZombies();
         enemy[3] = new EliteSkeletons();
+        enemy[4] = new ChargedCreeper();
         for (int i = 0; i < 4; i++) {
             assertTrue(enemy[i].isDead());
         }
-
-
         boolean result = yourClass.isEnemyDie();
         assertTrue(result);
     }

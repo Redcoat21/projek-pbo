@@ -35,11 +35,12 @@ public class EndlessMode {
     private Random rand;
 
     public EndlessMode(int hp){
-        enemy = new Movable[4];
+        enemy = new Movable[5];
         enemy[0] = new Zombies();
         enemy[1] = new Skeletons();
         enemy[2] = new EliteZombies();
         enemy[3] = new EliteSkeletons();
+        enemy[4] = new ChargedCreeper();
     }
     public EndlessMode(){
         floor = 4;

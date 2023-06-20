@@ -3,14 +3,13 @@ package main;
 import entities.*;
 import processing.core.PConstants;
 
-import java.util.ArrayList;
-
 public class ArcadeMode {
     Player player;
     Zombies zombies;
     Skeletons skeletons;
     EliteSkeletons eliteSkeletons;
     EliteZombies eliteZombies;
+    ChargedCreeper chargedCreeper;
     int floor;
     long startTime;
     long elapsedTime;
@@ -560,5 +559,11 @@ public class ArcadeMode {
     }
     public EliteSkeletons getEliteSkeletons() {
         return eliteSkeletons;
+    }
+    public ChargedCreeper getChargedCreeper(){
+        return chargedCreeper;
+    }
+    public void setChargedCreeper(ChargedCreeper chargedCreeper){
+        this.chargedCreeper = chargedCreeper;
     }
 }
