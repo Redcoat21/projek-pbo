@@ -47,8 +47,4 @@ tasks.withType<Javadoc> {
 
 tasks.test {
     useJUnitPlatform()
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> unit-testing
