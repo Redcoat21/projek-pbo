@@ -41,4 +41,11 @@ public class SkeletonsTest {
         skelly.resetPos();
         assertEquals(20.0f,skelly.getY());
     }
+    @Test
+    void checkAgroAttackOfSkeletons(){
+        Skeletons skelly = (Skeletons) skeleton;
+        skeleton.setTo(50.0f,50.0f);
+        assertTrue(skelly.checkAgro(250,250));
+        assertFalse(skelly.checkAgro(400,400));
+    }
 }

@@ -162,6 +162,13 @@ public class EliteSkeletons extends Movable implements Pathfinding {
             this.agro = false;
         }
     }
+    public boolean checkAgro(int x,int y){
+        if(Math.abs(getX()-x)<=300&&Math.abs(getY()-y)<=300){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public void idle() {
         if (agroIdx > 7) {

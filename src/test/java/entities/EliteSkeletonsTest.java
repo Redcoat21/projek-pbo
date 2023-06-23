@@ -41,4 +41,11 @@ public class EliteSkeletonsTest {
         elskelly.resetPos();
         assertEquals(20.0f,elskelly.getY());
     }
+    @Test
+    void checkAgroAttackOfSkeletons(){
+        EliteSkeletons elskelly = (EliteSkeletons) eliteSkeletons;
+        elskelly.setTo(50.0f,50.0f);
+        assertTrue(elskelly.checkAgro(250,250));
+        assertFalse(elskelly.checkAgro(400,400));
+    }
 }
