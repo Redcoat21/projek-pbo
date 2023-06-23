@@ -25,5 +25,13 @@ public class EliteSkeletonsTest {
         assertEquals(20.0f, eliteSkeletons.getX());
         assertEquals(20.0f, eliteSkeletons.getY());
     }
+    @Test
+    void PlayerOutOfBoundTest(){
+        EliteSkeletons you = (EliteSkeletons) eliteSkeletons;
+        assertEquals(20.0f,you.getY());
+        you.moveTo(Direction.UP);
+        you.moveFreely();
+        assertEquals(80.0f,you.getY());
+    }
 
 }

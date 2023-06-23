@@ -25,5 +25,12 @@ public class EliteZombiesTest {
         assertEquals(20.0f, eliteZombies.getX());
         assertEquals(20.0f, eliteZombies.getY());
     }
-
+    @Test
+    void PlayerOutOfBoundTest(){
+        EliteZombies you = (EliteZombies) eliteZombies;
+        assertEquals(20.0f,you.getY());
+        you.moveTo(Direction.UP);
+        you.moveFreely();
+        assertEquals(80.0f,you.getY());
+    }
 }

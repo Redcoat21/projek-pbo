@@ -5,23 +5,31 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 class BigBossTest {
-    private Entities BigBoss;
+    private Entities bigBoss;
     private Main a = new Main();
     @BeforeEach
-    public void createSkeletons() {
+    public void createBigBoss() {
         Main app = new Main();
         app.initMain();
         ArcadeMode am = app.getAm();
         am.setBigBoss(new BigBoss(20,20));
-        BigBoss = am.getBigBoss();
+        bigBoss = am.getBigBoss();
     }
     @AfterEach
     public void cleanUp() {
-        BigBoss = null;
+        bigBoss = null;
     }
     @Test
     void PositionShouldBeTwentyAndTwentyTest() {
-        assertEquals(20.0f, BigBoss.getX());
-        assertEquals(20.0f, BigBoss.getY());
+        assertEquals(20.0f, bigBoss.getX());
+        assertEquals(20.0f, bigBoss.getY());
+    }
+    @Test
+    void PlayerOutOfBoundTest(){
+        BigBoss you = (BigBoss) bigBoss;
+        assertEquals(20.0f,you.getY());
+        you.moveTo(Direction.UP);
+        you.moveFreely();
+        assertEquals(80.0f,you.getY());
     }
 }

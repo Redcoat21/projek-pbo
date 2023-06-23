@@ -9,7 +9,7 @@ public class ZombiesTest {
     private Entities zombies;
     private Main a = new Main();
     @BeforeEach
-    public void createPlayer() {
+    public void createZombies() {
         Main app = new Main();
         app.initMain();
         ArcadeMode am = app.getAm();
@@ -24,6 +24,22 @@ public class ZombiesTest {
     void PositionShouldBeTwentyAndTwentyTest() {
         assertEquals(20.0f, zombies.getX());
         assertEquals(20.0f, zombies.getY());
+    }
+    @Test
+    void PlayerOutOfBoundTest(){
+        Zombies you = (Zombies) zombies;
+        assertEquals(20.0f,you.getY());
+        you.moveTo(Direction.UP);
+        you.moveFreely();
+        assertEquals(80.0f,you.getY());
+    }
+    @Test
+    void resetPositionTest(){
+        Zombies you = (Zombies) zombies;
+        zombies.setTo(200.0f,200.0f);
+        assertEquals(200.0f,you.getY());
+        you.resetPos();
+        assertEquals(20.0f,you.getY());
     }
 
 }
