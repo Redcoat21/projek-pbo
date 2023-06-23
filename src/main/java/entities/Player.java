@@ -43,6 +43,9 @@ public class Player extends Movable {
      */
     public Player(){
         super(0, 0, 20, 20, 5, 3, 3);
+        swordFactory = new SwordFactory();
+        spearFactory = new SpearFactory();
+        rangedFactory = new RangedFactory();
     }
 
     /**
@@ -52,6 +55,13 @@ public class Player extends Movable {
      */
     public Player(float x,float y){
         super(x, y, 20, 20, 5, 3, 3);
+        swordFactory = new SwordFactory();
+        spearFactory = new SpearFactory();
+        rangedFactory = new RangedFactory();
+        baseHp = getHealth();
+        baseX = x;
+        baseY = y;
+        nextWeapon = null;
     }
 
     /**
@@ -598,5 +608,9 @@ public class Player extends Movable {
                 this.addSprites("walk", d, temp2, this.getSize());
             }
         }
+    }
+
+    public void setNextWeapon(Weapon nextWeapon) {
+        this.nextWeapon = nextWeapon;
     }
 }

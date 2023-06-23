@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
     private Entities player;
-    private Main a = new Main();
     @BeforeEach
     public void createPlayer() {
         Main app = new Main();
@@ -40,7 +39,7 @@ class PlayerTest {
         assertThrows(IllegalArgumentException.class, () -> temp.createWeapon("abcdef", SwordType.IRON_SWORD, 1));
         assertThrows(IllegalArgumentException.class, () -> temp.createWeapon("spear", RangedType.WOOD_BOW, 1));
     }
-
+    @Test
     void PositionShouldBeTwentyAndTwentyTest() {
         assertEquals(20.0f, player.getX());
         assertEquals(20.0f, player.getY());
@@ -104,4 +103,35 @@ class PlayerTest {
         you.stop();
         assertEquals(200.0f, you.getX());
     }
+    @Test
+    void HPTest(){
+        Player you = (Player) player;
+        assertEquals(5,you.getHealth());
+        you.subHP(1);
+        assertEquals(4,you.getHealth());
+        you.subHP(4);
+        assertEquals(0,you.getHealth());
+        you.heal();
+        assertEquals(1,you.getHealth());
+
+    }
+    @Test
+    void resetPositionTest(){
+        Player you = (Player) player;
+        player.setTo(200.0f,200.0f);
+        assertEquals(200.0f,you.getY());
+        you.resetPos();
+        assertEquals(20.0f,you.getY());
+    }
+    @Test
+    void switchWeaponTest(){
+        Player you = (Player) player;
+        you.setWeapon(you.createWeapon("sword", SwordType.IRON_SWORD, 1));
+        assertEquals("Iron Sword",you.getWeapon().getWeaponName());
+        you.setNextWeapon(you.createWeapon("sword",SwordType.GOLDEN_SWORD,1));
+        assertEquals("Golden Sword",you.getNextWeaponName());
+        you.switchWeapon();
+        assertEquals("Golden Sword",you.getWeapon().getWeaponName());
+    }
+
 }
