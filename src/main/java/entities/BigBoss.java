@@ -33,7 +33,7 @@ public class BigBoss extends Movable{
         super(0, 0, 20, 20, 0, 3, 3);
     }
     public BigBoss(int x,int y){
-        super(x, y, 20, 20, 0, 3, 3);
+        super(x, y, 20, 20, 0, 2, 3);
         baseX = x;
         baseY = y;
     }

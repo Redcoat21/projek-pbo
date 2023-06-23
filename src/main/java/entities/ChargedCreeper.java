@@ -37,7 +37,7 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         super(0, 0, 20, 20, 0, 3, 3);
     }
     public ChargedCreeper(int x,int y){
-        super(x, y, 20, 20, 0, 3, 3);
+        super(x, y, 20, 20, 0, 4, 3);
         baseX = x;
         baseY = y;
     }

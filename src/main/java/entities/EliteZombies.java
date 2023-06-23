@@ -38,7 +38,7 @@ public class EliteZombies extends Movable implements Pathfinding{
         super(0, 0, 20, 20, 0, 3, 3);
     }
     public EliteZombies(int x,int y){
-        super(x, y, 20, 20, 0, 3, 3);
+        super(x, y,90,90,0,2,4, 4);
         baseX = x;
         baseY = y;
     }

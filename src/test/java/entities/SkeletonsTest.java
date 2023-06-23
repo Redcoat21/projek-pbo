@@ -60,4 +60,54 @@ public class SkeletonsTest {
         skelly.fallen();
         assertEquals(0,skelly.getHealth());
     }
+    @Test
+    void SkeletonsDirectionTest(){
+        Skeletons skelly = (Skeletons) skeleton;
+        /**
+         * initial Skeletons spawn point is 200,200
+         */
+        skelly.setTo(200.0f,200.0f);
+        Direction[] dirs = {Direction.UP,Direction.DOWN,Direction.LEFT,Direction.RIGHT};
+        for(int i=0;i<=80;i++){
+            Direction current=Direction.NONE;
+            if(i<80)current = dirs[i/20];
+            else current = dirs[i/20-1];
+            if(i/20==0){
+                skelly.moveTo(current);
+            }else if(i/20==1){
+                if(i%20 ==0){
+                    /**
+                     * After Skeletons moves UP for 20 ticks (20*3)<- 3 is the Skeletons speed - 200 (starting position) = 140
+                     */
+                    skelly.stop();
+                    assertEquals(140.0f,skelly.getY());
+                }
+                skelly.moveTo(current);
+            }else if(i/20 == 2){
+                if(i%20 ==0){
+                    /**
+                     * After Skeletons moves DOWN for 20 ticks (20*3)<- 3 is the Skeletons speed + 140 (starting position) = 200
+                     */
+                    skelly.stop();
+                    assertEquals(200.0f,skelly.getY());
+                }
+                skelly.moveTo(current);
+            }else if(i/20 == 3) {
+                /**
+                 * After Skeletons moves LEFT for 20 ticks (20*3)<- 3 is the Skeletons speed - 200 (starting position) = 140
+                 */
+                if(i%20 ==0){
+                    skelly.stop();
+                    assertEquals(140.0f,skelly.getX());
+                }
+                else skelly.moveTo(current);
+            }
+            skelly.moveFreely();
+        }
+        /**
+         * End point, Skeletons should be back to where it's original Place
+         */
+        skelly.stop();
+        assertEquals(200.0f, skelly.getX());
+    }
 }

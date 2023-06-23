@@ -60,4 +60,54 @@ public class ChargedCreeperTest {
         cc.fallen();
         assertEquals(0,cc.getHealth());
     }
+    @Test
+    void ChargedCreeperDirectionTest(){
+        ChargedCreeper cc = (ChargedCreeper) chargedCreeper;
+        /**
+         * initial Charged Creeper spawn point is 200,200
+         */
+        cc.setTo(200.0f,200.0f);
+        Direction[] dirs = {Direction.UP,Direction.DOWN,Direction.LEFT,Direction.RIGHT};
+        for(int i=0;i<=80;i++){
+            Direction current=Direction.NONE;
+            if(i<80)current = dirs[i/20];
+            else current = dirs[i/20-1];
+            if(i/20==0){
+                cc.moveTo(current);
+            }else if(i/20==1){
+                if(i%20 ==0){
+                    /**
+                     * After Charged Creeper moves UP for 20 ticks (20*4)<- 4 is the Charged Creeper speed - 200 (starting position) = 120
+                     */
+                    cc.stop();
+                    assertEquals(120.0f,cc.getY());
+                }
+                cc.moveTo(current);
+            }else if(i/20 == 2){
+                if(i%20 ==0){
+                    /**
+                     * After Charged Creeper moves DOWN for 20 ticks (20*4)<- 4 is the Charged Creeper speed + 120 (starting position) = 200
+                     */
+                    cc.stop();
+                    assertEquals(200.0f,cc.getY());
+                }
+                cc.moveTo(current);
+            }else if(i/20 == 3) {
+                /**
+                 * After Charged Creeper moves LEFT for 20 ticks (20*4)<- 4 is the Charged Creeper speed - 200 (starting position) = 120
+                 */
+                if(i%20 ==0){
+                    cc.stop();
+                    assertEquals(120.0f,cc.getX());
+                }
+                else cc.moveTo(current);
+            }
+            cc.moveFreely();
+        }
+        /**
+         * End point, Charged Creeper should be back to where it's original Place
+         */
+        cc.stop();
+        assertEquals(200.0f, cc.getX());
+    }
 }
