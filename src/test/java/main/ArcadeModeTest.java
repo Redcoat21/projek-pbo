@@ -71,6 +71,7 @@ public class ArcadeModeTest {
         assertEquals(0,am.getWave());
         am.newWave(1);
         assertEquals(1,am.getWave());
+
     }
     @Test
     void testFloor(){
