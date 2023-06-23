@@ -22,6 +22,8 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     private boolean gotPath;
     private boolean suicide;
     private static boolean breakWall;
+    private int baseX;
+    private int baseY;
 
 //    public ChargedCreeper(float x, float y) {
 //        super(x, y,30,30,4,2, 5);
@@ -35,7 +37,12 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         super(0, 0, 20, 20, 0, 3, 3);
     }
     public ChargedCreeper(int x,int y){
-        super(x, y, 20, 20, 0, 3, 3);
+        super(x, y, 20, 20, 0, 4, 3);
+        baseX = x;
+        baseY = y;
+    }
+    public void resetPos(){
+        setTo(baseX, baseY);
     }
     /**
      * @param x x-axis that the entity will spawn in
@@ -146,6 +153,13 @@ public class ChargedCreeper extends Movable implements Pathfinding{
         }else{
             target=null;
             this.agro=false;
+        }
+    }
+    public boolean checkAgro(int x,int y){
+        if(Math.abs(getX()-x)<=150&&Math.abs(getY()-y)<=150){
+            return true;
+        }else{
+            return false;
         }
     }
     public void idle(){

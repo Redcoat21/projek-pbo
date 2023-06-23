@@ -25,13 +25,19 @@ public class Zombies extends Movable implements Pathfinding{
     private boolean gotPath;
     private boolean attack;
     private boolean eligible;
-
+    private int baseX;
+    private int baseY;
 
     public Zombies(){
         super(0, 0, 20, 20, 0, 3, 3);
     }
     public Zombies(int x,int y){
         super(x, y, 20, 20, 0, 3, 3);
+        baseX = x;
+        baseY = y;
+    }
+    public void resetPos(){
+        setTo(baseX, baseY);
     }
 
     /**
@@ -166,6 +172,13 @@ public class Zombies extends Movable implements Pathfinding{
         }else{
             target=null;
             this.agro=false;
+        }
+    }
+    public boolean checkAgro(int x,int y){
+        if(Math.abs(getX()-x)<=200&&Math.abs(getY()-y)<=200){
+            return true;
+        }else{
+            return false;
         }
     }
     public void idle(){

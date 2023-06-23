@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ChoosingMenu</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">main</a>
+</div>
+
+<h1>Coverage Summary for Class: ChoosingMenu (main)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChoosingMenu</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package main;
+&nbsp;
+&nbsp;import processing.core.PConstants;
+&nbsp;import processing.core.PFont;
+&nbsp;import processing.core.PImage;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;public class ChoosingMenu {
+&nbsp;    private int mode;
+&nbsp;    private PImage background;
+&nbsp;    private int[] x;
+&nbsp;    private int[] y;
+&nbsp;    private int[] w;
+&nbsp;    private int[] h;
+&nbsp;
+<b class="nc">&nbsp;    public ChoosingMenu(){</b>
+<b class="nc">&nbsp;        mode = 2;</b>
+<b class="nc">&nbsp;        background = Main.processing.loadImage(&quot;../assets/Background/ChoosingMenu.png&quot;);</b>
+<b class="nc">&nbsp;        x = new int[3];</b>
+<b class="nc">&nbsp;        y = new int[3];</b>
+<b class="nc">&nbsp;        w = new int[3];</b>
+<b class="nc">&nbsp;        h = new int[3];</b>
+<b class="nc">&nbsp;        x[0] = Main.processing.width/2-160;</b>
+<b class="nc">&nbsp;        x[1] = Main.processing.width/2-160;</b>
+<b class="nc">&nbsp;        x[2] = Main.processing.width/2-160;</b>
+<b class="nc">&nbsp;        y[0] = Main.processing.height/2-150;</b>
+<b class="nc">&nbsp;        y[1] = Main.processing.height/2+30;</b>
+<b class="nc">&nbsp;        y[2] = Main.processing.height/2+205;</b>
+<b class="nc">&nbsp;        w[0] = 320;</b>
+<b class="nc">&nbsp;        w[1] = 320;</b>
+<b class="nc">&nbsp;        w[2] = 320;</b>
+<b class="nc">&nbsp;        h[0] = 120;</b>
+<b class="nc">&nbsp;        h[1] = 120;</b>
+<b class="nc">&nbsp;        h[2] = 120;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void render(){
+<b class="nc">&nbsp;        Main.processing.background(background);</b>
+&nbsp;    }
+&nbsp;//    public void render(){
+&nbsp;////        Main.processing.background(0);
+&nbsp;//        Main.processing.textAlign(PConstants.CENTER, PConstants.TOP);
+&nbsp;//
+&nbsp;//        //arcade mode btn section
+&nbsp;//        Main.processing.noStroke();
+&nbsp;//        Main.processing.fill(125);
+&nbsp;////        Main.processing.rect(Main.processing.width/2-200, Main.processing.height/2-60, 400, 100, 10);
+&nbsp;////        Main.processing.rect(x[0], y[0], w[0], h[0], 10);
+&nbsp;////        Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);
+&nbsp;////        Main.processing.textSize(40);
+&nbsp;////        Main.processing.fill(255);
+&nbsp;////        Main.processing.text(&quot;ARCADE MODE&quot;, Main.processing.width/2, Main.processing.height/2-15);
+&nbsp;////
+&nbsp;////        //endless mode btn section
+&nbsp;////        Main.processing.noStroke();
+&nbsp;////        Main.processing.fill(125);
+&nbsp;//////        Main.processing.rect(Main.processing.width/2-200, Main.processing.height/2+60, 400, 100, 10);
+&nbsp;////        Main.processing.rect(x[1], y[1], w[1], h[1], 10);
+&nbsp;////        Main.processing.textAlign(PConstants.CENTER, PConstants.TOP);
+&nbsp;////        Main.processing.textSize(40);
+&nbsp;////        Main.processing.fill(255);
+&nbsp;////        Main.processing.text(&quot;ENDLESS MODE&quot;, Main.processing.width/2, Main.processing.height/2+85);
+&nbsp;////
+&nbsp;////        //exit btn section
+&nbsp;////        Main.processing.noStroke();
+&nbsp;////        Main.processing.fill(125);
+&nbsp;//////        Main.processing.rect(Main.processing.width/2-200, Main.processing.height/2+180, 400, 100, 10);
+&nbsp;////        Main.processing.rect(x[2], y[2], w[2], h[2], 10);
+&nbsp;////        Main.processing.textAlign(PConstants.CENTER, PConstants.TOP);
+&nbsp;////        Main.processing.textSize(40);
+&nbsp;////        Main.processing.fill(255);
+&nbsp;////        Main.processing.text(&quot;EXIT&quot;, Main.processing.width/2, Main.processing.height/2+205);
+&nbsp;//    }
+&nbsp;
+&nbsp;    public int buttonPressed(){
+<b class="nc">&nbsp;        for(int i = 0; i&lt;x.length; i++){</b>
+<b class="nc">&nbsp;            if(Main.processing.mouseX &gt; x[i] &amp;&amp; Main.processing.mouseX &lt; x[i]+w[i] &amp;&amp;</b>
+&nbsp;                    Main.processing.mouseY &gt; y[i] &amp;&amp; Main.processing.mouseY &lt; y[i]+h[i]){
+<b class="nc">&nbsp;                return i;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-23 23:32</div>
+</div>
+</body>
+</html>

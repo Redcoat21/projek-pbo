@@ -21,6 +21,8 @@ public class EliteSkeletons extends Movable implements Pathfinding {
     private int pathIdx;
     private boolean gotPath;
     private Bullet bullet;
+    private int baseX;
+    private int baseY;
 
 //    public EliteSkeletons(float x, float y) {
 //        super(x, y,30,30,4,3, 3);
@@ -36,6 +38,11 @@ public class EliteSkeletons extends Movable implements Pathfinding {
     }
     public EliteSkeletons(int x,int y){
         super(x, y, 20, 20, 0, 3, 3);
+        baseX = x;
+        baseY = y;
+    }
+    public void resetPos(){
+        setTo(baseX, baseY);
     }
     /**
      * @param x the x-axis that the entity will spawn into
@@ -153,6 +160,13 @@ public class EliteSkeletons extends Movable implements Pathfinding {
         } else {
             target = null;
             this.agro = false;
+        }
+    }
+    public boolean checkAgro(int x,int y){
+        if(Math.abs(getX()-x)<=300&&Math.abs(getY()-y)<=300){
+            return true;
+        }else{
+            return false;
         }
     }
 

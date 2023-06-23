@@ -22,6 +22,8 @@ public class EliteZombies extends Movable implements Pathfinding{
     private boolean gotPath;
     private boolean attack;
     private boolean eligible;
+    private int baseX;
+    private int baseY;
 
 //    public EliteZombies(float x, float y) {
 //        super(x, y,30,30,4,3, 4);
@@ -36,7 +38,12 @@ public class EliteZombies extends Movable implements Pathfinding{
         super(0, 0, 20, 20, 0, 3, 3);
     }
     public EliteZombies(int x,int y){
-        super(x, y, 20, 20, 0, 3, 3);
+        super(x, y,90,90,0,2,4, 4);
+        baseX = x;
+        baseY = y;
+    }
+    public void resetPos(){
+        setTo(baseX, baseY);
     }
     /**
      * @param x the x-axis that the entity will be spawned
@@ -158,6 +165,13 @@ public class EliteZombies extends Movable implements Pathfinding{
         }else{
             target=null;
             this.agro=false;
+        }
+    }
+    public boolean checkAgro(int x,int y){
+        if(Math.abs(getX()-x)<=200&&Math.abs(getY()-y)<=200){
+            return true;
+        }else{
+            return false;
         }
     }
     public void idle(){
