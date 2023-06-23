@@ -41,4 +41,11 @@ public class ChargedCreeperTest {
         cc.resetPos();
         assertEquals(20.0f,cc.getY());
     }
+    @Test
+    void checkAgroAttackOfChargedCreeper(){
+        ChargedCreeper cc = (ChargedCreeper) chargedCreeper;
+        cc.setTo(50.0f,50.0f);
+        assertTrue(cc.checkAgro(100,100));
+        assertFalse(cc.checkAgro(400,400));
+    }
 }
