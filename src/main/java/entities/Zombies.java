@@ -174,6 +174,13 @@ public class Zombies extends Movable implements Pathfinding{
             this.agro=false;
         }
     }
+    public boolean checkAgro(int x,int y){
+        if(Math.abs(getX()-x)<=200&&Math.abs(getY()-y)<=200){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public void idle(){
         if(agroIdx>7){
             agroIdx=0;

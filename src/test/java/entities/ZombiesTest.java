@@ -41,5 +41,11 @@ public class ZombiesTest {
         zom.resetPos();
         assertEquals(20.0f,zom.getY());
     }
-
+    @Test
+    void checkAgroAttackOfZombies(){
+        Zombies zom = (Zombies) zombies;
+        zom.setTo(50.0f,50.0f);
+        assertTrue(zom.checkAgro(250,250));
+        assertFalse(zom.checkAgro(400,400));
+    }
 }

@@ -41,4 +41,11 @@ public class EliteZombiesTest {
         elzom.resetPos();
         assertEquals(20.0f,elzom.getY());
     }
+    @Test
+    void checkAgroAttackOfEliteZombies(){
+        EliteZombies elzom = (EliteZombies) eliteZombies;
+        elzom.setTo(50.0f,50.0f);
+        assertTrue(elzom.checkAgro(250,250));
+        assertFalse(elzom.checkAgro(400,400));
+    }
 }
