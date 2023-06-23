@@ -47,6 +47,7 @@ public class EndlessMode {
         player = o;
     }
     public EndlessMode(){
+        enemy = new Movable[100];
         floor = 4;
         startTime = System.currentTimeMillis();
         elapsedTime = System.currentTimeMillis() - startTime;
