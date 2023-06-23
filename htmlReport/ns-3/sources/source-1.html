@@ -1,0 +1,718 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ArcadeMode</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">main</a>
+</div>
+
+<h1>Coverage Summary for Class: ArcadeMode (main)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArcadeMode</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    52.4%
+  </span>
+  <span class="absValue">
+    (22/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    6.5%
+  </span>
+  <span class="absValue">
+    (23/352)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package main;
+&nbsp;
+&nbsp;import entities.*;
+&nbsp;import processing.core.PConstants;
+&nbsp;
+&nbsp;public class ArcadeMode {
+&nbsp;    Player player;
+&nbsp;    Zombies zombies;
+&nbsp;    Skeletons skeletons;
+&nbsp;    EliteSkeletons eliteSkeletons;
+&nbsp;    EliteZombies eliteZombies;
+&nbsp;    ChargedCreeper chargedCreeper;
+&nbsp;    BigBoss bigBoss;
+&nbsp;    int floor;
+&nbsp;    long startTime;
+&nbsp;    long elapsedTime;
+&nbsp;    int elapsedSeconds;
+&nbsp;    int secondsDisplay;
+&nbsp;    int elapsedMinutes;
+&nbsp;    int minutesDisplay;
+&nbsp;    long startTimeText;
+&nbsp;    long elapsedTimeText;
+&nbsp;    int elapsedSecondsText;
+&nbsp;    long startTimeAtk;
+&nbsp;    long elapsedTimeAtk;
+&nbsp;    float elapsedSecondsAtk;
+&nbsp;    int wave;
+&nbsp;    Map map;
+&nbsp;    boolean alive;
+&nbsp;    boolean battle;
+&nbsp;    boolean done;
+&nbsp;    boolean reward;
+&nbsp;    boolean choosing;
+&nbsp;    boolean win;
+&nbsp;    private int[] x;
+&nbsp;    private int[] y;
+&nbsp;    private int[] r;
+&nbsp;    private Movable[] enemy;
+&nbsp;
+<b class="fc">&nbsp;    public ArcadeMode(Player o){</b>
+<b class="fc">&nbsp;        player = o;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    public ArcadeMode(){</b>
+<b class="nc">&nbsp;        floor = 4;</b>
+<b class="nc">&nbsp;        player = new Player(0,15.5f*20+80, new Map(floor));</b>
+<b class="nc">&nbsp;        startTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        elapsedTime = System.currentTimeMillis() - startTime;</b>
+<b class="nc">&nbsp;        elapsedSeconds = (int) (elapsedTime / 1000);</b>
+<b class="nc">&nbsp;        secondsDisplay = elapsedSeconds % 60;</b>
+<b class="nc">&nbsp;        elapsedMinutes = elapsedSeconds / 60;</b>
+<b class="nc">&nbsp;        minutesDisplay = elapsedMinutes % 60;</b>
+<b class="nc">&nbsp;        startTimeText = 0;</b>
+<b class="nc">&nbsp;        elapsedTimeText = 0;</b>
+<b class="nc">&nbsp;        elapsedSecondsText = (int) (elapsedTimeText / 1000);</b>
+<b class="nc">&nbsp;        startTimeAtk = 0;</b>
+<b class="nc">&nbsp;        elapsedTimeAtk = 0;</b>
+<b class="nc">&nbsp;        elapsedSecondsAtk = (float) (elapsedTimeAtk / 1000);</b>
+<b class="nc">&nbsp;        alive = true;</b>
+<b class="nc">&nbsp;        floor =1;</b>
+<b class="nc">&nbsp;        wave = 0;</b>
+<b class="nc">&nbsp;        map = new Map(floor);</b>
+<b class="nc">&nbsp;        battle = false;</b>
+<b class="nc">&nbsp;        done = false;</b>
+<b class="nc">&nbsp;        reward = false;</b>
+<b class="nc">&nbsp;        choosing = false;</b>
+<b class="nc">&nbsp;        win = false;</b>
+<b class="nc">&nbsp;        x = new int[3];</b>
+<b class="nc">&nbsp;        y = new int[3];</b>
+<b class="nc">&nbsp;        r = new int[3];</b>
+<b class="nc">&nbsp;        x[0] = Main.processing.width/2-200;</b>
+<b class="nc">&nbsp;        x[1] = Main.processing.width/2;</b>
+<b class="nc">&nbsp;        x[2] = Main.processing.width/2+200;</b>
+<b class="nc">&nbsp;        y[0] = Main.processing.height/2-30;</b>
+<b class="nc">&nbsp;        y[1] = Main.processing.height/2-30;</b>
+<b class="nc">&nbsp;        y[2] = Main.processing.height/2-30;</b>
+<b class="nc">&nbsp;        r[0] = 50;</b>
+<b class="nc">&nbsp;        r[1] = 50;</b>
+<b class="nc">&nbsp;        r[2] = 50;</b>
+<b class="nc">&nbsp;        enemy = new Movable[91];</b>
+<b class="nc">&nbsp;        for(int i=0; i&lt;35; i++){</b>
+<b class="nc">&nbsp;            enemy[i] = new Zombies(-100, -100);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for(int i=35; i&lt;70; i++){</b>
+<b class="nc">&nbsp;            enemy[i] = new Skeletons(-100, -100);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for(int i=70; i&lt;80; i++){</b>
+<b class="nc">&nbsp;            enemy[i] = new EliteZombies(-100, -100);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for(int i=80; i&lt;90; i++){</b>
+<b class="nc">&nbsp;            enemy[i] = new EliteSkeletons(-100, -100);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        enemy[90] = new BigBoss(-100,-100);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void render() {
+<b class="nc">&nbsp;        if(alive &amp;&amp; !battle &amp;&amp; !done &amp;&amp; !win){</b>
+&nbsp;//            System.out.println(&quot;AWAL AWAL&quot;);
+<b class="nc">&nbsp;            Main.processing.background(204,102,0);</b>
+<b class="nc">&nbsp;            Main.processing.noStroke();</b>
+&nbsp;
+&nbsp;            //header section
+<b class="nc">&nbsp;            Main.processing.fill(102, 51, 0);</b>
+<b class="nc">&nbsp;            Main.processing.rect(0, 0, Main.processing.width, 80);</b>
+&nbsp;
+&nbsp;            //fps section
+<b class="nc">&nbsp;            Main.processing.fill(255);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(14);</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.RIGHT);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;fps &quot; + (int) Main.processing.frameRate, Main.processing.width, 14);</b>
+&nbsp;
+&nbsp;            //health section
+<b class="nc">&nbsp;            Main.processing.textSize(20);</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.LEFT, PConstants.CENTER);</b>
+<b class="nc">&nbsp;            Main.processing.text(player.getHealth() + &quot; lives left&quot;, 10, 40);</b>
+&nbsp;
+&nbsp;            //timer section
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(40);</b>
+<b class="nc">&nbsp;            Main.processing.fill(0);</b>
+<b class="nc">&nbsp;            Main.processing.text(byPaddingZeros(0, 2) + &quot;:&quot; + byPaddingZeros(0, 2), Main.processing.width / 2, 40);</b>
+&nbsp;
+&nbsp;            //floor section
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.CENTER, PConstants.TOP);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(24);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;FLOOR &quot; + floor, Main.processing.width / 2, 0);</b>
+&nbsp;
+<b class="nc">&nbsp;            map.printMap();</b>
+<b class="nc">&nbsp;            player.render();</b>
+<b class="nc">&nbsp;            player.move();</b>
+&nbsp;
+<b class="nc">&nbsp;            startBattle();</b>
+<b class="nc">&nbsp;            if(battle) {</b>
+<b class="nc">&nbsp;                gantiWave();</b>
+<b class="nc">&nbsp;                startTimeAtk = System.currentTimeMillis();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        else if(alive &amp;&amp; battle) {</b>
+<b class="nc">&nbsp;            Main.processing.background(204,102,0);</b>
+<b class="nc">&nbsp;            Main.processing.noStroke();</b>
+&nbsp;
+&nbsp;            //header section
+<b class="nc">&nbsp;            Main.processing.fill(102, 51, 0);</b>
+<b class="nc">&nbsp;            Main.processing.rect(0, 0, Main.processing.width, 80);</b>
+&nbsp;
+&nbsp;            //fps section
+<b class="nc">&nbsp;            Main.processing.fill(255);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(14);</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.RIGHT);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;fps &quot; + (int) Main.processing.frameRate, Main.processing.width, 14);</b>
+&nbsp;
+&nbsp;            //health section
+<b class="nc">&nbsp;            Main.processing.textSize(20);</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.LEFT, PConstants.CENTER);</b>
+<b class="nc">&nbsp;            Main.processing.text(player.getHealth() + &quot; lives left&quot;, 10, 40);</b>
+&nbsp;
+&nbsp;            //timer section
+<b class="nc">&nbsp;            elapsedTime = System.currentTimeMillis() - startTime;</b>
+<b class="nc">&nbsp;            elapsedSeconds = (int) (elapsedTime / 1000);</b>
+<b class="nc">&nbsp;            secondsDisplay = elapsedSeconds % 60;</b>
+<b class="nc">&nbsp;            elapsedMinutes = elapsedSeconds / 60;</b>
+<b class="nc">&nbsp;            minutesDisplay = elapsedMinutes % 60;</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(40);</b>
+<b class="nc">&nbsp;            Main.processing.fill(0);</b>
+<b class="nc">&nbsp;            Main.processing.text(byPaddingZeros(minutesDisplay, 2) + &quot;:&quot; + byPaddingZeros(secondsDisplay, 2), Main.processing.width / 2, 40);</b>
+&nbsp;
+&nbsp;            //floor section
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.CENTER, PConstants.TOP);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(24);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;FLOOR &quot; + floor, Main.processing.width / 2, 0);</b>
+&nbsp;
+&nbsp;            //wave text section
+<b class="nc">&nbsp;            elapsedTimeText = System.currentTimeMillis() - startTimeText;</b>
+<b class="nc">&nbsp;            elapsedSecondsText = (int) (elapsedTimeText / 1000);</b>
+<b class="nc">&nbsp;            if(elapsedSecondsText&lt;3){</b>
+<b class="nc">&nbsp;                printWave();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            player.move();</b>
+<b class="nc">&nbsp;            map.printMap();</b>
+&nbsp;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            player.bulletAtkCollision(enemy);</b>
+&nbsp;
+&nbsp;            //atk section
+<b class="nc">&nbsp;            elapsedTimeAtk = System.currentTimeMillis() - startTimeAtk;</b>
+<b class="nc">&nbsp;            elapsedSecondsAtk = (float) elapsedTimeAtk/1000;</b>
+<b class="nc">&nbsp;            if(elapsedSecondsAtk&gt;=player.getAtkSpeed()) {</b>
+<b class="nc">&nbsp;                player.atk(enemy);</b>
+&nbsp;//                System.out.println(&quot;waktu: &quot; + elapsedSecondsAtk);
+&nbsp;//                System.out.println(&quot;speed: &quot; + player.getAtkSpeed());
+&nbsp;//                System.out.println(&quot;masuk&quot;);
+<b class="nc">&nbsp;                startTimeAtk = System.currentTimeMillis();</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            player.render();</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Movable a:enemy){</b>
+<b class="nc">&nbsp;                if(!a.isDead()) {</b>
+<b class="nc">&nbsp;                    if (a instanceof Zombies) a.render();</b>
+<b class="nc">&nbsp;                    else if (a instanceof Skeletons) a.render();</b>
+<b class="nc">&nbsp;                    else if (a instanceof EliteZombies) a.render();</b>
+<b class="nc">&nbsp;                    else if (a instanceof EliteSkeletons) a.render();</b>
+<b class="nc">&nbsp;                    else if (a instanceof ChargedCreeper) a.render();</b>
+<b class="nc">&nbsp;                    else if (a instanceof BigBoss) a.render();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            for (Movable a:enemy){</b>
+<b class="nc">&nbsp;                if(!a.isDead()) {</b>
+<b class="nc">&nbsp;                    if (a instanceof Zombies) {</b>
+<b class="nc">&nbsp;                        ((Zombies) a).checkAgro(player);</b>
+<b class="nc">&nbsp;                        a.move();</b>
+<b class="nc">&nbsp;                        ((Zombies) a).atk(player);</b>
+<b class="nc">&nbsp;                    } else if (a instanceof Skeletons) {</b>
+<b class="nc">&nbsp;                        ((Skeletons) a).checkAgro(player);</b>
+<b class="nc">&nbsp;                        a.move();</b>
+<b class="nc">&nbsp;                        ((Skeletons) a).bulletAtkCollision(player);</b>
+<b class="nc">&nbsp;                    } else if (a instanceof EliteZombies) {</b>
+<b class="nc">&nbsp;                        ((EliteZombies) a).checkAgro(player);</b>
+<b class="nc">&nbsp;                        a.move();</b>
+<b class="nc">&nbsp;                        ((EliteZombies) a).atk(player);</b>
+<b class="nc">&nbsp;                    } else if (a instanceof EliteSkeletons) {</b>
+<b class="nc">&nbsp;                        ((EliteSkeletons) a).checkAgro(player);</b>
+<b class="nc">&nbsp;                        a.move();</b>
+<b class="nc">&nbsp;                        ((EliteSkeletons) a).bulletAtkCollision(player);</b>
+<b class="nc">&nbsp;                    } else if (a instanceof ChargedCreeper) {</b>
+<b class="nc">&nbsp;                        ((ChargedCreeper) a).checkAgro(player);</b>
+<b class="nc">&nbsp;                        a.move();</b>
+<b class="nc">&nbsp;                    } else if (a instanceof BigBoss) {</b>
+<b class="nc">&nbsp;                        ((BigBoss) a).checkAgro(player);</b>
+<b class="nc">&nbsp;                        a.move();</b>
+<b class="nc">&nbsp;                        ((BigBoss) a).atk(player);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if(wave&lt;3 &amp;&amp; isEnemyDie()){</b>
+<b class="nc">&nbsp;                gantiWave();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(isEnemyDie()){</b>
+<b class="nc">&nbsp;                battleDone();</b>
+<b class="nc">&nbsp;                player.clearBullet();</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if(player.isDead()){</b>
+<b class="nc">&nbsp;                alive = false;</b>
+&nbsp;            }
+&nbsp;//            System.out.println(&quot;selesai suasana battle&quot;);
+&nbsp;        }
+<b class="nc">&nbsp;        else if(alive &amp;&amp; done){</b>
+<b class="nc">&nbsp;            Main.processing.background(204,102,0);</b>
+<b class="nc">&nbsp;            Main.processing.noStroke();</b>
+&nbsp;
+&nbsp;            //header section
+<b class="nc">&nbsp;            Main.processing.fill(102, 51, 0);</b>
+<b class="nc">&nbsp;            Main.processing.rect(0, 0, Main.processing.width, 80);</b>
+&nbsp;
+&nbsp;            //fps section
+<b class="nc">&nbsp;            Main.processing.fill(255);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(14);</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.RIGHT);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;fps &quot; + (int) Main.processing.frameRate, Main.processing.width, 14);</b>
+&nbsp;
+&nbsp;            //health section
+<b class="nc">&nbsp;            Main.processing.textSize(20);</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.LEFT, PConstants.CENTER);</b>
+<b class="nc">&nbsp;            Main.processing.text(player.getHealth() + &quot; lives left&quot;, 10, 40);</b>
+&nbsp;
+&nbsp;            //timer section
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(40);</b>
+<b class="nc">&nbsp;            Main.processing.fill(0);</b>
+<b class="nc">&nbsp;            Main.processing.text(byPaddingZeros(minutesDisplay, 2) + &quot;:&quot; + byPaddingZeros(secondsDisplay, 2), Main.processing.width / 2, 40);</b>
+&nbsp;
+&nbsp;            //floor section
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.CENTER, PConstants.TOP);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(24);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;FLOOR &quot; + floor, Main.processing.width / 2, 0);</b>
+&nbsp;
+<b class="nc">&nbsp;            if(player.getX() &gt;= 57*20 &amp;&amp; !reward &amp;&amp; !choosing){</b>
+<b class="nc">&nbsp;                choosing = true;</b>
+<b class="nc">&nbsp;                player.generateNextWeapon(floor);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if(choosing){</b>
+<b class="nc">&nbsp;                Main.processing.background(0);</b>
+&nbsp;
+&nbsp;                //first choice
+<b class="nc">&nbsp;                Main.processing.noStroke();</b>
+<b class="nc">&nbsp;                Main.processing.fill(125);</b>
+<b class="nc">&nbsp;                Main.processing.rect(x[0], y[0], r[0], r[0], 5);</b>
+<b class="nc">&nbsp;                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;                Main.processing.textSize(20);</b>
+<b class="nc">&nbsp;                Main.processing.fill(255);</b>
+<b class="nc">&nbsp;                Main.processing.text(&quot;heal&quot;, x[0]  + r[0]/2, y[0] + 60);</b>
+&nbsp;
+&nbsp;                //second choice
+<b class="nc">&nbsp;                Main.processing.noStroke();</b>
+<b class="nc">&nbsp;                Main.processing.fill(125);</b>
+<b class="nc">&nbsp;                Main.processing.rect(x[1], y[1], r[1], r[1], 5);</b>
+<b class="nc">&nbsp;                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;                Main.processing.textSize(20);</b>
+<b class="nc">&nbsp;                Main.processing.fill(255);</b>
+<b class="nc">&nbsp;                Main.processing.text(&quot;level up&quot;, x[1]  + r[1]/2, y[1] + 60);</b>
+&nbsp;
+&nbsp;                //third choice
+<b class="nc">&nbsp;                Main.processing.noStroke();</b>
+<b class="nc">&nbsp;                Main.processing.fill(125);</b>
+<b class="nc">&nbsp;                Main.processing.rect(x[2], y[2], r[2], r[2], 5);</b>
+<b class="nc">&nbsp;                Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;                Main.processing.textSize(20);</b>
+<b class="nc">&nbsp;                Main.processing.fill(255);</b>
+<b class="nc">&nbsp;                Main.processing.text(&quot;change weapon&quot;, x[2]  + r[2]/2, y[2] + 60);</b>
+<b class="nc">&nbsp;                Main.processing.text(player.getNextWeaponName(), x[2] + r[2]/2, y[2] + 80);</b>
+&nbsp;            }
+&nbsp;            else {
+<b class="nc">&nbsp;                map.printMap();</b>
+<b class="nc">&nbsp;                player.render();</b>
+<b class="nc">&nbsp;                player.move();</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if(player.isDead()){</b>
+<b class="nc">&nbsp;                alive = false;</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            //for go to the next floor
+<b class="nc">&nbsp;            if(player.getX()&gt;=1260 &amp;&amp; floor &lt; 5){</b>
+<b class="nc">&nbsp;                changingMap();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(player.getX()&gt;=1260){</b>
+<b class="nc">&nbsp;                win = true;</b>
+<b class="nc">&nbsp;                battle = false;</b>
+<b class="nc">&nbsp;                done = false;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        else if(win){</b>
+<b class="nc">&nbsp;            Main.processing.background(0);</b>
+<b class="nc">&nbsp;            Main.processing.fill(255,215,0);</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(50);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;YOU WIN!&quot;, Main.processing.width/2, Main.processing.height/2-90);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;CONGRATULATIONS!&quot;, Main.processing.width/2, Main.processing.height/2-40);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(40);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;Click the Screen to Continue&quot;, Main.processing.width/2, Main.processing.height/2+10);</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="nc">&nbsp;            Main.processing.background(0);</b>
+<b class="nc">&nbsp;            Main.processing.fill(255,0,0);</b>
+<b class="nc">&nbsp;            Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(50);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;YOU DIED!&quot;, Main.processing.width/2, Main.processing.height/2-40);</b>
+<b class="nc">&nbsp;            Main.processing.textSize(40);</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;Click the Screen to Continue&quot;, Main.processing.width/2, Main.processing.height/2+10);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void changingMap(){
+<b class="nc">&nbsp;        floor++;</b>
+<b class="nc">&nbsp;        wave = 0;</b>
+<b class="nc">&nbsp;        map = new Map(floor);</b>
+<b class="nc">&nbsp;        player.resetPos();</b>
+<b class="nc">&nbsp;        player.updateMap(map);</b>
+&nbsp;//        for()
+<b class="nc">&nbsp;        battle = false;</b>
+<b class="nc">&nbsp;        done = false;</b>
+<b class="nc">&nbsp;        reward = false;</b>
+<b class="nc">&nbsp;        choosing = false;</b>
+&nbsp;//        System.out.println(&quot;masuk&quot;);
+&nbsp;    }
+&nbsp;    private boolean isEnemyDie(){
+<b class="nc">&nbsp;        for(int i=0; i&lt;enemy.length; i++){</b>
+<b class="nc">&nbsp;            if(!enemy[i].isDead()){</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;    private void battleDone(){
+<b class="nc">&nbsp;        battle = false;</b>
+<b class="nc">&nbsp;        done = true;</b>
+<b class="nc">&nbsp;        map.battleDone();</b>
+<b class="nc">&nbsp;        player.updateMap(map);</b>
+&nbsp;//        System.out.println(&quot;SUDAH SELESAI&quot;);
+&nbsp;    }
+&nbsp;    private void gantiWave(){
+<b class="nc">&nbsp;        wave++;</b>
+<b class="nc">&nbsp;        if(wave &lt; 4){</b>
+<b class="nc">&nbsp;            int countZ = 0;</b>
+<b class="nc">&nbsp;            int countS = 0;</b>
+<b class="nc">&nbsp;            int countEZ = 0;</b>
+<b class="nc">&nbsp;            int countES = 0;</b>
+<b class="nc">&nbsp;            int countBB = 0;</b>
+<b class="nc">&nbsp;            if(floor == 1){</b>
+<b class="nc">&nbsp;                if(wave == 1){</b>
+<b class="nc">&nbsp;                    countZ = 1;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                else if(wave == 2){</b>
+<b class="nc">&nbsp;                    countZ = 3;</b>
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    countZ = 4;</b>
+&nbsp;//                    countES = 2;
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            else if(floor == 2){</b>
+<b class="nc">&nbsp;                if(wave == 1){</b>
+<b class="nc">&nbsp;                    countZ = 2;</b>
+<b class="nc">&nbsp;                    countS = 3;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                else if(wave == 2){</b>
+<b class="nc">&nbsp;                    countZ = 3;</b>
+<b class="nc">&nbsp;                    countS = 6;</b>
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    countZ = 3;</b>
+<b class="nc">&nbsp;                    countS = 8;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            else if(floor == 3){</b>
+<b class="nc">&nbsp;                if(wave == 1) {</b>
+<b class="nc">&nbsp;                    countZ = 5;</b>
+<b class="nc">&nbsp;                    countS = 4;</b>
+<b class="nc">&nbsp;                    countES = 1;</b>
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    countZ = 5;</b>
+<b class="nc">&nbsp;                    countS = 5;</b>
+<b class="nc">&nbsp;                    countES = 1;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            else if(floor == 4){</b>
+<b class="nc">&nbsp;                if(wave == 1) {</b>
+<b class="nc">&nbsp;                    countZ = 5;</b>
+<b class="nc">&nbsp;                    countS = 4;</b>
+<b class="nc">&nbsp;                    countEZ = 2;</b>
+<b class="nc">&nbsp;                    countES = 2;</b>
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    countZ = 6;</b>
+<b class="nc">&nbsp;                    countS = 3;</b>
+<b class="nc">&nbsp;                    countEZ = 3;</b>
+<b class="nc">&nbsp;                    countES = 2;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            else if(floor == 5){</b>
+<b class="nc">&nbsp;                countZ = 5;</b>
+<b class="nc">&nbsp;                countS = 5;</b>
+<b class="nc">&nbsp;                countEZ = 2;</b>
+<b class="nc">&nbsp;                countES = 2;</b>
+<b class="nc">&nbsp;                countBB = 1;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            countS+=35;</b>
+<b class="nc">&nbsp;            countEZ+=70;</b>
+<b class="nc">&nbsp;            countES+=80;</b>
+<b class="nc">&nbsp;            for(int i=0; i&lt;countZ; i++){</b>
+<b class="nc">&nbsp;                enemy[i].summoned(floor);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            for(int i=35; i&lt;countS; i++){</b>
+<b class="nc">&nbsp;                enemy[i].summoned(floor);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            for(int i=70; i&lt;countEZ; i++){</b>
+<b class="nc">&nbsp;                enemy[i].summoned(floor);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            for(int i=80; i&lt;countES; i++){</b>
+<b class="nc">&nbsp;                enemy[i].summoned(floor);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if(countBB &gt; 0){</b>
+<b class="nc">&nbsp;                enemy[90].summoned(30, 15, floor);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        player.updateMap(map);</b>
+&nbsp;
+&nbsp;//        System.out.println(&quot;selesai&quot;);
+<b class="nc">&nbsp;        startTimeText = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        elapsedTimeText = System.currentTimeMillis() - startTimeText;</b>
+<b class="nc">&nbsp;        elapsedSecondsText = (int) (elapsedTimeText / 1000);</b>
+<b class="nc">&nbsp;        printWave();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void printWave(){
+<b class="nc">&nbsp;        Main.processing.textAlign(PConstants.CENTER, PConstants.CENTER);</b>
+<b class="nc">&nbsp;        Main.processing.textSize(30);</b>
+<b class="nc">&nbsp;        if(floor == 5){</b>
+<b class="nc">&nbsp;            Main.processing.text(&quot;BOSS LEVEL!&quot;, Main.processing.width / 2, 120);</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            Main.processing.text(&quot;WAVE &quot; + wave, Main.processing.width / 2, 120);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    private void startBattle(){
+<b class="nc">&nbsp;        if(player.getX()&gt;20 &amp;&amp; !done){</b>
+<b class="nc">&nbsp;            battle = true;</b>
+<b class="nc">&nbsp;            map.battleStart();</b>
+<b class="nc">&nbsp;            player.updateMap(map);</b>
+<b class="nc">&nbsp;            startTime = System.currentTimeMillis();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static String byPaddingZeros(int value, int paddingLength) {
+<b class="nc">&nbsp;        return String.format(&quot;%0&quot; + paddingLength + &quot;d&quot;, value);</b>
+&nbsp;    }
+&nbsp;    public void newWave(int wave){
+<b class="nc">&nbsp;        this.wave += wave;</b>
+&nbsp;    }
+&nbsp;    public void setWave(int wave){
+<b class="nc">&nbsp;        this.wave = wave;</b>
+&nbsp;    }
+&nbsp;    public int getWave() {
+<b class="nc">&nbsp;        return wave;</b>
+&nbsp;    }
+&nbsp;    public int getFloor() {
+<b class="nc">&nbsp;        return floor;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void newFloor(int floor){
+<b class="nc">&nbsp;        this.floor += floor;</b>
+&nbsp;    }
+&nbsp;    public void setFloor(int floor){
+<b class="nc">&nbsp;        this.floor = floor;</b>
+&nbsp;    }
+&nbsp;    public void addEntities(Player player) {
+<b class="fc">&nbsp;        this.player = player;</b>
+&nbsp;    }
+&nbsp;    public void addEntities(Zombies zombies) {
+<b class="fc">&nbsp;        this.zombies = zombies;</b>
+&nbsp;    }
+&nbsp;    public void addEntities(EliteZombies eliteZombies) {
+<b class="fc">&nbsp;        this.eliteZombies = eliteZombies;</b>
+&nbsp;    }
+&nbsp;    public void addEntities(Skeletons skeletons) {
+<b class="fc">&nbsp;        this.skeletons = skeletons;</b>
+&nbsp;    }
+&nbsp;    public void addEntities(EliteSkeletons eliteSkeletons) {
+<b class="fc">&nbsp;        this.eliteSkeletons = eliteSkeletons;</b>
+&nbsp;    }
+&nbsp;    public void addEntities(ChargedCreeper chargedCreeper) {
+<b class="fc">&nbsp;        this.chargedCreeper = chargedCreeper;</b>
+&nbsp;    }
+&nbsp;    public void addEntities(BigBoss bigBoss) {
+<b class="fc">&nbsp;        this.bigBoss = bigBoss;</b>
+&nbsp;    }
+&nbsp;    public Player getPlayer() {
+<b class="fc">&nbsp;        return player;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isAlive() {
+<b class="nc">&nbsp;        return alive;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isWin(){
+<b class="nc">&nbsp;        return win;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isChoosing() {
+<b class="nc">&nbsp;        return choosing;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int buttonPressed(){
+<b class="nc">&nbsp;        for(int i = 0; i&lt;x.length; i++){</b>
+<b class="nc">&nbsp;            if(Main.processing.mouseX &gt; x[i] &amp;&amp; Main.processing.mouseX &lt; x[i]+r[i] &amp;&amp;</b>
+&nbsp;                    Main.processing.mouseY &gt; y[i] &amp;&amp; Main.processing.mouseY &lt; y[i]+r[i]){
+<b class="nc">&nbsp;                return i;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void choosed(){
+<b class="nc">&nbsp;        choosing = false;</b>
+<b class="nc">&nbsp;        reward = true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPlayer(Player player) {
+<b class="fc">&nbsp;        this.player = player;</b>
+&nbsp;    }
+&nbsp;    public void setZombies(Zombies zombies) {
+<b class="fc">&nbsp;        this.zombies = zombies;</b>
+&nbsp;    }
+&nbsp;    public Zombies getZombies() {
+<b class="fc">&nbsp;        return zombies;</b>
+&nbsp;    }
+&nbsp;    public void setSkeletons(Skeletons skeletons) {
+<b class="fc">&nbsp;        this.skeletons = skeletons;</b>
+&nbsp;    }
+&nbsp;    public Skeletons getSkeletons() {
+<b class="fc">&nbsp;        return skeletons;</b>
+&nbsp;    }
+&nbsp;    public void setEliteZombies(EliteZombies eliteZombies) {
+<b class="fc">&nbsp;        this.eliteZombies = eliteZombies;</b>
+&nbsp;    }
+&nbsp;    public EliteZombies getEliteZombies() {
+<b class="fc">&nbsp;        return eliteZombies;</b>
+&nbsp;    }
+&nbsp;    public void setEliteSkeletons(EliteSkeletons eliteSkeletons) {
+<b class="fc">&nbsp;        this.eliteSkeletons = eliteSkeletons;</b>
+&nbsp;    }
+&nbsp;    public EliteSkeletons getEliteSkeletons() {
+<b class="fc">&nbsp;        return eliteSkeletons;</b>
+&nbsp;    }
+&nbsp;    public ChargedCreeper getChargedCreeper(){
+<b class="fc">&nbsp;        return chargedCreeper;</b>
+&nbsp;    }
+&nbsp;    public void setChargedCreeper(ChargedCreeper chargedCreeper){
+<b class="fc">&nbsp;        this.chargedCreeper = chargedCreeper;</b>
+&nbsp;    }
+&nbsp;    public BigBoss getBigBoss(){
+<b class="fc">&nbsp;        return bigBoss;</b>
+&nbsp;    }
+&nbsp;    public void setBigBoss(BigBoss bigBoss){
+<b class="fc">&nbsp;        this.bigBoss = bigBoss;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-23 23:32</div>
+</div>
+</body>
+</html>

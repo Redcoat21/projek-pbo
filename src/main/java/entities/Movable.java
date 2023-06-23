@@ -422,7 +422,7 @@ public class Movable extends Entities{
     public void subHP(int hp){
         health -= hp;
     }
-    protected void setHealth(int health){
+    public void setHealth(int health){
         this.health = health;
     }
 

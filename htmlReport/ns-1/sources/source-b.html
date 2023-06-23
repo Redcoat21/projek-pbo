@@ -1,0 +1,441 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Skeletons</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">entities</a>
+</div>
+
+<h1>Coverage Summary for Class: Skeletons (entities)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Skeletons</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.3%
+  </span>
+  <span class="absValue">
+    (2/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.6%
+  </span>
+  <span class="absValue">
+    (4/155)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Skeletons$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Skeletons$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    11.1%
+  </span>
+  <span class="absValue">
+    (2/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.5%
+  </span>
+  <span class="absValue">
+    (4/158)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package entities;
+&nbsp;
+&nbsp;import entities.tiles.Obstacles;
+&nbsp;import entities.tiles.Wall;
+&nbsp;import main.Main;
+&nbsp;import processing.core.PImage;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.Comparator;
+&nbsp;
+&nbsp;public class Skeletons extends Movable implements Pathfinding{
+&nbsp;    private boolean agro;
+&nbsp;    private int agroIdx;
+&nbsp;    private int tickMove;
+&nbsp;    private int indexDelay;
+&nbsp;    private Player target;
+&nbsp;    Obstacles[][] tiles;
+&nbsp;    private ArrayList&lt;Direction&gt; pathList;
+&nbsp;    private int pathIdx;
+&nbsp;    private boolean gotPath;
+&nbsp;    private Bullet bullet;
+&nbsp;    private int baseX;
+&nbsp;    private int baseY;
+&nbsp;
+&nbsp;    public Skeletons(){
+<b class="fc">&nbsp;        super(0, 0, 20, 20, 0, 3, 3);</b>
+&nbsp;    }
+&nbsp;    public Skeletons(int x,int y){
+<b class="fc">&nbsp;        super(x, y, 20, 20, 0, 3, 3);</b>
+<b class="fc">&nbsp;        baseX = x;</b>
+<b class="fc">&nbsp;        baseY = y;</b>
+&nbsp;    }
+&nbsp;    public void resetPos(){
+<b class="nc">&nbsp;        setTo(baseX, baseY);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * @param x the x-axis that the entity will spawn into
+&nbsp;     * @param y the y-axis that the enitty will spawn into
+&nbsp;     */
+&nbsp;    public Skeletons(float x, float y) {
+<b class="nc">&nbsp;        super(x, y,50,50,12,1,5, 2);</b>
+<b class="nc">&nbsp;        loadImage();</b>
+<b class="nc">&nbsp;        agro = false;</b>
+<b class="nc">&nbsp;        agroIdx=0;</b>
+<b class="nc">&nbsp;        tickMove=0;</b>
+<b class="nc">&nbsp;        indexDelay=0;</b>
+<b class="nc">&nbsp;        this.tiles = map.getMap();</b>
+<b class="nc">&nbsp;        pathIdx=0;</b>
+<b class="nc">&nbsp;        bullet = new Bullet();</b>
+<b class="nc">&nbsp;        startTime = 0;</b>
+<b class="nc">&nbsp;        elapsedTime = 0;</b>
+<b class="nc">&nbsp;        elapsedSecond = (int) (elapsedTime / 1000);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public void render() {
+<b class="nc">&nbsp;        elapsedTime = System.currentTimeMillis() - startTime;</b>
+<b class="nc">&nbsp;        elapsedSecond = (int) elapsedTime/1000;</b>
+<b class="nc">&nbsp;        tickMove++;</b>
+&nbsp;//        Main.processing.text(&quot;HP &quot;+getHealth() + &quot;   X: &quot;+getX()+&quot;   Y: &quot;+getY() + &quot; Agro:   &quot;+agroIdx+ &quot; Status: &quot;+agro,getX(),getY()+60);
+&nbsp;//        Main.processing.noStroke();
+&nbsp;//        Main.processing.fill(0,255,127);
+&nbsp;//        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+&nbsp;//        j * 20, i * 20 + 80
+<b class="nc">&nbsp;            this.play(&quot;walk&quot;, this.getAtkDirection());</b>
+&nbsp;//        Agro Mode
+<b class="nc">&nbsp;        if(agro){</b>
+<b class="nc">&nbsp;            if(map==null){</b>
+<b class="nc">&nbsp;                if(indexDelay&lt;4)this.stop();</b>
+<b class="nc">&nbsp;                this.stop();</b>
+<b class="nc">&nbsp;                if(Math.abs(getX()-target.getX())&gt;Math.abs(getY()- target.getY())&amp;&amp;!entitiesCollisionChecker()){</b>
+<b class="nc">&nbsp;                    if(getX()&gt; target.getX())this.moveTo(Direction.LEFT);</b>
+<b class="nc">&nbsp;                    else this.moveTo(Direction.RIGHT);</b>
+<b class="nc">&nbsp;                }else if(Math.abs(getX()-target.getX())&gt;0){</b>
+<b class="nc">&nbsp;                    if(getY()&gt; target.getY())this.moveTo(Direction.UP);</b>
+<b class="nc">&nbsp;                    else this.moveTo(Direction.DOWN);</b>
+&nbsp;                }else{
+<b class="nc">&nbsp;                    if(getX()&gt; target.getX())this.moveTo(Direction.LEFT);</b>
+<b class="nc">&nbsp;                    else this.moveTo(Direction.RIGHT);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                Obstacles[][] init = new Obstacles[64][32];</b>
+<b class="nc">&nbsp;                for(int i=0 ; i&lt;32; i++){</b>
+<b class="nc">&nbsp;                    for(int j=0; j&lt;64; j++){</b>
+<b class="nc">&nbsp;                        init[j][i] = null;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;            }else{</b>
+<b class="nc">&nbsp;                if(pathList==null){</b>
+<b class="nc">&nbsp;                    pathList=getNextDirection(new ArrayList&lt;Direction&gt;(),getObjectCoords()[0],getObjectCoords()[1],new Obstacles[64][32]);</b>
+&nbsp;                }else{
+<b class="nc">&nbsp;                    pathIdx++;</b>
+<b class="nc">&nbsp;                    if(pathIdx&lt;pathList.size()*20-1){</b>
+<b class="nc">&nbsp;                        if(pathIdx!=pathList.size()*20-2){</b>
+<b class="nc">&nbsp;                            this.moveTo(pathList.get(pathIdx/20));</b>
+&nbsp;                        }
+&nbsp;//                        Main.processing.text(&quot;Direction : &quot;+pathList.get(pathIdx/20)+&quot; Idx : &quot;+pathIdx + &quot;atk : &quot; + getAtkDirection(),getX(),getY()+120);
+&nbsp;                    }else{
+<b class="nc">&nbsp;                        this.moveTo(Direction.NONE);</b>
+<b class="nc">&nbsp;                        this.stop();</b>
+<b class="nc">&nbsp;                        pathIdx=0;</b>
+<b class="nc">&nbsp;                        pathList=null;</b>
+<b class="nc">&nbsp;                        gotPath=false;</b>
+<b class="nc">&nbsp;                        if(target.getXFromCenter() &lt; getXFromCenter() &amp;&amp; target.getYFromCenter() &gt; getY() &amp;&amp; target.getYFromCenter() &lt; getY()+getHeight()){</b>
+<b class="nc">&nbsp;                            facingTo(Direction.LEFT);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        else if(target.getXFromCenter() &gt; getXFromCenter() &amp;&amp; target.getYFromCenter() &gt; getY() &amp;&amp; target.getYFromCenter() &lt; getY()+getHeight()){</b>
+<b class="nc">&nbsp;                            facingTo(Direction.RIGHT);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        else if(target.getYFromCenter() &lt; getYFromCenter()){</b>
+<b class="nc">&nbsp;                            facingTo(Direction.UP);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        else if(target.getYFromCenter() &gt; getYFromCenter()){</b>
+<b class="nc">&nbsp;                            facingTo(Direction.DOWN);</b>
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        if(!bullet.isFired() &amp;&amp; elapsedSecond &gt; coolDown){</b>
+<b class="nc">&nbsp;                            bullet.fired(getXFromCenter(), getYFromCenter(), 4, 1, getAtkDirection());</b>
+<b class="nc">&nbsp;                            startTime = System.currentTimeMillis();</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+<b class="nc">&nbsp;        if(!agro &amp;&amp; indexDelay&gt;1 &amp;&amp; indexDelay&lt;4 &amp;&amp; tickMove&gt;35){</b>
+<b class="nc">&nbsp;            tickMove=0;</b>
+<b class="nc">&nbsp;            indexDelay++;</b>
+<b class="nc">&nbsp;            this.stop();</b>
+<b class="nc">&nbsp;        }else if(!agro &amp;&amp;indexDelay&gt;=4&amp;&amp;tickMove&gt;35){</b>
+<b class="nc">&nbsp;            indexDelay=0;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(!agro&amp;&amp;tickMove&gt;35){</b>
+<b class="nc">&nbsp;            indexDelay++;</b>
+<b class="nc">&nbsp;            tickMove=0;</b>
+<b class="nc">&nbsp;            idle();</b>
+<b class="nc">&nbsp;            agroIdx++;</b>
+&nbsp;        }
+&nbsp;}
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param you it points to the player that the entity has agro-ed into
+&nbsp;     */
+&nbsp;    public void checkAgro(Player you){
+<b class="nc">&nbsp;        if(Math.abs(getX()-you.getX())&lt;=300&amp;&amp;Math.abs(getY()-you.getY())&lt;=300){</b>
+<b class="nc">&nbsp;            target = you;</b>
+<b class="nc">&nbsp;            this.agro=true;</b>
+&nbsp;        }else{
+<b class="nc">&nbsp;            target=null;</b>
+<b class="nc">&nbsp;            this.agro=false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    public boolean checkAgro(int x,int y){
+<b class="nc">&nbsp;        if(Math.abs(getX()-x)&lt;=300&amp;&amp;Math.abs(getY()-y)&lt;=300){</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }else{
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    public void idle(){
+<b class="nc">&nbsp;        if(agroIdx&gt;3){</b>
+<b class="nc">&nbsp;            agroIdx=0;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.stop();</b>
+<b class="nc">&nbsp;        if(agroIdx == 0)this.moveTo(Direction.DOWN);</b>
+<b class="nc">&nbsp;        else if(agroIdx == 1)this.moveTo(Direction.RIGHT);</b>
+<b class="nc">&nbsp;        else if(agroIdx == 2)this.moveTo(Direction.UP);</b>
+<b class="nc">&nbsp;        else if(agroIdx == 3)this.moveTo(Direction.LEFT);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ArrayList&lt;Direction&gt; getNextDirection(ArrayList&lt;Direction&gt; dlist, int x, int y, Obstacles[][] moved) {
+<b class="nc">&nbsp;        if((Math.abs(x-getTargetCoords()[0])&lt;=12&amp;&amp;Math.abs(y-getTargetCoords()[1])==0)||Math.abs(x-getTargetCoords()[0])==0&amp;&amp;Math.abs(y-getTargetCoords()[1])&lt;=12){</b>
+<b class="nc">&nbsp;            dlist.add(Direction.NONE);</b>
+<b class="nc">&nbsp;            gotPath=true;</b>
+<b class="nc">&nbsp;            System.out.println(&quot;LELE&quot;);</b>
+<b class="nc">&nbsp;            return dlist;</b>
+&nbsp;        } else{
+<b class="nc">&nbsp;            ArrayList&lt;ValueTile&gt; moves = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            if(x-1&gt;=0 &amp;&amp; Math.abs((x-1)-getTargetCoords()[0])&lt;=20&amp;&amp; !gotPath &amp;&amp; Math.abs((x)*20- getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x-1)*20- getTargetCoords()[0]*20),x-1,y,Direction.LEFT));</b>
+<b class="nc">&nbsp;            if(x+1&lt;64 &amp;&amp; Math.abs((x+1)-getTargetCoords()[0])&lt;=20&amp;&amp; !gotPath &amp;&amp; Math.abs((x)*20-getTargetCoords()[0]*20)!=0)moves.add(new ValueTile(Math.abs((x+1)*20-getTargetCoords()[0]*20),x+1,y,Direction.RIGHT));</b>
+<b class="nc">&nbsp;            if(y-1&gt;=0 &amp;&amp; Math.abs((y-1)-getTargetCoords()[1])&lt;=20&amp;&amp; !gotPath &amp;&amp; Math.abs((y)*20+80-(getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y-1)*20+80-(getTargetCoords()[1]*20+80)),x,y-1,Direction.UP));</b>
+<b class="nc">&nbsp;            if(y+1&lt;32 &amp;&amp; Math.abs((y+1)-getTargetCoords()[1])&lt;=20 &amp;&amp; !gotPath &amp;&amp; Math.abs((y)*20+80- (getTargetCoords()[1]*20+80))!=0)moves.add(new ValueTile(Math.abs((y+1)*20+80- (getTargetCoords()[1]*20+80)),x,y+1,Direction.DOWN));</b>
+<b class="nc">&nbsp;            if(moves!=null){</b>
+<b class="nc">&nbsp;                Collections.sort(moves, new Comparator&lt;ValueTile&gt;() {</b>
+&nbsp;                    @Override
+&nbsp;                    public int compare(ValueTile o1, ValueTile o2) {
+<b class="nc">&nbsp;                        return (int)(o1.getValue()-o2.getValue());</b>
+&nbsp;                    }
+&nbsp;                });
+&nbsp;//                for (ValueTile a:moves) System.out.print(a.getValue()+&quot;  Direction : &quot;+a.getMoved()+&quot; &quot;);
+<b class="nc">&nbsp;                System.out.println();</b>
+<b class="nc">&nbsp;                for (ValueTile a : moves){</b>
+<b class="nc">&nbsp;                    if(!gotPath){</b>
+<b class="nc">&nbsp;                        if(tiles[a.getX()][a.getY()] instanceof Wall);</b>
+<b class="nc">&nbsp;                        else if(moved[a.getX()][a.getY()]==null){</b>
+<b class="nc">&nbsp;                            dlist.add(a.getMoved());</b>
+<b class="nc">&nbsp;                            moved[a.getX()][a.getY()] = new Obstacles(a.getX(),a.getY());</b>
+<b class="nc">&nbsp;                            getNextDirection(dlist,a.getX(),a.getY(),moved);</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(&quot;LALA&quot;);</b>
+<b class="nc">&nbsp;        return dlist;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int[] getTargetCoords() {
+<b class="nc">&nbsp;        int[] coords = new int[2];</b>
+<b class="nc">&nbsp;        coords[0] = (int) target.getX()/20;</b>
+<b class="nc">&nbsp;        coords[1] = (int) ((target.getY()-80)/20);</b>
+<b class="nc">&nbsp;        return coords;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int[] getObjectCoords() {
+<b class="nc">&nbsp;        int[] coords = new int[2];</b>
+<b class="nc">&nbsp;        coords[0] = (int) getX()/20;</b>
+<b class="nc">&nbsp;        coords[1] = (int) ((getY()-80)/20);</b>
+<b class="nc">&nbsp;        return coords;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void move() {
+<b class="nc">&nbsp;        super.move();</b>
+&nbsp;
+<b class="nc">&nbsp;        if(bullet.isFired()){</b>
+<b class="nc">&nbsp;            bullet.move();</b>
+<b class="nc">&nbsp;            bullet.render();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param target if the bullet collision with the player/target
+&nbsp;     */
+&nbsp;    public void bulletAtkCollision(Player target){
+<b class="nc">&nbsp;        int pointOnRectX = 0;</b>
+<b class="nc">&nbsp;        int pointOnRectY = 0;</b>
+<b class="nc">&nbsp;        int XDistToRect = 0;</b>
+<b class="nc">&nbsp;        int YDistToRect = 0;</b>
+<b class="nc">&nbsp;        float dist = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        pointOnRectX = clamp((int) target.getX(), (int) (target.getX()+target.getWidth()), (int) bullet.getX());</b>
+<b class="nc">&nbsp;        pointOnRectY = clamp((int) target.getY(), (int) (target.getY()+target.getHeight()), (int) bullet.getY());</b>
+<b class="nc">&nbsp;        XDistToRect = (int) bullet.getX() - pointOnRectX;</b>
+<b class="nc">&nbsp;        YDistToRect = (int) bullet.getY() - pointOnRectY;</b>
+<b class="nc">&nbsp;        dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));</b>
+<b class="nc">&nbsp;        if(dist &lt; bullet.getWidth() &amp;&amp; bullet.isFired()){</b>
+<b class="nc">&nbsp;            target.subHP(bullet.getDamage());</b>
+<b class="nc">&nbsp;            bullet.hit();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    protected int clamp(int min, int max, int value){
+<b class="nc">&nbsp;        if(min &gt; value){</b>
+<b class="nc">&nbsp;            return min;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if(max &lt; value){</b>
+<b class="nc">&nbsp;            return max;</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="nc">&nbsp;            return value;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void loadImage() {
+<b class="nc">&nbsp;        String root = &quot;src/main/resources/assets/Sprites/Skeleton_Archer/&quot;;</b>
+<b class="nc">&nbsp;        Direction[] temp = new Direction[4];</b>
+&nbsp;
+<b class="nc">&nbsp;        temp[0] = Direction.RIGHT;</b>
+<b class="nc">&nbsp;        temp[1] = Direction.LEFT;</b>
+<b class="nc">&nbsp;        temp[2] = Direction.UP;</b>
+<b class="nc">&nbsp;        temp[3] = Direction.DOWN;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(Direction d : temp) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc">&nbsp;                String directionString = switch(d) {</b>
+<b class="nc">&nbsp;                    case UP -&gt; &quot;up&quot;;</b>
+<b class="nc">&nbsp;                    case DOWN -&gt; &quot;down&quot;;</b>
+<b class="nc">&nbsp;                    case RIGHT -&gt; &quot;right&quot;;</b>
+<b class="nc">&nbsp;                    case LEFT -&gt; &quot;left&quot;;</b>
+<b class="nc">&nbsp;                    default -&gt; null;</b>
+&nbsp;                };
+&nbsp;
+<b class="nc">&nbsp;                PImage temp2 = Main.processing.loadImage(root + String.format(&quot;walk%s%d.png&quot;, directionString, i + 1));</b>
+<b class="nc">&nbsp;                this.addSprites(&quot;walk&quot;, d, temp2, this.getSize());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-23 23:32</div>
+</div>
+</body>
+</html>

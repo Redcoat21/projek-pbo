@@ -1,0 +1,266 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Entities</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">entities</a>
+</div>
+
+<h1>Coverage Summary for Class: Entities (entities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Entities</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    6.2%
+  </span>
+  <span class="absValue">
+    (1/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18.5%
+  </span>
+  <span class="absValue">
+    (5/27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package entities;
+&nbsp;import main.Main;
+&nbsp;import processing.core.PImage;
+&nbsp;import processing.core.PVector;
+&nbsp;
+&nbsp;/**
+&nbsp; * Representing Any object in the map that have the following criteria : have collision.
+&nbsp; */
+&nbsp;public abstract class Entities {
+&nbsp;    private Animation idleSprites;
+&nbsp;    private Animation walkingSprites;
+&nbsp;    /**
+&nbsp;     * Representing the Entity&#39;s position on the map. from left-top
+&nbsp;     */
+&nbsp;    private PVector position;
+&nbsp;    /**
+&nbsp;     * Representing the size in Width and Height
+&nbsp;     */
+&nbsp;    private final PVector size;
+&nbsp;   /**
+&nbsp;     * The direction that the entities is currently moving toward.
+&nbsp;     */
+&nbsp;    private Direction direction;
+&nbsp;    /**
+&nbsp;     * Constructor for the Entity class and its child.
+&nbsp;     * @param x The x position of the entity in the map.
+&nbsp;     * @param y The y position of the entity in the map.
+&nbsp;     * @param width The width of the entity.
+&nbsp;     * @param height The height of the entity.
+&nbsp;     */
+&nbsp;
+<b class="fc">&nbsp;    public Entities(float x, float y, int width, int height) {</b>
+<b class="fc">&nbsp;        this.position = new PVector(x, y);</b>
+<b class="fc">&nbsp;        this.size = new PVector(width, height);</b>
+<b class="fc">&nbsp;        this.idleSprites = new Animation(30);</b>
+<b class="fc">&nbsp;        this.walkingSprites = new Animation(30);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Get the current position (x,y) of the entity in Vector2.
+&nbsp;     * @return Vector2 position of the entity.
+&nbsp;     */
+&nbsp;    public PVector getPosition() {
+<b class="nc">&nbsp;        return this.position;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the x position of the entity.
+&nbsp;     * @return The x position of the entity in the map.
+&nbsp;     */
+&nbsp;    public float getX() {
+<b class="nc">&nbsp;        return this.position.x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the y position of the entity
+&nbsp;     * @return The y position of the entity in the map.
+&nbsp;     */
+&nbsp;    public float getY() {
+<b class="nc">&nbsp;        return this.position.y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public float getXFromCenter(){
+<b class="nc">&nbsp;        return this.position.x + this.size.x/2;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public float getYFromCenter(){
+<b class="nc">&nbsp;        return this.position.y + this.size.y/2;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the width of the entity.
+&nbsp;     * @return The width of the entity.
+&nbsp;     */
+&nbsp;    public float getWidth() {
+<b class="nc">&nbsp;        return this.size.x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the height of the entity.
+&nbsp;     * @return The height of the entity.
+&nbsp;     */
+&nbsp;    public float getHeight() {
+<b class="nc">&nbsp;        return this.size.y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Render the entity in the map.
+&nbsp;     */
+&nbsp;    public void render(){
+<b class="nc">&nbsp;        Main.processing.noStroke();</b>
+&nbsp;        //Main.processing.rect(this.position.x, this.position.y, this.size.x, this.size.y);
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the entity&#39;s position on the given (x,y) value.
+&nbsp;     * @param x The new x position of the entity.
+&nbsp;     * @param y The new y position of the entity.
+&nbsp;     */
+&nbsp;    public void setTo(float x, float y) {
+<b class="nc">&nbsp;        this.position.set(x, y);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the entity&#39;s position on the given (x,y) value but with a PVector parameter.
+&nbsp;     * @param position The new (x,y) value of the entity.
+&nbsp;     */
+&nbsp;    public void setTo(PVector position) {
+<b class="nc">&nbsp;        this.position = position;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the size of the entity in (width, height) format.
+&nbsp;     * @return The size of the entity in PVector (width, height)
+&nbsp;     */
+&nbsp;    protected PVector getSize() {
+<b class="nc">&nbsp;        return size;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the current direction that the entity is moving toward.
+&nbsp;     * @return The direction that the entitiy is moving toward.
+&nbsp;     */
+&nbsp;    public Direction getDirection() {
+<b class="nc">&nbsp;        return this.direction;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add idleSprites into the idleSprites list.
+&nbsp;     * @param animationFor Direction for the sprite.
+&nbsp;     * @param sprite The sprite to be added.
+&nbsp;     * @param resizedSize New size for the image if it want to be resized, put (0, 0) if not want to be resized.
+&nbsp;     */
+&nbsp;    public void addSprites(String which, Direction animationFor, PImage sprite, PVector resizedSize) {
+<b class="nc">&nbsp;        if(which.equalsIgnoreCase(&quot;idle&quot;)) {</b>
+<b class="nc">&nbsp;            this.idleSprites.addSprite(animationFor, sprite, resizedSize);</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;            this.walkingSprites.addSprite(animationFor, sprite, resizedSize);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Load the idleSprites onto the screen.
+&nbsp;     * @param animationDirection Which animation should it played.
+&nbsp;     */
+&nbsp;    protected void play(String which, Direction animationDirection) {
+<b class="nc">&nbsp;        if(animationDirection != null) {</b>
+<b class="nc">&nbsp;            if (which.equalsIgnoreCase(&quot;idle&quot;)) {</b>
+<b class="nc">&nbsp;                this.idleSprites.play(animationDirection, this);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                this.walkingSprites.play(animationDirection, this);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Animation getSprites(String which) {
+<b class="nc">&nbsp;        if(which.equalsIgnoreCase(&quot;idle&quot;)) {</b>
+<b class="nc">&nbsp;            return idleSprites;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return walkingSprites;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-23 23:32</div>
+</div>
+</body>
+</html>

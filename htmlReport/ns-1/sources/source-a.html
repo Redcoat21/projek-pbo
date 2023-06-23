@@ -1,0 +1,745 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Player</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">entities</a>
+</div>
+
+<h1>Coverage Summary for Class: Player (entities)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.7%
+  </span>
+  <span class="absValue">
+    (2/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4.9%
+  </span>
+  <span class="absValue">
+    (12/245)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Player$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    8.3%
+  </span>
+  <span class="absValue">
+    (2/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4.9%
+  </span>
+  <span class="absValue">
+    (12/246)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package entities;
+&nbsp;
+&nbsp;import main.Map;
+&nbsp;import org.w3c.dom.ranges.Range;
+&nbsp;import processing.core.PConstants;
+&nbsp;import processing.core.PImage;
+&nbsp;import weapon.*;
+&nbsp;import main.Main;
+&nbsp;
+&nbsp;import java.lang.reflect.Array;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;public class Player extends Movable {
+&nbsp;    int baseHp;
+&nbsp;    private Weapon weapon;
+&nbsp;    private Weapon nextWeapon;
+&nbsp;    private SwordFactory swordFactory;
+&nbsp;    private SpearFactory spearFactory;
+&nbsp;    private RangedFactory rangedFactory;
+&nbsp;    private Bullet[] bullets;
+&nbsp;    float baseX;
+&nbsp;    float baseY;
+&nbsp;
+&nbsp;    public Player(float x, float y, int width, int height) {
+<b class="nc">&nbsp;        super(x, y, width, height, 110, 120, 120, null);</b>
+<b class="nc">&nbsp;        swordFactory = new SwordFactory();</b>
+<b class="nc">&nbsp;        spearFactory = new SpearFactory();</b>
+<b class="nc">&nbsp;        rangedFactory = new RangedFactory();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //    public Player(float x, float y, int map){
+&nbsp;//        super(x, y, 20, 20, 3, 3, 4, new Map(map));
+&nbsp;//        baseHp = 3;
+&nbsp;//        baseX = x;
+&nbsp;//        baseY = y;
+&nbsp;//        swordFactory = new SwordFactory();
+&nbsp;//        spearFactory = new SpearFactory();
+&nbsp;//        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);
+&nbsp;////        weapon = spearFactory.createWeapon(SpearType.GLAIVE, 0);
+&nbsp;//    }
+&nbsp;    /**
+&nbsp;     * Default frame of an Entity called Player
+&nbsp;     */
+&nbsp;    public Player(){
+<b class="fc">&nbsp;        super(0, 0, 20, 20, 5, 3, 3);</b>
+<b class="fc">&nbsp;        swordFactory = new SwordFactory();</b>
+<b class="fc">&nbsp;        spearFactory = new SpearFactory();</b>
+<b class="fc">&nbsp;        rangedFactory = new RangedFactory();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Player with targeted placement
+&nbsp;     * @param x indicates the x-axis of the Player
+&nbsp;     * @param y indicates the y-axis of the Player
+&nbsp;     */
+&nbsp;    public Player(float x,float y){
+<b class="fc">&nbsp;        super(x, y, 20, 20, 5, 3, 3);</b>
+<b class="fc">&nbsp;        swordFactory = new SwordFactory();</b>
+<b class="fc">&nbsp;        spearFactory = new SpearFactory();</b>
+<b class="fc">&nbsp;        rangedFactory = new RangedFactory();</b>
+<b class="fc">&nbsp;        baseHp = getHealth();</b>
+<b class="fc">&nbsp;        baseX = x;</b>
+<b class="fc">&nbsp;        baseY = y;</b>
+<b class="fc">&nbsp;        nextWeapon = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Player with designated Map
+&nbsp;     * @param x indicates the x-axis of the Player
+&nbsp;     * @param y indicates the y-axis of the Player
+&nbsp;     * @param map the Map that the Player are currently in
+&nbsp;     */
+&nbsp;    public Player(float x, float y, Map map){
+<b class="nc">&nbsp;        super(x, y, 20, 20, 5, 3, 3, map);</b>
+<b class="nc">&nbsp;        if(map != null) {</b>
+<b class="nc">&nbsp;            loadImage();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        baseHp = getHealth();</b>
+<b class="nc">&nbsp;        baseX = x;</b>
+<b class="nc">&nbsp;        baseY = y;</b>
+<b class="nc">&nbsp;        swordFactory = new SwordFactory();</b>
+<b class="nc">&nbsp;        spearFactory = new SpearFactory();</b>
+<b class="nc">&nbsp;        rangedFactory = new RangedFactory();</b>
+<b class="nc">&nbsp;        bullets = new Bullet[10];</b>
+<b class="nc">&nbsp;        int temp = 1;</b>
+<b class="nc">&nbsp;        for(int i=0; i&lt;bullets.length; i++){</b>
+<b class="nc">&nbsp;            bullets[i] = new Bullet();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        weapon = swordFactory.createWeapon(SwordType.IRON_SWORD, 0);</b>
+&nbsp;//        weapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, 0);
+&nbsp;//        weapon = rangedFactory.createWeapon(RangedType.IRON_BOW, 0);
+<b class="nc">&nbsp;        nextWeapon = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void render() {
+&nbsp;//        Main.processing.noStroke();
+<b class="nc">&nbsp;        this.play(&quot;walk&quot;, this.getAtkDirection());</b>
+&nbsp;//        this.addSprites(Direction.NONE, &quot;./assets/Tileset/tile004.png&quot;);
+&nbsp;//        Main.processing.rect(getX(), getY(), getWidth(), getHeight());
+&nbsp;    }
+&nbsp;
+&nbsp;    public void heal(){
+<b class="nc">&nbsp;        if(getHealth() &lt; baseHp){</b>
+<b class="nc">&nbsp;            addHealth(1);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    public void resetPos(){
+<b class="nc">&nbsp;        setTo(baseX, baseY);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;//    public void atk(ArrayList&lt;Movable&gt; enemy){
+&nbsp;//        int atkX = (int) getXFromCenter();
+&nbsp;//        int atkY = (int) getYFromCenter();
+&nbsp;//        int WHArc = 0;
+&nbsp;//        int Wstab = 0;
+&nbsp;//        int Hstab = 0;
+&nbsp;//        Main.processing.noStroke();
+&nbsp;//        Main.processing.fill(255,0,0);
+&nbsp;//        if(weapon instanceof Sword &amp;&amp; !weapon.getWeaponName().equals(&quot;Great Sword&quot;)){
+&nbsp;//            WHArc = 60;
+&nbsp;////            System.out.println(swingAtkCollision(atkX, atkY, WHArc, enemy, getAtkDirection()));
+&nbsp;//            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
+&nbsp;//            if(getAtkDirection().equals(Direction.RIGHT)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.DOWN)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.LEFT)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.UP)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//        else if(weapon instanceof Sword &amp;&amp; weapon.getWeaponName().equals(&quot;Great Sword&quot;)){
+&nbsp;//            WHArc = 80;
+&nbsp;//            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
+&nbsp;//            if(getAtkDirection().equals(Direction.RIGHT)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.DOWN)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.LEFT)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.UP)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//        else if(weapon instanceof Spear &amp;&amp; weapon.getWeaponName().equals(&quot;Glaive&quot;)){
+&nbsp;//            WHArc = 100;
+&nbsp;//            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());
+&nbsp;//            if(getAtkDirection().equals(Direction.RIGHT)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.DOWN)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.LEFT)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.UP)){
+&nbsp;//                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//        else if(weapon instanceof Spear &amp;&amp; weapon.getWeaponName().equals(&quot;Iron Spear&quot;)){
+&nbsp;//            Hstab = 20;
+&nbsp;//            Wstab = 50;
+&nbsp;//            stabAtkCollision(atkX, atkY, Wstab, Hstab, enemy, getAtkDirection());
+&nbsp;//            if(getAtkDirection().equals(Direction.RIGHT)){
+&nbsp;//                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX + Wstab, atkY + Hstab/2, atkX + Wstab, atkY - Hstab/2);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.DOWN)){
+&nbsp;//                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY + Wstab, atkX - Hstab/2, atkY + Wstab);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.LEFT)){
+&nbsp;//                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX - Wstab, atkY + Hstab/2, atkX - Wstab, atkY - Hstab/2);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.UP)){
+&nbsp;//                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//        else if(weapon instanceof Spear &amp;&amp; weapon.getWeaponName().equals(&quot;Spear of The Lord&quot;)){
+&nbsp;//            Hstab = 30;
+&nbsp;//            Wstab = 70;
+&nbsp;//            stabAtkCollision(atkX, atkY, Wstab, Hstab, enemy, getAtkDirection());
+&nbsp;//            if(getAtkDirection().equals(Direction.RIGHT)){
+&nbsp;//                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX + Wstab, atkY + Hstab/2, atkX + Wstab, atkY - Hstab/2);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.DOWN)){
+&nbsp;//                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY + Wstab, atkX - Hstab/2, atkY + Wstab);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.LEFT)){
+&nbsp;//                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX - Wstab, atkY + Hstab/2, atkX - Wstab, atkY - Hstab/2);
+&nbsp;//            }
+&nbsp;//            else if(getAtkDirection().equals(Direction.UP)){
+&nbsp;//                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//        else if(weapon instanceof Ranged){
+&nbsp;//            for(int i=0; i&lt; bullets.length; i++){
+&nbsp;//                if(!bullets[i].isFired()){
+&nbsp;//                    bullets[i].fired(atkX, atkY, ((Ranged) weapon).getSpeed(), ((Ranged) weapon).calculateDamageDealt(), getAtkDirection());
+&nbsp;//                    break;
+&nbsp;//                }
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param enemy the enemy that the entity will attack
+&nbsp;     */
+&nbsp;    public void atk(Movable[] enemy){
+<b class="nc">&nbsp;        int atkX = (int) getXFromCenter();</b>
+<b class="nc">&nbsp;        int atkY = (int) getYFromCenter();</b>
+<b class="nc">&nbsp;        int WHArc = 0;</b>
+<b class="nc">&nbsp;        int Wstab = 0;</b>
+<b class="nc">&nbsp;        int Hstab = 0;</b>
+<b class="nc">&nbsp;        Main.processing.noStroke();</b>
+<b class="nc">&nbsp;        Main.processing.fill(255,0,0);</b>
+<b class="nc">&nbsp;        if(weapon instanceof Sword &amp;&amp; !weapon.getWeaponName().equals(&quot;Great Sword&quot;)){</b>
+<b class="nc">&nbsp;            WHArc = 60;</b>
+&nbsp;//            System.out.println(swingAtkCollision(atkX, atkY, WHArc, enemy, getAtkDirection()));
+<b class="nc">&nbsp;            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());</b>
+<b class="nc">&nbsp;            if(getAtkDirection().equals(Direction.RIGHT)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.DOWN)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.LEFT)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.UP)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        else if(weapon instanceof Sword &amp;&amp; weapon.getWeaponName().equals(&quot;Great Sword&quot;)){</b>
+<b class="nc">&nbsp;            WHArc = 80;</b>
+<b class="nc">&nbsp;            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());</b>
+<b class="nc">&nbsp;            if(getAtkDirection().equals(Direction.RIGHT)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.DOWN)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.LEFT)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.UP)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        else if(weapon instanceof Spear &amp;&amp; weapon.getWeaponName().equals(&quot;Glaive&quot;)){</b>
+<b class="nc">&nbsp;            WHArc = 100;</b>
+<b class="nc">&nbsp;            swingAtkCollision(atkX, atkY, WHArc/2, enemy, getAtkDirection());</b>
+<b class="nc">&nbsp;            if(getAtkDirection().equals(Direction.RIGHT)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, -PConstants.HALF_PI, PConstants.HALF_PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.DOWN)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, 0, PConstants.PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.LEFT)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.HALF_PI, PConstants.PI+PConstants.HALF_PI);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.UP)){</b>
+<b class="nc">&nbsp;                Main.processing.arc(atkX, atkY, WHArc, WHArc, PConstants.PI, PConstants.TWO_PI);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        else if(weapon instanceof Spear &amp;&amp; weapon.getWeaponName().equals(&quot;Iron Spear&quot;)){</b>
+<b class="nc">&nbsp;            Hstab = 20;</b>
+<b class="nc">&nbsp;            Wstab = 50;</b>
+<b class="nc">&nbsp;            stabAtkCollision(atkX, atkY, Wstab, Hstab, enemy, getAtkDirection());</b>
+<b class="nc">&nbsp;            if(getAtkDirection().equals(Direction.RIGHT)){</b>
+<b class="nc">&nbsp;                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX + Wstab, atkY + Hstab/2, atkX + Wstab, atkY - Hstab/2);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.DOWN)){</b>
+<b class="nc">&nbsp;                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY + Wstab, atkX - Hstab/2, atkY + Wstab);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.LEFT)){</b>
+<b class="nc">&nbsp;                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX - Wstab, atkY + Hstab/2, atkX - Wstab, atkY - Hstab/2);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.UP)){</b>
+<b class="nc">&nbsp;                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        else if(weapon instanceof Spear &amp;&amp; weapon.getWeaponName().equals(&quot;Spear of The Lord&quot;)){</b>
+<b class="nc">&nbsp;            Hstab = 30;</b>
+<b class="nc">&nbsp;            Wstab = 70;</b>
+<b class="nc">&nbsp;            stabAtkCollision(atkX, atkY, Wstab, Hstab, enemy, getAtkDirection());</b>
+<b class="nc">&nbsp;            if(getAtkDirection().equals(Direction.RIGHT)){</b>
+<b class="nc">&nbsp;                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX + Wstab, atkY + Hstab/2, atkX + Wstab, atkY - Hstab/2);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.DOWN)){</b>
+<b class="nc">&nbsp;                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY + Wstab, atkX - Hstab/2, atkY + Wstab);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.LEFT)){</b>
+<b class="nc">&nbsp;                Main.processing.quad(atkX, atkY - Hstab/2, atkX, atkY + Hstab/2,atkX - Wstab, atkY + Hstab/2, atkX - Wstab, atkY - Hstab/2);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getAtkDirection().equals(Direction.UP)){</b>
+<b class="nc">&nbsp;                Main.processing.quad(atkX - Hstab/2, atkY, atkX + Hstab/2, atkY,atkX + Hstab/2, atkY - Wstab, atkX - Hstab/2, atkY - Wstab);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        else if(weapon instanceof Ranged){</b>
+<b class="nc">&nbsp;            for(int i=0; i&lt; bullets.length; i++){</b>
+<b class="nc">&nbsp;                if(!bullets[i].isFired()){</b>
+<b class="nc">&nbsp;                    bullets[i].fired(atkX, atkY, ((Ranged) weapon).getSpeed(), ((Ranged) weapon).calculateDamageDealt(), getAtkDirection());</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param enemy the target that the player targets
+&nbsp;     */
+&nbsp;    public void bulletAtkCollision(ArrayList&lt;Movable&gt; enemy){
+<b class="nc">&nbsp;        int pointOnRectX = 0;</b>
+<b class="nc">&nbsp;        int pointOnRectY = 0;</b>
+<b class="nc">&nbsp;        int XDistToRect = 0;</b>
+<b class="nc">&nbsp;        int YDistToRect = 0;</b>
+<b class="nc">&nbsp;        float dist = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int i=0; i&lt;bullets.length; i++){</b>
+<b class="nc">&nbsp;            if(bullets[i].isFired()){</b>
+<b class="nc">&nbsp;                for(Movable musuh: enemy){</b>
+<b class="nc">&nbsp;                    pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), (int) bullets[i].getX());</b>
+<b class="nc">&nbsp;                    pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), (int) bullets[i].getY());</b>
+<b class="nc">&nbsp;                    XDistToRect = (int) bullets[i].getX() - pointOnRectX;</b>
+<b class="nc">&nbsp;                    YDistToRect = (int) bullets[i].getY() - pointOnRectY;</b>
+<b class="nc">&nbsp;                    dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));</b>
+<b class="nc">&nbsp;                    if(dist &lt; bullets[i].getWidth() &amp;&amp; bullets[i].isFired()){</b>
+<b class="nc">&nbsp;                        musuh.subHP(weapon.calculateDamageDealt());</b>
+<b class="nc">&nbsp;                        bullets[i].hit();</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param enemy if the bullet collision with the target
+&nbsp;     */
+&nbsp;    public void bulletAtkCollision(Movable[] enemy){
+<b class="nc">&nbsp;        int pointOnRectX = 0;</b>
+<b class="nc">&nbsp;        int pointOnRectY = 0;</b>
+<b class="nc">&nbsp;        int XDistToRect = 0;</b>
+<b class="nc">&nbsp;        int YDistToRect = 0;</b>
+<b class="nc">&nbsp;        float dist = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int i=0; i&lt;bullets.length; i++){</b>
+<b class="nc">&nbsp;            if(bullets[i].isFired()){</b>
+<b class="nc">&nbsp;                for(Movable musuh: enemy){</b>
+<b class="nc">&nbsp;                    pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), (int) bullets[i].getX());</b>
+<b class="nc">&nbsp;                    pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), (int) bullets[i].getY());</b>
+<b class="nc">&nbsp;                    XDistToRect = (int) bullets[i].getX() - pointOnRectX;</b>
+<b class="nc">&nbsp;                    YDistToRect = (int) bullets[i].getY() - pointOnRectY;</b>
+<b class="nc">&nbsp;                    dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));</b>
+<b class="nc">&nbsp;                    if(dist &lt; bullets[i].getWidth() &amp;&amp; bullets[i].isFired()){</b>
+<b class="nc">&nbsp;                        musuh.subHP(weapon.calculateDamageDealt());</b>
+<b class="nc">&nbsp;                        bullets[i].hit();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param atkX the x-point that indicate the center of the attack radius
+&nbsp;     * @param atkY the y-point that indicate the center of the attack radius
+&nbsp;     * @param width the width of the attack radius
+&nbsp;     * @param height the height of the attack radius
+&nbsp;     * @param enemy the enemy that&#39;s in the radius
+&nbsp;     * @param direction the direction that the attack is facing
+&nbsp;     */
+&nbsp;    private void stabAtkCollision(int atkX, int atkY, int width, int height, Movable[] enemy, Direction direction){
+<b class="nc">&nbsp;        int Xcenter = atkX;</b>
+<b class="nc">&nbsp;        int Ycenter = atkY;</b>
+<b class="nc">&nbsp;        int aWidth = width;</b>
+<b class="nc">&nbsp;        int aHeight = height;</b>
+<b class="nc">&nbsp;        float distX = 0;</b>
+<b class="nc">&nbsp;        float distY = 0;</b>
+<b class="nc">&nbsp;        float combWidth = 0;</b>
+<b class="nc">&nbsp;        float combHeight = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        if(direction.equals(Direction.RIGHT)){</b>
+<b class="nc">&nbsp;            Xcenter = atkX + width/2;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if(direction.equals(Direction.DOWN)){</b>
+<b class="nc">&nbsp;            Ycenter = atkY + width/2;</b>
+<b class="nc">&nbsp;            aWidth = height;</b>
+<b class="nc">&nbsp;            aHeight = width;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if(direction.equals(Direction.LEFT)){</b>
+<b class="nc">&nbsp;            Xcenter = atkX - width/2;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if(direction.equals(Direction.UP)){</b>
+<b class="nc">&nbsp;            Ycenter = atkY - width/2;</b>
+<b class="nc">&nbsp;            aWidth = height;</b>
+<b class="nc">&nbsp;            aHeight = width;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for(Movable musuh: enemy){</b>
+<b class="nc">&nbsp;            combWidth = (aWidth+musuh.getWidth())/2;</b>
+<b class="nc">&nbsp;            combHeight = (aHeight+musuh.getHeight())/2;</b>
+<b class="nc">&nbsp;            distX = Math.abs(Xcenter - musuh.getXFromCenter());</b>
+<b class="nc">&nbsp;            distY = Math.abs(Ycenter - musuh.getYFromCenter());</b>
+&nbsp;
+<b class="nc">&nbsp;            if(distX &lt;= combWidth &amp;&amp; distY &lt;=combHeight){</b>
+<b class="nc">&nbsp;                musuh.subHP(weapon.calculateDamageDealt());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param atkX the x-point that the swing centered upon
+&nbsp;     * @param atkY the y-point that the swing centered upon
+&nbsp;     * @param radius the radius of the swing
+&nbsp;     * @param enemy the enemy that collide with the swing
+&nbsp;     * @param direction the direction of the swing
+&nbsp;     */
+&nbsp;    private void swingAtkCollision(int atkX, int atkY, int radius, Movable[] enemy, Direction direction){
+<b class="nc">&nbsp;        int pointOnRectX = 0;</b>
+<b class="nc">&nbsp;        int pointOnRectY = 0;</b>
+<b class="nc">&nbsp;        int XDistToRect = 0;</b>
+<b class="nc">&nbsp;        int YDistToRect = 0;</b>
+<b class="nc">&nbsp;        float dist = 0;</b>
+<b class="nc">&nbsp;        for(Movable musuh: enemy){</b>
+<b class="nc">&nbsp;            pointOnRectX = clamp((int) musuh.getX(), (int) (musuh.getX()+musuh.getWidth()), atkX);</b>
+<b class="nc">&nbsp;            pointOnRectY = clamp((int) musuh.getY(), (int) (musuh.getY()+musuh.getHeight()), atkY);</b>
+&nbsp;//            System.out.println(pointOnRectX + &quot;, &quot; + pointOnRectY);
+<b class="nc">&nbsp;            XDistToRect = atkX - pointOnRectX;</b>
+<b class="nc">&nbsp;            YDistToRect = atkY - pointOnRectY;</b>
+&nbsp;//            System.out.println(XDistToRect + &quot;, &quot; + YDistToRect);
+<b class="nc">&nbsp;            dist = (float) Math.sqrt((XDistToRect*XDistToRect) + (YDistToRect*YDistToRect));</b>
+&nbsp;//            System.out.println(&quot;dist gak kena: &quot; + dist);
+&nbsp;//            System.out.println(&quot;arcnya: &quot; + radius);
+<b class="nc">&nbsp;            if(dist &lt; radius){</b>
+<b class="nc">&nbsp;                if(direction.equals(Direction.RIGHT) &amp;&amp; XDistToRect&lt;=0){</b>
+&nbsp;//                    System.out.println(&quot;kena kanan&quot;);
+<b class="nc">&nbsp;                    musuh.subHP(weapon.calculateDamageDealt());</b>
+&nbsp;//                    return true;
+&nbsp;                }
+<b class="nc">&nbsp;                else if(direction.equals(Direction.LEFT) &amp;&amp; XDistToRect&gt;=0){</b>
+&nbsp;//                    System.out.println(&quot;kena kiri&quot;);
+<b class="nc">&nbsp;                    musuh.subHP(weapon.calculateDamageDealt());</b>
+&nbsp;//                    return true;
+&nbsp;                }
+<b class="nc">&nbsp;                else if(direction.equals(Direction.UP) &amp;&amp; YDistToRect&gt;=0){</b>
+&nbsp;//                    System.out.println(&quot;kena atas&quot;);
+<b class="nc">&nbsp;                    musuh.subHP(weapon.calculateDamageDealt());</b>
+&nbsp;//                    return true;
+&nbsp;                }
+<b class="nc">&nbsp;                else if(direction.equals(Direction.DOWN) &amp;&amp; YDistToRect&lt;=0){</b>
+&nbsp;//                    System.out.println(&quot;kena bawah&quot;);
+&nbsp;//                    System.out.println(&quot;dist: &quot; + dist);
+&nbsp;//                    System.out.println(&quot;arc: &quot; + radius);
+<b class="nc">&nbsp;                    musuh.subHP(weapon.calculateDamageDealt());</b>
+&nbsp;//                    return true;
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;//        return false;
+&nbsp;    }
+&nbsp;
+&nbsp;    public Weapon getWeapon() {
+<b class="nc">&nbsp;        return weapon;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public float getAtkSpeed() {
+<b class="nc">&nbsp;        return atkSpeed/5 * weapon.getWeight();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void move() {
+<b class="nc">&nbsp;        super.move();</b>
+<b class="nc">&nbsp;        if(bullets!=null)</b>
+<b class="nc">&nbsp;        for(int i=0; i &lt; bullets.length; i++){</b>
+<b class="nc">&nbsp;            if(bullets[i].isFired()) {</b>
+&nbsp;//                System.out.println(&quot;bullet &quot; + i + &quot; gerak&quot;);
+<b class="nc">&nbsp;                bullets[i].move();</b>
+<b class="nc">&nbsp;                bullets[i].render();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void clearBullet(){
+<b class="nc">&nbsp;        for(int i=0; i&lt; bullets.length; i++){</b>
+<b class="nc">&nbsp;            bullets[i].hit();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void generateNextWeapon(int phase){
+<b class="nc">&nbsp;        int type = rand.nextInt(3);</b>
+<b class="nc">&nbsp;        int rarity = rand.nextInt(30);</b>
+&nbsp;
+&nbsp;        /*
+&nbsp;        if type = 1
+&nbsp;        rarity from 0-19 = common
+&nbsp;        rarity from 20-25 = epic
+&nbsp;        rarity from 26-29 = unique
+&nbsp;
+&nbsp;        if type = 2
+&nbsp;        rarity from 0-19 = common
+&nbsp;        rarity from 20-25 = epic
+&nbsp;        rarity from 26-29 = legendary
+&nbsp;
+&nbsp;        if type = 3
+&nbsp;        rarity from 0-25 = common
+&nbsp;        rarity from 26-29 = epic
+&nbsp;         */
+&nbsp;
+<b class="nc">&nbsp;        if(type == 1){</b>
+<b class="nc">&nbsp;            if(rarity &lt; 20){</b>
+<b class="nc">&nbsp;                nextWeapon = swordFactory.createWeapon(SwordType.IRON_SWORD, phase);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(rarity &lt; 26){</b>
+<b class="nc">&nbsp;                nextWeapon = swordFactory.createWeapon(SwordType.GOLDEN_SWORD, phase);</b>
+&nbsp;            }
+&nbsp;            else{
+<b class="nc">&nbsp;                nextWeapon = swordFactory.createWeapon(SwordType.GREATSWORD, phase);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        else if(type == 2){</b>
+<b class="nc">&nbsp;            if(rarity &lt; 20){</b>
+<b class="nc">&nbsp;                nextWeapon = spearFactory.createWeapon(SpearType.IRON_SPEAR, phase);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(rarity &lt; 26){</b>
+<b class="nc">&nbsp;                nextWeapon = spearFactory.createWeapon(SpearType.GLAIVE, phase);</b>
+&nbsp;            }
+&nbsp;            else{
+<b class="nc">&nbsp;                nextWeapon = spearFactory.createWeapon(SpearType.SPEAR_OF_THE_LORD, phase);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        else{
+<b class="nc">&nbsp;            if(rarity &lt; 26){</b>
+<b class="nc">&nbsp;                nextWeapon = rangedFactory.createWeapon(RangedType.WOOD_BOW, phase);</b>
+&nbsp;            }
+&nbsp;            else{
+<b class="nc">&nbsp;                nextWeapon = rangedFactory.createWeapon(RangedType.IRON_BOW, phase);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void switchWeapon(){
+<b class="nc">&nbsp;        weapon = nextWeapon;</b>
+<b class="nc">&nbsp;        nextWeapon = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getNextWeaponName() {
+<b class="nc">&nbsp;        return nextWeapon.getWeaponName();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Weapon createWeapon(String weaponType, Enum weaponName, int phase) {
+<b class="nc">&nbsp;        if(weaponType.equalsIgnoreCase(&quot;sword&quot;)) {</b>
+<b class="nc">&nbsp;            if(weaponName instanceof SwordType) {</b>
+<b class="nc">&nbsp;                return swordFactory.createWeapon((SwordType) weaponName, phase);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Invalid weapon name! Weapon type should be Sword!&quot;);</b>
+<b class="nc">&nbsp;        } else if(weaponType.equalsIgnoreCase(&quot;spear&quot;)) {</b>
+<b class="nc">&nbsp;            if(weaponName instanceof SpearType) {</b>
+<b class="nc">&nbsp;                return spearFactory.createWeapon((SpearType) weaponName, phase);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Invalid weapon name! Weapon type should be Spear!&quot;);</b>
+<b class="nc">&nbsp;        } else if(weaponType.equalsIgnoreCase(&quot;ranged&quot;)) {</b>
+<b class="nc">&nbsp;            if(weaponName instanceof RangedType) {</b>
+<b class="nc">&nbsp;                return rangedFactory.createWeapon((RangedType) weaponName, phase);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Invalid weapon type! Weapon type should be Ranged!&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Invalid weapon type!&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setWeapon(Weapon weapon) {
+<b class="nc">&nbsp;        this.weapon = weapon;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    private void loadImage() {
+<b class="nc">&nbsp;        String root = &quot;src/main/resources/assets/Sprites/Player/&quot;;</b>
+<b class="nc">&nbsp;        Direction[] temp = new Direction[4];</b>
+&nbsp;
+<b class="nc">&nbsp;        temp[0] = Direction.RIGHT;</b>
+<b class="nc">&nbsp;        temp[1] = Direction.LEFT;</b>
+<b class="nc">&nbsp;        temp[2] = Direction.UP;</b>
+<b class="nc">&nbsp;        temp[3] = Direction.DOWN;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(Direction d : temp) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc">&nbsp;                String directionString = switch(d) {</b>
+<b class="nc">&nbsp;                    case UP -&gt; &quot;up&quot;;</b>
+<b class="nc">&nbsp;                    case DOWN -&gt; &quot;down&quot;;</b>
+<b class="nc">&nbsp;                    case RIGHT -&gt; &quot;right&quot;;</b>
+<b class="nc">&nbsp;                    case LEFT -&gt; &quot;left&quot;;</b>
+<b class="nc">&nbsp;                    default -&gt; null;</b>
+&nbsp;                };
+&nbsp;
+<b class="nc">&nbsp;                PImage temp2 = Main.processing.loadImage(root + String.format(&quot;player_walk_%s%d.png&quot;, directionString, i + 1));</b>
+<b class="nc">&nbsp;                this.addSprites(&quot;walk&quot;, d, temp2, this.getSize());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setNextWeapon(Weapon nextWeapon) {
+<b class="nc">&nbsp;        this.nextWeapon = nextWeapon;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-23 23:32</div>
+</div>
+</body>
+</html>
