@@ -48,4 +48,16 @@ public class EliteSkeletonsTest {
         assertTrue(elskelly.checkAgro(250,250));
         assertFalse(elskelly.checkAgro(400,400));
     }
+    @Test
+    void EliteSkeletonsHPTest(){
+        EliteSkeletons elskelly = (EliteSkeletons) eliteSkeletons;
+        elskelly.setHealth(15);
+        assertEquals(15,elskelly.getHealth());
+        elskelly.subHP(8);
+        assertEquals(7,elskelly.getHealth());
+        elskelly.addHealth(4);
+        assertEquals(11,elskelly.getHealth());
+        elskelly.fallen();
+        assertEquals(0,elskelly.getHealth());
+    }
 }

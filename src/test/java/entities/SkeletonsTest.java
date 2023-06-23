@@ -48,4 +48,16 @@ public class SkeletonsTest {
         assertTrue(skelly.checkAgro(250,250));
         assertFalse(skelly.checkAgro(400,400));
     }
+    @Test
+    void SkeletonsHPTest(){
+        Skeletons skelly = (Skeletons) skeleton;
+        skelly.setHealth(12);
+        assertEquals(12,skelly.getHealth());
+        skelly.subHP(9);
+        assertEquals(3,skelly.getHealth());
+        skelly.addHealth(4);
+        assertEquals(7,skelly.getHealth());
+        skelly.fallen();
+        assertEquals(0,skelly.getHealth());
+    }
 }

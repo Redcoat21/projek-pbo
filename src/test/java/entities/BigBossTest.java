@@ -47,4 +47,16 @@ class BigBossTest {
         assertTrue(bb.checkAgro(100,100));
         assertFalse(bb.checkAgro(1000,1000));
     }
+    @Test
+    void BigBossHPTest(){
+        BigBoss bb = (BigBoss) bigBoss;
+        bb.setHealth(200);
+        assertEquals(200,bb.getHealth());
+        bb.subHP(139);
+        assertEquals(61,bb.getHealth());
+        bb.addHealth(45);
+        assertEquals(106,bb.getHealth());
+        bb.fallen();
+        assertEquals(0,bb.getHealth());
+    }
 }

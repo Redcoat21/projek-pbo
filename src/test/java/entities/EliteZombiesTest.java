@@ -48,4 +48,16 @@ public class EliteZombiesTest {
         assertTrue(elzom.checkAgro(250,250));
         assertFalse(elzom.checkAgro(400,400));
     }
+    @Test
+    void EliteZombiesHPTest(){
+        EliteZombies elzom = (EliteZombies) eliteZombies;
+        elzom.setHealth(22);
+        assertEquals(22,elzom.getHealth());
+        elzom.subHP(10);
+        assertEquals(12,elzom.getHealth());
+        elzom.addHealth(7);
+        assertEquals(19,elzom.getHealth());
+        elzom.fallen();
+        assertEquals(0,elzom.getHealth());
+    }
 }

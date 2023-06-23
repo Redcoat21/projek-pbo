@@ -48,4 +48,16 @@ public class ZombiesTest {
         assertTrue(zom.checkAgro(250,250));
         assertFalse(zom.checkAgro(400,400));
     }
+    @Test
+    void ZombiesHPTest(){
+        Zombies zom = (Zombies) zombies;
+        zom.setHealth(18);
+        assertEquals(18,zom.getHealth());
+        zom.subHP(5);
+        assertEquals(13,zom.getHealth());
+        zom.addHealth(2);
+        assertEquals(15,zom.getHealth());
+        zom.fallen();
+        assertEquals(0,zom.getHealth());
+    }
 }

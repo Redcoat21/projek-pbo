@@ -48,4 +48,16 @@ public class ChargedCreeperTest {
         assertTrue(cc.checkAgro(100,100));
         assertFalse(cc.checkAgro(400,400));
     }
+    @Test
+    void ChargedCreeperHPTest(){
+        ChargedCreeper cc = (ChargedCreeper) chargedCreeper;
+        cc.setHealth(4);
+        assertEquals(4,cc.getHealth());
+        cc.subHP(3);
+        assertEquals(1,cc.getHealth());
+        cc.addHealth(1);
+        assertEquals(2,cc.getHealth());
+        cc.fallen();
+        assertEquals(0,cc.getHealth());
+    }
 }
