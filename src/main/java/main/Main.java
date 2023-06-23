@@ -114,7 +114,9 @@ public class Main extends PApplet{
     public void initMain(){
         am = new ArcadeMode(new Player());
     }
-
+    public void initMain2(){
+        em = new EndlessMode(new Player());
+    }
     public void playMusic(int mode){
         Bgm.setFile(mode);
         Bgm.loop();
@@ -285,6 +287,9 @@ public class Main extends PApplet{
 
     public ArcadeMode getAm() {
         return am;
+    }
+
+    public EndlessMode getEm() {return em;
     }
 }
 
