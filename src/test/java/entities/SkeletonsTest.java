@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SkeletonsTest {
-    private Entities skeleton;
+    private Entities skeletons;
     private Main a = new Main();
     @BeforeEach
     public void createSkeletons() {
@@ -14,20 +14,20 @@ public class SkeletonsTest {
         app.initMain();
         ArcadeMode am = app.getAm();
         am.setSkeletons(new Skeletons(20,20));
-        skeleton = am.getSkeletons();
+        skeletons = am.getSkeletons();
     }
     @AfterEach
     public void cleanUp() {
-        skeleton = null;
+        skeletons = null;
     }
     @Test
     void PositionShouldBeTwentyAndTwentyTest() {
-        assertEquals(20.0f, skeleton.getX());
-        assertEquals(20.0f, skeleton.getY());
+        assertEquals(20.0f, skeletons.getX());
+        assertEquals(20.0f, skeletons.getY());
     }
     @Test
     void SkeletonsOutOfBoundTest(){
-        Skeletons skelly = (Skeletons) skeleton;
+        Skeletons skelly = (Skeletons) skeletons;
         assertEquals(20.0f,skelly.getY());
         skelly.moveTo(Direction.UP);
         skelly.moveFreely();
@@ -35,22 +35,22 @@ public class SkeletonsTest {
     }
     @Test
     void resetPositionTest(){
-        Skeletons skelly = (Skeletons) skeleton;
-        skeleton.setTo(200.0f,200.0f);
+        Skeletons skelly = (Skeletons) skeletons;
+        skeletons.setTo(200.0f,200.0f);
         assertEquals(200.0f,skelly.getY());
         skelly.resetPos();
         assertEquals(20.0f,skelly.getY());
     }
     @Test
     void checkAgroAttackOfSkeletons(){
-        Skeletons skelly = (Skeletons) skeleton;
-        skeleton.setTo(50.0f,50.0f);
+        Skeletons skelly = (Skeletons) skeletons;
+        skeletons.setTo(50.0f,50.0f);
         assertTrue(skelly.checkAgro(250,250));
         assertFalse(skelly.checkAgro(400,400));
     }
     @Test
     void SkeletonsHPTest(){
-        Skeletons skelly = (Skeletons) skeleton;
+        Skeletons skelly = (Skeletons) skeletons;
         skelly.setHealth(12);
         assertEquals(12,skelly.getHealth());
         skelly.subHP(9);
@@ -62,7 +62,7 @@ public class SkeletonsTest {
     }
     @Test
     void SkeletonsDirectionTest(){
-        Skeletons skelly = (Skeletons) skeleton;
+        Skeletons skelly = (Skeletons) skeletons;
         /**
          * initial Skeletons spawn point is 200,200
          */

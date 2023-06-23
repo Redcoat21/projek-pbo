@@ -502,7 +502,46 @@ public class ArcadeMode {
     private static String byPaddingZeros(int value, int paddingLength) {
         return String.format("%0" + paddingLength + "d", value);
     }
+    public void newWave(int wave){
+        this.wave += wave;
+    }
+    public void setWave(int wave){
+        this.wave = wave;
+    }
+    public int getWave() {
+        return wave;
+    }
+    public int getFloor() {
+        return floor;
+    }
 
+    public void newFloor(int floor){
+        this.floor += floor;
+    }
+    public void setFloor(int floor){
+        this.floor = floor;
+    }
+    public void addEntities(Player player) {
+        this.player = player;
+    }
+    public void addEntities(Zombies zombies) {
+        this.zombies = zombies;
+    }
+    public void addEntities(EliteZombies eliteZombies) {
+        this.eliteZombies = eliteZombies;
+    }
+    public void addEntities(Skeletons skeletons) {
+        this.skeletons = skeletons;
+    }
+    public void addEntities(EliteSkeletons eliteSkeletons) {
+        this.eliteSkeletons = eliteSkeletons;
+    }
+    public void addEntities(ChargedCreeper chargedCreeper) {
+        this.chargedCreeper = chargedCreeper;
+    }
+    public void addEntities(BigBoss bigBoss) {
+        this.bigBoss = bigBoss;
+    }
     public Player getPlayer() {
         return player;
     }
