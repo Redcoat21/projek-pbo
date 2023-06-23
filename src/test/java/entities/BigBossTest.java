@@ -25,11 +25,19 @@ class BigBossTest {
         assertEquals(20.0f, bigBoss.getY());
     }
     @Test
-    void PlayerOutOfBoundTest(){
-        BigBoss you = (BigBoss) bigBoss;
-        assertEquals(20.0f,you.getY());
-        you.moveTo(Direction.UP);
-        you.moveFreely();
-        assertEquals(80.0f,you.getY());
+    void BigBossOutOfBoundTest(){
+        BigBoss bb = (BigBoss) bigBoss;
+        assertEquals(20.0f,bb.getY());
+        bb.moveTo(Direction.UP);
+        bb.moveFreely();
+        assertEquals(80.0f,bb.getY());
+    }
+    @Test
+    void resetPositionTest(){
+        BigBoss bb = (BigBoss) bigBoss;
+        bb.setTo(200.0f,200.0f);
+        assertEquals(200.0f,bb.getY());
+        bb.resetPos();
+        assertEquals(20.0f,bb.getY());
     }
 }

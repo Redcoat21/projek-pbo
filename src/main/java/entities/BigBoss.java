@@ -27,12 +27,18 @@ public class BigBoss extends Movable{
     private int chargingX;
     private int chargingY;
     private int chargingArc;
-
+    private int baseX;
+    private int baseY;
     public BigBoss(){
         super(0, 0, 20, 20, 0, 3, 3);
     }
     public BigBoss(int x,int y){
         super(x, y, 20, 20, 0, 3, 3);
+        baseX = x;
+        baseY = y;
+    }
+    public void resetPos(){
+        setTo(baseX, baseY);
     }
     /**
      *

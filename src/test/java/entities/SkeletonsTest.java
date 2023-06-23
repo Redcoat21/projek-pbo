@@ -26,12 +26,19 @@ public class SkeletonsTest {
         assertEquals(20.0f, skeleton.getY());
     }
     @Test
-    void PlayerOutOfBoundTest(){
-        Skeletons you = (Skeletons) skeleton;
-        assertEquals(20.0f,you.getY());
-        you.moveTo(Direction.UP);
-        you.moveFreely();
-        assertEquals(80.0f,you.getY());
+    void SkeletonsOutOfBoundTest(){
+        Skeletons skelly = (Skeletons) skeleton;
+        assertEquals(20.0f,skelly.getY());
+        skelly.moveTo(Direction.UP);
+        skelly.moveFreely();
+        assertEquals(80.0f,skelly.getY());
     }
-
+    @Test
+    void resetPositionTest(){
+        Skeletons skelly = (Skeletons) skeleton;
+        skeleton.setTo(200.0f,200.0f);
+        assertEquals(200.0f,skelly.getY());
+        skelly.resetPos();
+        assertEquals(20.0f,skelly.getY());
+    }
 }

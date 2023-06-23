@@ -26,12 +26,19 @@ public class EliteSkeletonsTest {
         assertEquals(20.0f, eliteSkeletons.getY());
     }
     @Test
-    void PlayerOutOfBoundTest(){
-        EliteSkeletons you = (EliteSkeletons) eliteSkeletons;
-        assertEquals(20.0f,you.getY());
-        you.moveTo(Direction.UP);
-        you.moveFreely();
-        assertEquals(80.0f,you.getY());
+    void EliteSkeletonsOutOfBoundTest(){
+        EliteSkeletons elskelly = (EliteSkeletons) eliteSkeletons;
+        assertEquals(20.0f,elskelly.getY());
+        elskelly.moveTo(Direction.UP);
+        elskelly.moveFreely();
+        assertEquals(80.0f,elskelly.getY());
     }
-
+    @Test
+    void resetPositionTest(){
+        EliteSkeletons elskelly = (EliteSkeletons) eliteSkeletons;
+        elskelly.setTo(200.0f,200.0f);
+        assertEquals(200.0f,elskelly.getY());
+        elskelly.resetPos();
+        assertEquals(20.0f,elskelly.getY());
+    }
 }

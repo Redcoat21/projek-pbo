@@ -26,11 +26,19 @@ public class EliteZombiesTest {
         assertEquals(20.0f, eliteZombies.getY());
     }
     @Test
-    void PlayerOutOfBoundTest(){
-        EliteZombies you = (EliteZombies) eliteZombies;
-        assertEquals(20.0f,you.getY());
-        you.moveTo(Direction.UP);
-        you.moveFreely();
-        assertEquals(80.0f,you.getY());
+    void EliteZombiesOutOfBoundTest(){
+        EliteZombies elzom = (EliteZombies) eliteZombies;
+        assertEquals(20.0f,elzom.getY());
+        elzom.moveTo(Direction.UP);
+        elzom.moveFreely();
+        assertEquals(80.0f,elzom.getY());
+    }
+    @Test
+    void resetPositionTest(){
+        EliteZombies elzom = (EliteZombies) eliteZombies;
+        elzom.setTo(200.0f,200.0f);
+        assertEquals(200.0f,elzom.getY());
+        elzom.resetPos();
+        assertEquals(20.0f,elzom.getY());
     }
 }

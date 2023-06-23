@@ -20,12 +20,19 @@ public class Skeletons extends Movable implements Pathfinding{
     private int pathIdx;
     private boolean gotPath;
     private Bullet bullet;
+    private int baseX;
+    private int baseY;
 
     public Skeletons(){
         super(0, 0, 20, 20, 0, 3, 3);
     }
     public Skeletons(int x,int y){
         super(x, y, 20, 20, 0, 3, 3);
+        baseX = x;
+        baseY = y;
+    }
+    public void resetPos(){
+        setTo(baseX, baseY);
     }
     /**
      * @param x the x-axis that the entity will spawn into

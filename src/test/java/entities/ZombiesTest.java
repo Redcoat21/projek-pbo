@@ -26,20 +26,20 @@ public class ZombiesTest {
         assertEquals(20.0f, zombies.getY());
     }
     @Test
-    void PlayerOutOfBoundTest(){
-        Zombies you = (Zombies) zombies;
-        assertEquals(20.0f,you.getY());
-        you.moveTo(Direction.UP);
-        you.moveFreely();
-        assertEquals(80.0f,you.getY());
+    void ZombiesOutOfBoundTest(){
+        Zombies zom = (Zombies) zombies;
+        assertEquals(20.0f,zom.getY());
+        zom.moveTo(Direction.UP);
+        zom.moveFreely();
+        assertEquals(80.0f,zom.getY());
     }
     @Test
     void resetPositionTest(){
-        Zombies you = (Zombies) zombies;
+        Zombies zom = (Zombies) zombies;
         zombies.setTo(200.0f,200.0f);
-        assertEquals(200.0f,you.getY());
-        you.resetPos();
-        assertEquals(20.0f,you.getY());
+        assertEquals(200.0f,zom.getY());
+        zom.resetPos();
+        assertEquals(20.0f,zom.getY());
     }
 
 }

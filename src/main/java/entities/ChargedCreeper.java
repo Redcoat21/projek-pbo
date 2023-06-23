@@ -22,6 +22,8 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     private boolean gotPath;
     private boolean suicide;
     private static boolean breakWall;
+    private int baseX;
+    private int baseY;
 
 //    public ChargedCreeper(float x, float y) {
 //        super(x, y,30,30,4,2, 5);
@@ -36,6 +38,11 @@ public class ChargedCreeper extends Movable implements Pathfinding{
     }
     public ChargedCreeper(int x,int y){
         super(x, y, 20, 20, 0, 3, 3);
+        baseX = x;
+        baseY = y;
+    }
+    public void resetPos(){
+        setTo(baseX, baseY);
     }
     /**
      * @param x x-axis that the entity will spawn in

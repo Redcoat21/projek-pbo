@@ -26,11 +26,19 @@ public class ChargedCreeperTest {
         assertEquals(20.0f, chargedCreeper.getY());
     }
     @Test
-    void PlayerOutOfBoundTest(){
-        ChargedCreeper you = (ChargedCreeper) chargedCreeper;
-        assertEquals(20.0f,you.getY());
-        you.moveTo(Direction.UP);
-        you.moveFreely();
-        assertEquals(80.0f,you.getY());
+    void ChargedCreeperOutOfBoundTest(){
+        ChargedCreeper cc = (ChargedCreeper) chargedCreeper;
+        assertEquals(20.0f,cc.getY());
+        cc.moveTo(Direction.UP);
+        cc.moveFreely();
+        assertEquals(80.0f,cc.getY());
+    }
+    @Test
+    void resetPositionTest(){
+        ChargedCreeper cc = (ChargedCreeper) chargedCreeper;
+        cc.setTo(200.0f,200.0f);
+        assertEquals(200.0f,cc.getY());
+        cc.resetPos();
+        assertEquals(20.0f,cc.getY());
     }
 }
