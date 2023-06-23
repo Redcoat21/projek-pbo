@@ -140,6 +140,13 @@ public class BigBoss extends Movable{
             this.agro=false;
         }
     }
+    public boolean checkAgro(int x,int y){
+        if(Math.abs(getX()-x)<=800&&Math.abs(getY()-y)<=800){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public void idle(){
         if(agroIdx>7){
             agroIdx=0;

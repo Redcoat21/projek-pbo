@@ -40,4 +40,11 @@ class BigBossTest {
         bb.resetPos();
         assertEquals(20.0f,bb.getY());
     }
+    @Test
+    void checkAgroAttackOfBigBoss(){
+        BigBoss bb = (BigBoss) bigBoss;
+        bb.setTo(50.0f,50.0f);
+        assertTrue(bb.checkAgro(100,100));
+        assertFalse(bb.checkAgro(1000,1000));
+    }
 }
